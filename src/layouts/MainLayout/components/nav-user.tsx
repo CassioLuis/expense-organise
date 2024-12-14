@@ -26,6 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { Link, useNavigate } from 'react-router'
 
 interface User {
   name: string
@@ -35,6 +36,7 @@ interface User {
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar()
+  const navigate = useNavigate()
 
   return (
     <SidebarMenu>
@@ -97,8 +99,8 @@ export function NavUser({ user }: { user: User }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
+            <DropdownMenuItem onClick={() => window.location.assign('/signin')}>
+              <LogOut/>
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

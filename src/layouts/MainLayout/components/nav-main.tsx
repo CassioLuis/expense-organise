@@ -15,6 +15,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { Link } from 'react-router'
+import routes from '../routes'
 
 // interface Items {
 //   title: string
@@ -41,45 +42,30 @@ export function NavMain () {
             <CollapsibleTrigger asChild>
               <SidebarMenuButton tooltip={'Playground'}>
                 <SquareTerminal />
-                <span>Playground</span>
+                <span>{routes.title}</span>
                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
               </SidebarMenuButton>
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild>
-                    <Link to={'/'}>
-                      <span>Dashboard</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild>
-                    <Link to={'/history'}>
-                      <span>History</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild>
-                    <Link to={'/starred'}>
-                      <span>starred</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild>
-                    <Link to={'/settings'}>
-                      <span>settings</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
+                {
+                  routes.children.map((route, idx) => {
+                    return (
+                      <SidebarMenuSubItem key={idx}>
+                        <SidebarMenuSubButton asChild>
+                          <Link to={route.path}>
+                            <span>{route.title}</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    )
+                  })
+                }
               </SidebarMenuSub>
             </CollapsibleContent>
           </SidebarMenuItem>
         </Collapsible>
       </SidebarMenu>
-    </SidebarGroup>
+    </SidebarGroup >
   )
 }

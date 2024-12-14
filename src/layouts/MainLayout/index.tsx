@@ -13,9 +13,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 
 export default function MainLayout () {
+
+  const location = useLocation()
+
   return (
     <SidebarProvider>
       <AppSidebar className='rounded-r-xl'/>
@@ -34,7 +37,7 @@ export default function MainLayout () {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                  <BreadcrumbPage className='capitalize'>{location.pathname.replace(/\//g, "")}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

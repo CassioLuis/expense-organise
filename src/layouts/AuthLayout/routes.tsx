@@ -1,4 +1,4 @@
-import { Starred } from '@/pages'
+import { Signin, Starred } from '@/pages'
 import AuthLayout from '.'
 
 export default {
@@ -7,6 +7,10 @@ export default {
     {
       path: '/starred',
       element: <Starred />
+    },
+    {
+      path: '/signin',
+      element: <Signin />
     }
   ]
 }
