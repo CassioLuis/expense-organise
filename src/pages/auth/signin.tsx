@@ -17,7 +17,7 @@ export default function LoginForm () {
   const { signinUseCase } = useAppDependencies()
 
   const credentials = {
-    email: "cassiocaruzo@gmail.com",
+    email: "cassiocaruzo@gmail.co",
     password: "123456"
   }
 

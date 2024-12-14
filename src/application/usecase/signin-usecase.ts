@@ -1,18 +1,17 @@
-import { AuthGateway } from "../../infra/gateways"
+import { AuthGateway } from '@/infra/gateways'
 
 export default class SigninUseCase {
 
-  constructor(
-    private readonly authGateway: AuthGateway
-  ) { }
+  constructor(private readonly authGateway: AuthGateway) { }
 
   async execute (credentials: object) {
     try {
       const response = await this.authGateway.signin(credentials)
+      console.log(response)
       localStorage.setItem('access-token', response.data.token)
-      window.location.assign('/')
+      // window.location.assign('/')
     } catch (e: any) {
-      window.alert(e)
+      console.log(e)
     }
   }
 }
