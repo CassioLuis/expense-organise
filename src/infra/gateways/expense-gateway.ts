@@ -1,6 +1,7 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 import env from '../env'
 import Expense from '@/application/entity/expense'
+import querystring from 'querystring'
 
 const basePath = '/expenses'
 
@@ -13,7 +14,16 @@ export default class ExpenseGateway {
     const formattedIniDate = iniDate.replace(/:/g, '%3A')
     const formattedFinDate = finDate.replace(/:/g, '%3A')
 
-    return this.httpAdapter.get(`${env.BASE_URL}${basePath}/analitic?iniDate=${formattedIniDate}&finDate=${formattedFinDate}`)
+    const queryParams = {
+      iniDate: formattedIniDate,
+      finDate: formattedFinDate
+    }
+
+    const queryString = querystring.stringify(queryParams)
+
+    return this.httpAdapter.get(`${env.BASE_URL}${basePath}/analitic?${queryString}`)
+
+    // return this.httpAdapter.get(`${env.BASE_URL}${basePath}/analitic?iniDate=${formattedIniDate}&finDate=${formattedFinDate}`)
   }
 }
 

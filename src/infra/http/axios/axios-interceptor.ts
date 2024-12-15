@@ -25,14 +25,13 @@ export default class AxiosInterceptor {
   // }
 
   private requestInterceptor (request: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-    console.log(request)
     Object.assign(request.headers, this.setHeaders())
     return request
   }
 
   private async responseInterceptor (response: AxiosResponse): Promise<AxiosResponse> {
     if (response.status !== 200 && response.config.method !== 'get') {
-      window.alert(response.data.message)
+      throw new Error(response.data.message)
     }
     return response
   }
@@ -40,11 +39,9 @@ export default class AxiosInterceptor {
   private handleResponseError (axiosError: AxiosError): void | AxiosError {
     const { data, status, config } = axiosError.response! as AxiosResponse
     if (!this.statusCodeError.includes(status as number)) {
-      window.alert(data.message)
       throw new Error(data.message)
     }
     if (this.statusCodeError.includes(status as number) && config.url === `${this.instance.defaults.baseURL}/auth`) {
-      window.alert(data.message)
       throw new Error(data.message)
     }
     // window.location.assign('/signin')

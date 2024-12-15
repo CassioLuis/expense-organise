@@ -1,4 +1,3 @@
-import { useAppDependencies } from '@/app-dependencies-context'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -9,12 +8,16 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ToastAction } from '@/components/ui/toast'
+import { useAppDependencies } from '@/hooks/use-app-dependencies'
+import { toast } from '@/hooks/use-toast'
+import Utilities from '@/utils/Utilities'
 import { GoogleLogin } from '@react-oauth/google'
 import { Link } from 'react-router'
 
 export default function LoginForm () {
 
-  const { signinUseCase } = useAppDependencies()
+  const { authGateway } = useAppDependencies()
 
   const credentials = {
     email: "cassiocaruzo@gmail.co",
@@ -22,7 +25,20 @@ export default function LoginForm () {
   }
 
   async function signin () {
-    await signinUseCase.execute(credentials)
+    try {
+      const response = await authGateway.signin(credentials)
+      localStorage.setItem('access-token', response.data.token)
+      window.location.assign('/')
+    } catch (e: any) {
+      toast({
+        variant: "destructive",
+        title: e.message,
+        description: Utilities.dateFormat(new Date(), 'dddd, D MMMM [de] YYYY [às] h:mm A'),
+        action: (
+          <ToastAction altText="Goto schedule to undo">Ok</ToastAction>
+        ),
+      })
+    }
   }
 
   return (
