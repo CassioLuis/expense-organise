@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 import {
   AudioWaveform,
   BookOpen,
@@ -9,151 +9,154 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
-} from "lucide-react"
+  SquareTerminal
+} from 'lucide-react'
 
-import { NavMain } from "@/layouts/MainLayout/components/nav-main"
-import { NavUser } from "@/layouts/MainLayout/components/nav-user"
-import { TeamSwitcher } from "@/layouts/MainLayout/components/team-switcher"
+import { NavMain } from '@/layouts/MainLayout/components/nav-main'
+import { NavUser } from '@/layouts/MainLayout/components/nav-user'
+import { TeamSwitcher } from '@/layouts/MainLayout/components/team-switcher'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
-} from "@/components/ui/sidebar"
+  SidebarHeader
+} from '@/components/ui/sidebar'
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg'
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: 'Acme Inc',
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: 'Enterprise'
     },
     {
-      name: "Acme Corp.",
+      name: 'Acme Corp.',
       logo: AudioWaveform,
-      plan: "Startup",
+      plan: 'Startup'
     },
     {
-      name: "Evil Corp.",
+      name: 'Evil Corp.',
       logo: Command,
-      plan: "Free",
-    },
+      plan: 'Free'
+    }
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
+      title: 'Playground',
+      url: '#',
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: 'History',
+          url: '#'
         },
         {
-          title: "Starred",
-          url: "#",
+          title: 'Starred',
+          url: '#'
         },
         {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+          title: 'Settings',
+          url: '#'
+        }
+      ]
     },
     {
-      title: "Models",
-      url: "#",
+      title: 'Models',
+      url: '#',
       icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: 'Genesis',
+          url: '#'
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: 'Explorer',
+          url: '#'
         },
         {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+          title: 'Quantum',
+          url: '#'
+        }
+      ]
     },
     {
-      title: "Documentation",
-      url: "#",
+      title: 'Documentation',
+      url: '#',
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: 'Introduction',
+          url: '#'
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: 'Get Started',
+          url: '#'
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: 'Tutorials',
+          url: '#'
         },
         {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+          title: 'Changelog',
+          url: '#'
+        }
+      ]
     },
     {
-      title: "Settings",
-      url: "#",
+      title: 'Settings',
+      url: '#',
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: 'General',
+          url: '#'
         },
         {
-          title: "Team",
-          url: "#",
+          title: 'Team',
+          url: '#'
         },
         {
-          title: "Billing",
-          url: "#",
+          title: 'Billing',
+          url: '#'
         },
         {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+          title: 'Limits',
+          url: '#'
+        }
+      ]
+    }
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      name: 'Design Engineering',
+      url: '#',
+      icon: Frame
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
+      name: 'Sales & Marketing',
+      url: '#',
+      icon: PieChart
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+      name: 'Travel',
+      url: '#',
+      icon: Map
+    }
+  ]
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar variant='inset' {...props}>
+    <Sidebar
+      variant='inset'
+      {...props}
+    >
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>

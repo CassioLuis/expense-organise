@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+  CardTitle
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { ToastAction } from '@/components/ui/toast'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { toast } from '@/hooks/use-toast'
@@ -20,8 +20,8 @@ export default function LoginForm () {
   const { authGateway } = useAppDependencies()
 
   const credentials = {
-    email: "cassiocaruzo@gmail.co",
-    password: "123456"
+    email: 'cassiocaruzo@gmail.co',
+    password: '123456'
   }
 
   async function signin () {
@@ -31,12 +31,12 @@ export default function LoginForm () {
       window.location.assign('/')
     } catch (e: any) {
       toast({
-        variant: "destructive",
+        variant: 'destructive',
         title: e.message,
         description: Utilities.dateFormat(new Date(), 'dddd, D MMMM [de] YYYY [às] h:mm A'),
         action: (
           <ToastAction altText="Goto schedule to undo">Ok</ToastAction>
-        ),
+        )
       })
     }
   }
@@ -63,13 +63,24 @@ export default function LoginForm () {
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="password">Senha</Label>
-              <Link to="#" className="ml-auto inline-block text-sm underline">
+              <Link
+                to="#"
+                className="ml-auto inline-block text-sm underline"
+              >
                 Esqueceu sua senha?
               </Link>
             </div>
-            <Input id="password" type="password" required />
+            <Input
+              id="password"
+              type="password"
+              required
+            />
           </div>
-          <Button onClick={signin} type="submit" className="w-full">
+          <Button
+            onClick={signin}
+            type="submit"
+            className="w-full"
+          >
             Entrar
           </Button>
           <GoogleLogin
@@ -82,8 +93,11 @@ export default function LoginForm () {
           />
         </div>
         <div className="mt-4 text-center text-sm">
-          Não possui uma conta?{" "}
-          <Link to="#" className="underline">
+          Não possui uma conta?{' '}
+          <Link
+            to="#"
+            className="underline"
+          >
             Registre-se
           </Link>
         </div>

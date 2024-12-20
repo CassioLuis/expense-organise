@@ -3,7 +3,7 @@ import Expense from '../entity/expense'
 
 export default class GetExpensesUseCase {
 
-  constructor(
+  constructor (
     private readonly expenseGateway: ExpenseGateway
   ) { }
 

@@ -6,7 +6,7 @@ import querystring from 'querystring'
 const basePath = '/expenses'
 
 export default class ExpenseGateway {
-  constructor(private readonly httpAdapter: HttpAdapter) { }
+  constructor (private readonly httpAdapter: HttpAdapter) { }
 
   async getByUser (input: Input): Promise<Output> {
     const { iniDate, finDate } = input

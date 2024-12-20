@@ -2,7 +2,7 @@ import { Axios } from 'axios'
 import HttpAdapter from '../http-adapter'
 
 export default class AxiosAdapter implements HttpAdapter {
-  constructor(private readonly axiosInstance: Axios) { }
+  constructor (private readonly axiosInstance: Axios) { }
 
   async get (url: string, body: any): Promise<any> {
     try {

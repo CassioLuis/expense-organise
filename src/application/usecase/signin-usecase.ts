@@ -2,7 +2,7 @@ import { AuthGateway } from '@/infra/gateways'
 
 export default class SigninUseCase {
 
-  constructor(private readonly authGateway: AuthGateway) { }
+  constructor (private readonly authGateway: AuthGateway) { }
 
   async execute (credentials: object) {
     try {
