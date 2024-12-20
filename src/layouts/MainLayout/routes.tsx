@@ -1,9 +1,14 @@
-import { Dashboard, History, Settings } from '@/pages'
+import { Dashboard, ErrorPage, History, Settings } from '@/pages'
 import MainLayout from '.'
+import ProtectedRoute from '@/router'
 
 export default {
-  element: <MainLayout />,
+  element:
+    <ProtectedRoute>
+      <MainLayout />
+    </ProtectedRoute>,
   title: 'Playground',
+  errorElement: <ErrorPage.DefaultErrorPage />,
   children: [
     {
       path: '/',

@@ -1,8 +1,8 @@
+import { GlobalContext } from '@/context'
 import { useContext } from 'react'
-import { AppDependenciesContext } from './app-dependencies-context'
 
 export const useAppDependencies = () => {
-  const context = useContext(AppDependenciesContext)
+  const context = useContext(GlobalContext)
   if (!context) {
     throw new Error('useAppDependencies must be used within an AppDependenciesProvider')
   }

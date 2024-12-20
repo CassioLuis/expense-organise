@@ -20,14 +20,14 @@ export default function LoginForm () {
   const { authGateway } = useAppDependencies()
 
   const credentials = {
-    email: 'cassiocaruzo@gmail.co',
+    email: 'cassiocaruzo@gmail.com',
     password: '123456'
   }
 
   async function signin () {
     try {
-      const response = await authGateway.signin(credentials)
-      localStorage.setItem('access-token', response.data.token)
+      const { data } = await authGateway.signin(credentials)
+      localStorage.setItem('access-token', data.token)
       window.location.assign('/')
     } catch (e: any) {
       toast({

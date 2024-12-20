@@ -1,9 +1,31 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate, Outlet, useNavigate } from 'react-router'
 import { AuthLayoutRoutes, MainLayoutRoutes } from '@/layouts'
+import { PropsWithChildren, useEffect } from 'react'
 
-const router = createBrowserRouter([
-  MainLayoutRoutes,
-  AuthLayoutRoutes
+export function ProtectedRoutes () {
+  const isAuthenticated = true
+  return isAuthenticated ? <Outlet /> : <Navigate to="/signin" />
+}
+
+type ProtectedRouteProps = PropsWithChildren;
+
+export default function ProtectedRoute ({ children }: ProtectedRouteProps) {
+  const isAuthenticated = true
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/signin', { replace: true })
+    }
+  }, [navigate, isAuthenticated])
+
+  return children
+}
+
+
+export const router = createBrowserRouter([
+  AuthLayoutRoutes,
+  MainLayoutRoutes
 ])
 
 // import { RouteLocationNormalized, Router, RouteRecordName } from 'vue-router'
@@ -61,5 +83,3 @@ const router = createBrowserRouter([
 //     costumerStore.setCostumer(costumer)
 //   }
 // }
-
-export default router
