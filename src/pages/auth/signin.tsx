@@ -11,9 +11,10 @@ import { Label } from '@/components/ui/label'
 import { ToastAction } from '@/components/ui/toast'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { toast } from '@/hooks/use-toast'
+import { userStore } from '@/store/user-store'
 import Utilities from '@/utils/Utilities'
 import { GoogleLogin } from '@react-oauth/google'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 export default function LoginForm () {
 
@@ -23,12 +24,17 @@ export default function LoginForm () {
     email: 'cassiocaruzo@gmail.com',
     password: '123456'
   }
+  const navigate = useNavigate()
+
+  const setToken = userStore(state => state.setUser)
 
   async function signin () {
     try {
       const { data } = await authGateway.signin(credentials)
       localStorage.setItem('access-token', data.token)
-      window.location.assign('/')
+      setToken(data.token)
+      navigate('/')
+      // window.location.assign('/')
     } catch (e: any) {
       toast({
         variant: 'destructive',

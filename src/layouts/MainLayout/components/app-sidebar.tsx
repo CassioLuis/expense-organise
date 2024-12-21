@@ -156,6 +156,7 @@ export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) 
     <Sidebar
       variant='inset'
       {...props}
+      className='select-none'
     >
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
@@ -166,6 +167,6 @@ export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) 
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-    </Sidebar>
+    </Sidebar >
   )
 }

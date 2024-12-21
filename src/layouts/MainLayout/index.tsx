@@ -14,6 +14,7 @@ import {
   SidebarTrigger
 } from '@/components/ui/sidebar'
 import { Outlet, useLocation } from 'react-router'
+import { ChangeTheme } from './components/change-theme'
 
 export default function MainLayout () {
 
@@ -21,10 +22,10 @@ export default function MainLayout () {
 
   return (
     <SidebarProvider>
-      <AppSidebar className='rounded-r-xl'/>
-      <SidebarInset>
+      <AppSidebar className="rounded-r-xl" />
+      <SidebarInset className='overflow-auto'>
         <header
-          className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+          className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 select-none"
         >
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
@@ -46,8 +47,11 @@ export default function MainLayout () {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+          <div className='flex gap-4 pr-4'>
+            <ChangeTheme />
+          </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="grow flex flex-col gap-4 p-4 pt-0 !overflow-auto break-words">
           <Outlet />
         </div>
       </SidebarInset>

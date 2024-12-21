@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { create } from 'zustand'
 
-export default function () {
-  const [user, setUser] = useState(null)
-
-  const handleUser = (data: any) => setUser(() => data)
-
-  return {
-    user,
-    handleUser
-  }
+interface State {
+  token: string
 }
+
+interface Action {
+  setUser: (token: string) => void
+}
+
+export const userStore = create<State & Action>(set => ({
+  token: '',
+  setUser: (token: string) => set(() => ({ token }))
+}))
