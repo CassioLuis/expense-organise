@@ -1,4 +1,3 @@
-import { AppSidebar } from '@/layouts/MainLayout/components/app-sidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +14,7 @@ import {
 } from '@/components/ui/sidebar'
 import { Outlet, useLocation } from 'react-router'
 import { ChangeTheme } from './components/change-theme'
+import { AppSidebar } from './components/app-sidebar'
 
 export default function MainLayout () {
 
@@ -23,7 +23,7 @@ export default function MainLayout () {
   return (
     <SidebarProvider>
       <AppSidebar className="rounded-r-xl" />
-      <SidebarInset className='overflow-auto'>
+      <SidebarInset>
         <header
           className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 select-none"
         >
@@ -51,7 +51,7 @@ export default function MainLayout () {
             <ChangeTheme />
           </div>
         </header>
-        <div className="grow flex flex-col gap-4 p-4 pt-0 !overflow-auto break-words">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 break-words overflow-y-auto max-h-[calc(98svh-4rem)]">
           <Outlet />
         </div>
       </SidebarInset>

@@ -1,4 +1,7 @@
+import { ToastAction } from '@/components/ui/toast'
+import { toast } from '@/hooks/use-toast'
 import env from '@/infra/env'
+import Utilities from '@/utils/Utilities'
 import axios, { AxiosError, AxiosHeaders, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export default class AxiosInterceptor {
@@ -36,7 +39,7 @@ export default class AxiosInterceptor {
     return response
   }
 
-  private handleResponseError (axiosError: AxiosError): void | AxiosError {
+  private async handleResponseError (axiosError: AxiosError): Promise<void | AxiosError> {
     const { data, status, config } = axiosError.response! as AxiosResponse
     if (!this.statusCodeError.includes(status as number)) {
       throw new Error(data.message)
@@ -44,7 +47,16 @@ export default class AxiosInterceptor {
     if (this.statusCodeError.includes(status as number) && config.url === `${this.instance.defaults.baseURL}/auth`) {
       throw new Error(data.message)
     }
-    // window.location.assign('/signin')
+    toast({
+      variant: 'destructive',
+      title: data.message,
+      description: Utilities.dateFormat(new Date(), 'dddd, D MMMM [de] YYYY [às] h:mm A'),
+      action: (
+        <ToastAction altText="Goto schedule to undo">Ok</ToastAction>
+      )
+    })
+    await Utilities.sleep(1000)
+    throw window.location.assign('/signin')
   }
 
   private setHeaders (): AxiosHeaders {

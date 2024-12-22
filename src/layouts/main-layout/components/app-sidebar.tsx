@@ -12,15 +12,15 @@ import {
   SquareTerminal
 } from 'lucide-react'
 
-import { NavMain } from '@/layouts/MainLayout/components/nav-main'
-import { NavUser } from '@/layouts/MainLayout/components/nav-user'
-import { TeamSwitcher } from '@/layouts/MainLayout/components/team-switcher'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader
 } from '@/components/ui/sidebar'
+import { TeamSwitcher } from './team-switcher'
+import { NavMain } from './nav-main'
+import { NavUser } from './nav-user'
 
 const data = {
   user: {

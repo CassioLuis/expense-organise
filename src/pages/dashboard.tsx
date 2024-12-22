@@ -1,12 +1,35 @@
-import { userStore } from '@/store/user-store'
+import Expense from '@/application/entity/expense'
+import { Button } from '@/components/ui/button'
+import { ToastAction } from '@/components/ui/toast'
+import { useAppDependencies } from '@/hooks/use-app-dependencies'
+import { toast } from '@/hooks/use-toast'
+import Utilities from '@/utils/Utilities'
+import { useState } from 'react'
 
 export default function Dashboard () {
-  const token = userStore(state => state.token)
+  const { expenseGateway } = useAppDependencies()
+  const [expenses, setExpenses] = useState<Expense[] | undefined>(undefined)
+
+  async function getExpenses () {
+    try {
+      const response = await expenseGateway.getAllByUser()
+      setExpenses(response.data)
+    } catch (e: any) {
+      toast({
+        variant: 'destructive',
+        title: e.message,
+        description: Utilities.dateFormat(new Date(), 'dddd, D MMMM [de] YYYY [às] h:mm A'),
+        action: (
+          <ToastAction altText="Goto schedule to undo">Ok</ToastAction>
+        )
+      })
+    }
+  }
 
   return (
     <div>
-      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWI3YmEzYmEyNzQzM2Q0MTkwOWYxNWMiLCJpYXQiOjE3MzQ3ODg4MTAsImV4cCI6MTczNDg3NTIxMH0.cZX1ew6wfq0bt5b-qmfKoSeB_r6iRGadw_Q2oaf64H8
-      {token}
+      <Button onClick={getExpenses}>GET</Button>
+      <pre>{expenses ? JSON.stringify(expenses, null, 2) : 'No expenses available.'}</pre>
     </div>
   )
 }

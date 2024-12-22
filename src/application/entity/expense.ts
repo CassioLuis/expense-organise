@@ -9,4 +9,5 @@ export default interface Expense {
   creditCard?: boolean | undefined
   quota?: number | undefined
   totalQuota?: number | undefined
+  creationDate: string
 }
