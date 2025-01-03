@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Expense } from '@/application/entity/expense'
-import { Checkbox } from '@/components/ui/checkbox'
-import { DeleteExpense } from './actions/delete'
+import { DeleteExpense } from './actions/deleteExpense'
+import { ChangeCreditCard } from './actions/changeCreditCard'
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -14,126 +14,26 @@ export const columns: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: 'category',
-    header: 'Categoria'
-  },
-  {
-    accessorKey: 'expenseValue',
-    header: 'Valor'
+    header: () => <div className="text-center">Categoria</div>,
+    cell: ({ row }) => <div className='text-center'>{row.original.getCategoryId()}</div>
   },
   {
     accessorKey: 'creditCard',
-    // id: 'select',
-    header: 'Cartão',
-    cell: ({ row }) => {
-      return (
-        <Checkbox
-          checked={row.original.getCreditCard()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      )
-    }
+    header: () => <div className="text-center">Cartão</div>,
+    cell: ({ row }) => <ChangeCreditCard expense={row.original} />
   },
   {
     accessorKey: 'quota',
-    header: 'Parcela'
+    header: () => <div className="text-center">Parcela</div>,
+    cell: ({ row }) => <div className='text-center'>{row.original.getQuota()}</div>
+  },
+  {
+    accessorKey: 'expenseValue',
+    header: () => <div className="text-right">Valor</div>,
+    cell: ({ row }) => <div className='text-right'>{row.original.getExpenseValue()}</div>
   },
   {
     id: 'actions',
     cell: ({ row }) => <DeleteExpense expense={row.original} />
   }
 ]
-
-// export const columns: ColumnDef<Expense>[] = [
-//   {
-//     id: 'select',
-//     header: ({ table }) => (
-//       <Checkbox
-//         checked={
-//           table.getIsAllPageRowsSelected() ||
-//           (table.getIsSomePageRowsSelected() && 'indeterminate')
-//         }
-//         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-//         aria-label="Select all"
-//       />
-//     ),
-//     cell: ({ row }) => (
-//       <Checkbox
-//         checked={row.getIsSelected()}
-//         onCheckedChange={(value) => row.toggleSelected(!!value)}
-//         aria-label="Select row"
-//       />
-//     ),
-//     enableSorting: false,
-//     enableHiding: false
-//   },
-//   {
-//     accessorKey: 'status',
-//     header: 'Status',
-//     cell: ({ row }) => (
-//       <div className="capitalize">{row.getValue('status')}</div>
-//     )
-//   },
-//   {
-//     accessorKey: 'email',
-//     header: ({ column }) => {
-//       return (
-//         <Button
-//           variant="ghost"
-//           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-//         >
-//           Email
-//           <ArrowUpDown />
-//         </Button>
-//       )
-//     },
-//     cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>
-//   },
-//   {
-//     accessorKey: 'amount',
-//     header: () => <div className="text-right">Amount</div>,
-//     cell: ({ row }) => {
-//       const amount = parseFloat(row.getValue('amount'))
-
-//       // Format the amount as a dollar amount
-//       const formatted = new Intl.NumberFormat('pt-BR', {
-//         style: 'currency',
-//         currency: 'BRL'
-//       }).format(amount)
-
-//       return <div className="text-right font-medium">{formatted}</div>
-//     }
-//   },
-//   {
-//     id: 'actions',
-//     enableHiding: false,
-//     cell: ({ row }) => {
-//       const payment = row.original
-
-//       return (
-//         <DropdownMenu>
-//           <DropdownMenuTrigger asChild>
-//             <Button
-//               variant="ghost"
-//               className="h-8 w-8 p-0"
-//             >
-//               <span className="sr-only">Open menu</span>
-//               <MoreHorizontal />
-//             </Button>
-//           </DropdownMenuTrigger>
-//           <DropdownMenuContent align="end">
-//             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-//             <DropdownMenuItem
-//               onClick={() => navigator.clipboard.writeText(payment.id)}
-//             >
-//               Copy payment ID
-//             </DropdownMenuItem>
-//             <DropdownMenuSeparator />
-//             <DropdownMenuItem>View customer</DropdownMenuItem>
-//             <DropdownMenuItem>View payment details</DropdownMenuItem>
-//           </DropdownMenuContent>
-//         </DropdownMenu>
-//       )
-//     }
-//   }
-// ]

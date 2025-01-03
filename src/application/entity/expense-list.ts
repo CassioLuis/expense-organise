@@ -6,19 +6,19 @@ export default class ExpenseList {
   setExpenses (expense: RawExpense) {
     this.expenses.push(
       new Expense(
+        expense._id,
         expense.expenseDate,
         expense.description,
         expense.category,
         expense.expenseValue,
         expense.quota,
         expense.totalQuota,
-        expense.creditCard,
-        expense._id
+        expense.creditCard
       )
     )
   }
 
-  getExpenses (): any[] {
+  getExpenses (): Expense[] {
     return this.expenses
   }
 }

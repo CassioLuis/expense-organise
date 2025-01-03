@@ -1,24 +1,27 @@
 import Utilities from '@/utils/Utilities'
+import Category from './category'
 
 export class RawExpense {
-  _id?: string
+  _id: string
   expenseDate: string
   description: string
-  category: string
+  category: Category | string
   expenseValue: number
-  creditCard?: boolean
+  creditCard: boolean
   quota: number
   totalQuota: number
 
   constructor (
+    id: string,
     expenseDate: string,
     description: string,
-    category: string,
+    category: Category | string,
     expenseValue: number,
     quota: number,
     totalQuota: number,
-    creditCard?: boolean
+    creditCard: boolean
   ) {
+    this._id = id
     this.expenseDate = expenseDate
     this.description = description
     this.category = category
@@ -30,24 +33,24 @@ export class RawExpense {
 }
 
 export class Expense {
+  private id: string
   private expenseDate: string
   private description: string
-  private category: string
+  private category: Category | string
   private expenseValue: string
   private quota: string
   private totalQuota: number
-  private creditCard?: boolean
-  private id?: string
+  private creditCard: boolean
 
   constructor (
+    id: string,
     expenseDate: string,
     description: string,
-    category: string,
+    category: Category | string,
     expenseValue: number,
     quota: number,
     totalQuota: number,
-    creditCard?: boolean,
-    id?: string
+    creditCard: boolean
   ) {
     this.id = id
     this.expenseDate = Utilities.dateFormat(expenseDate, 'DD MMM.').toUpperCase()
@@ -59,12 +62,31 @@ export class Expense {
     this.totalQuota = totalQuota
   }
 
-  getId () {
+  getId (): string {
     return this.id
   }
 
   getCreditCard () {
     return this.creditCard
+  }
+
+  getExpenseValue () {
+    return this.expenseValue
+  }
+
+  getQuota () {
+    return this.quota
+  }
+
+  getCategory () {
+    return this.category
+  }
+
+  getCategoryId (): string {
+    if (typeof this.category === 'string') {
+      return this.category
+    }
+    return this.category._id
   }
 
   getExpense () {
@@ -80,3 +102,13 @@ export class Expense {
     }
   }
 }
+
+interface ExpenseAdditionalContract {
+  getId?: Expense['getId']
+  id: Expense['id']
+  creditCard?: Expense['creditCard']
+}
+
+export type ExpensePartial = Partial<Expense> & ExpenseAdditionalContract
+
+export type RawExpensePartial = Partial<RawExpense>

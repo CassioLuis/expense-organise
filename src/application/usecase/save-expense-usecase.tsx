@@ -2,7 +2,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/hooks/use-toast'
 import { ExpenseGateway } from '@/infra/gateways'
 import Utilities from '@/utils/Utilities'
-import { RawExpense } from '@/application/entity/expense'
+import { RawExpensePartial } from '@/application/entity/expense'
 import { ExpenseStoreAction } from '@/infra/store/expense-store'
 import SearchExpenses from './search-expenses-usecase'
 
@@ -14,17 +14,9 @@ export default class SaveExpense {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (payload: RawExpense, setState: ExpenseStoreAction['setExpenses']): Promise<void> {
+  async execute (payload: RawExpensePartial, setState: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
     try {
-      const expense = new RawExpense(
-        payload.expenseDate,
-        payload.description,
-        payload.category,
-        payload.expenseValue,
-        payload.quota,
-        payload.totalQuota
-      )
-      await this.expenseGateway.save(expense)
+      await this.expenseGateway.save(payload)
       await this.searchExpensesUsecase.execute(setState)
     } catch (e: any) {
       this.toaster({

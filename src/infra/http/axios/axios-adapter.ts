@@ -39,4 +39,16 @@ export default class AxiosAdapter implements HttpAdapter {
       throw new Error(error.message)
     }
   }
+
+  async patch (url: string, body: object): Promise<any> {
+    try {
+      const { data, status } = await this.axiosInstance.patch(url, body)
+      return {
+        data,
+        status
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
 }

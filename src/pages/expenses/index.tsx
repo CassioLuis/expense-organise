@@ -1,4 +1,4 @@
-import { RawExpense } from '@/application/entity/expense'
+import { RawExpensePartial } from '@/application/entity/expense'
 import { DataTable } from '@/components/data-table'
 import { columns } from '@/pages/expenses/components/data-table/columns'
 import { Button } from '@/components/ui/button'
@@ -8,13 +8,13 @@ import { useEffect } from 'react'
 
 export default function Expenses () {
   const { searchExpensesUsecase, saveExpenseUsecase } = useAppDependencies()
-  const { setExpenses, expenses } = expenseStore()
+  const { storeSetExpenses, expenses } = expenseStore()
 
   async function getExpenses () {
-    await searchExpensesUsecase.execute(setExpenses)
+    await searchExpensesUsecase.execute(storeSetExpenses)
   }
 
-  const expense: RawExpense = {
+  const expense: RawExpensePartial = {
     expenseDate: '2024-01-24T12:00:00Z',
     description: 'machado',
     category: '65b80f618adc2566b1a22ad8',
@@ -24,12 +24,12 @@ export default function Expenses () {
   }
 
   async function addExpense () {
-    await saveExpenseUsecase.execute(expense, setExpenses)
+    await saveExpenseUsecase.execute(expense, storeSetExpenses)
   }
 
   useEffect(() => {
     if (expenses.length) return
-    const getOnMount = async () => await searchExpensesUsecase.execute(setExpenses)
+    const getOnMount = async () => await searchExpensesUsecase.execute(storeSetExpenses)
     getOnMount()
   }, [])
 
