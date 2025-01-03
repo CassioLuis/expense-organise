@@ -1,27 +1,33 @@
-import { createBrowserRouter, Navigate, Outlet, useNavigate } from 'react-router'
+import { createBrowserRouter, useNavigate } from 'react-router'
 import { AuthLayoutRoutes, MainLayoutRoutes } from '@/layouts'
 import { PropsWithChildren, useEffect } from 'react'
+import { jwtDecode } from 'jwt-decode'
 
-export function ProtectedRoutes () {
-  const isAuthenticated = true
-  return isAuthenticated ? <Outlet /> : <Navigate to="/signin" />
-}
+type ProtectedRouteProps = PropsWithChildren
 
-type ProtectedRouteProps = PropsWithChildren;
-
-export default function ProtectedRoute ({ children }: ProtectedRouteProps) {
-  const isAuthenticated = true
+export function ProtectedRoute ({ children }: ProtectedRouteProps) {
+  const token = localStorage.getItem('access-token') ?? ''
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!token) {
       navigate('/signin', { replace: true })
+      return
     }
-  }, [navigate, isAuthenticated])
+
+    try {
+      const decodedToken: { exp: number, iat: number, userId: string } = jwtDecode(token)
+      if (!decodedToken.userId) {
+        navigate('/signin', { replace: true })
+      }
+    } catch (e: any) {
+      navigate('/signin', { replace: true })
+      throw e
+    }
+  })
 
   return children
 }
-
 
 export const router = createBrowserRouter([
   AuthLayoutRoutes,

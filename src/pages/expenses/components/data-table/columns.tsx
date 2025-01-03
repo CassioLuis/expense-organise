@@ -1,11 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
-import Expense from './data-mock'
+import { Expense } from '@/application/entity/expense'
+import { Checkbox } from '@/components/ui/checkbox'
+import { DeleteExpense } from './actions/delete'
 
 export const columns: ColumnDef<Expense>[] = [
-  {
-    accessorKey: 'id',
-    header: '_ID'
-  },
   {
     accessorKey: 'expenseDate',
     header: 'Data'
@@ -24,19 +22,25 @@ export const columns: ColumnDef<Expense>[] = [
   },
   {
     accessorKey: 'creditCard',
-    header: 'Cartão'
+    // id: 'select',
+    header: 'Cartão',
+    cell: ({ row }) => {
+      return (
+        <Checkbox
+          checked={row.original.getCreditCard()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      )
+    }
   },
   {
     accessorKey: 'quota',
     header: 'Parcela'
   },
   {
-    accessorKey: 'totalQuota',
-    header: 'Total de Parcelas'
-  },
-  {
-    accessorKey: 'creationDate',
-    header: 'Data de Criação'
+    id: 'actions',
+    cell: ({ row }) => <DeleteExpense expense={row.original} />
   }
 ]
 

@@ -1,12 +1,14 @@
 import { Dashboard, ErrorPage, History, Settings } from '@/pages'
 import MainLayout from '.'
-import ProtectedRoute from '@/router'
+import { ProtectedRoute } from '@/router'
+import Expenses from '@/pages/expenses'
 
 export default {
-  element:
+  element: (
     <ProtectedRoute>
       <MainLayout />
-    </ProtectedRoute>,
+    </ProtectedRoute>
+  ),
   title: 'Playground',
   errorElement: <ErrorPage.DefaultErrorPage />,
   children: [
@@ -14,6 +16,11 @@ export default {
       path: '/',
       title: 'Dashboard',
       element: <Dashboard />
+    },
+    {
+      path: '/despesas',
+      title: 'Expenses',
+      element: <Expenses />
     },
     {
       path: '/history',

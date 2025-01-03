@@ -18,8 +18,8 @@ export default class Utilities {
     return formData
   }
 
-  static dateFormat (date: Date | string, format: string): string | undefined {
-    if (!date) return
+  static dateFormat (date: Date | string, format: string): string {
+    if (!date) return ''
     moment.locale('pt-BR')
     return moment(date).format(format)
   }

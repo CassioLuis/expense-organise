@@ -4,11 +4,11 @@ interface State {
   token: string
 }
 
-interface Action {
+export interface UserStoreAction {
   setUser: (token: string) => void
 }
 
-export const userStore = create<State & Action>(set => ({
+export const userStore = create<State & UserStoreAction>(set => ({
   token: '',
   setUser: (token: string) => set(() => ({ token }))
 }))

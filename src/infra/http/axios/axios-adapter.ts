@@ -12,7 +12,7 @@ export default class AxiosAdapter implements HttpAdapter {
         status
       }
     } catch (error: any) {
-      throw new Error(error)
+      throw new Error(error.message)
     }
   }
 
@@ -24,7 +24,19 @@ export default class AxiosAdapter implements HttpAdapter {
         status
       }
     } catch (error: any) {
-      throw new Error(error)
+      throw new Error(error.message)
+    }
+  }
+
+  async delete (url: string): Promise<any> {
+    try {
+      const { data, status } = await this.axiosInstance.delete(url)
+      return {
+        data,
+        status
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
     }
   }
 }

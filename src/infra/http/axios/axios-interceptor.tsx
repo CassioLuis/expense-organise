@@ -9,12 +9,10 @@ export default class AxiosInterceptor {
   private statusCodeError: number[] = [401, 403]
 
   constructor () {
-    // this.initializeInterceptors()
     this.instance = axios.create({
       baseURL: env.BASE_URL || ''
     })
 
-    // Configurar os interceptors
     this.instance.interceptors.request.use(
       this.requestInterceptor.bind(this)
     )
@@ -24,22 +22,17 @@ export default class AxiosInterceptor {
     )
   }
 
-  // private initializeInterceptors () {
-  // }
-
   private requestInterceptor (request: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     Object.assign(request.headers, this.setHeaders())
     return request
   }
 
   private async responseInterceptor (response: AxiosResponse): Promise<AxiosResponse> {
-    if (response.status !== 200 && response.config.method !== 'get') {
-      throw new Error(response.data.message)
-    }
     return response
   }
 
   private async handleResponseError (axiosError: AxiosError): Promise<void | AxiosError> {
+    console.log(axiosError)
     const { data, status, config } = axiosError.response! as AxiosResponse
     if (!this.statusCodeError.includes(status as number)) {
       throw new Error(data.message)
