@@ -1,6 +1,5 @@
-export { default as History } from './history'
+export { default as Categories } from './categories'
 export { default as Dashboard } from './dashboard'
-export { default as Settings } from './settings'
 export { default as Starred } from './starred'
 export { default as Signin } from './auth/signin'
 export { default as ErrorPage } from './error-page'

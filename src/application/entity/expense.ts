@@ -1,5 +1,5 @@
 import Utilities from '@/utils/Utilities'
-import Category from './category'
+import { Category } from './category'
 
 export class RawExpense {
   _id: string
@@ -86,7 +86,7 @@ export class Expense {
     if (typeof this.category === 'string') {
       return this.category
     }
-    return this.category._id
+    return this.category.id
   }
 
   getExpense () {

@@ -3,7 +3,7 @@ import { toast } from '@/hooks/use-toast'
 import { ExpenseGateway } from '@/infra/gateways'
 import Utilities from '@/utils/Utilities'
 import { ExpenseStoreAction } from '@/infra/store/expense-store'
-import ExpenseList from '../entity/expense-list'
+import { Expense } from '../entity/expense'
 
 export default class SearchExpenses {
 
@@ -15,9 +15,20 @@ export default class SearchExpenses {
   async execute (setState: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
     try {
       const { data } = await this.expenseGateway.getAllByUser()
-      const expenseList = new ExpenseList()
-      data.forEach(item => expenseList.setExpenses(item))
-      setState(expenseList.getExpenses())
+      const expenseList: Expense[] = []
+      data.forEach(item => expenseList.push(
+        new Expense(
+          item._id,
+          item.expenseDate,
+          item.description,
+          item.category,
+          item.expenseValue,
+          item.quota,
+          item.totalQuota,
+          item.creditCard
+        )
+      ))
+      setState(expenseList)
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

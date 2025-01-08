@@ -16,7 +16,7 @@ export default function Expenses () {
 
   const expense: RawExpensePartial = {
     expenseDate: '2024-01-24T12:00:00Z',
-    description: 'machado',
+    description: 'Supermercado',
     category: '65b80f618adc2566b1a22ad8',
     expenseValue: Math.random(),
     quota: 0,
@@ -29,8 +29,8 @@ export default function Expenses () {
 
   useEffect(() => {
     if (expenses.length) return
-    const getOnMount = async () => await searchExpensesUsecase.execute(storeSetExpenses)
-    getOnMount()
+    getExpenses()
+    // getOnMount()
   }, [])
 
   return (

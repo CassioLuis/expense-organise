@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Expense } from '@/application/entity/expense'
-import { DeleteExpense } from './actions/deleteExpense'
-import { ChangeCreditCard } from './actions/changeCreditCard'
+import { DeleteExpense } from './actions/delete-expense'
+import { ChangeCreditCard } from './actions/change-credit-card'
 
 export const columns: ColumnDef<Expense>[] = [
   {

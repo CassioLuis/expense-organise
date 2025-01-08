@@ -12,7 +12,7 @@ export function ChangeCreditCard ({ expense }: { expense: Expense }) {
     creditCard: !expense.getCreditCard()
   }
 
-  async function updateCreditCard () {
+  async function updateCreditCard (): Promise<void> {
     await updateExpenseUsecase.execute(updatePayload, storeUpdateExpense)
   }
 

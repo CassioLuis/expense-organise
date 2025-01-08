@@ -31,7 +31,7 @@ import routes from '../routes'
 export function NavMain () {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>Controle de Gastos</SidebarGroupLabel>
       <SidebarMenu>
         <Collapsible
           asChild
