@@ -20,9 +20,9 @@ export default class CategoryGateway {
     return this.httpAdapter.delete(`${env.BASE_URL}${basePath}/${categoryId}`)
   }
 
-  // async update (expense: ExpensePartial): Promise<void> {
-  //   return this.httpAdapter.patch(`${env.BASE_URL}${basePath}/${expense.id}`, expense)
-  // }
+  async update (categoryPayload: RawCategoryPartial): Promise<void> {
+    return this.httpAdapter.patch(`${env.BASE_URL}${basePath}/${categoryPayload._id}`, categoryPayload)
+  }
 }
 
 export interface Output {

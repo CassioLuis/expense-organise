@@ -14,10 +14,10 @@ export default class SaveCategory {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (payload: RawCategoryPartial, setState: CategoryStoreAction['storeSetCategory']): Promise<void> {
+  async execute (payload: RawCategoryPartial, setStore: CategoryStoreAction['storeSetCategory']): Promise<void> {
     try {
       await this.categoryGateway.save(payload)
-      await this.SearchCategoriesUsecase.execute(setState)
+      await this.SearchCategoriesUsecase.execute(setStore)
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

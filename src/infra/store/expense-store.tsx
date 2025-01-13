@@ -1,4 +1,4 @@
-import { Expense, ExpensePartial } from '@/application/entity/expense'
+import { Expense, RawExpenseSend } from '@/application/entity/expense'
 import { create } from 'zustand'
 
 interface State {
@@ -9,7 +9,7 @@ export interface ExpenseStoreAction {
   storeSetExpenses: (expense: Expense[]) => void
   storeSaveExpense: (expense: Expense) => void
   storeRemoveExpense: (expense: Expense) => void
-  storeUpdateExpense: (updatePayload: ExpensePartial) => void
+  storeUpdateExpense: (updatePayload: RawExpenseSend) => void
 }
 
 export const expenseStore = create<State & ExpenseStoreAction>((set) => ({
@@ -22,7 +22,10 @@ export const expenseStore = create<State & ExpenseStoreAction>((set) => ({
   storeUpdateExpense: (updatePayload) =>
     set((state) => (
       {
-        expenses: state.expenses.map((item) => item.getId() === updatePayload.id ? Object.assign(item, updatePayload) : item)
+        expenses: state.expenses.map((item) => {
+          if (item.getId() !== updatePayload.id) return item
+          return Object.assign(item, updatePayload)
+        })
       }
     ))
 }))

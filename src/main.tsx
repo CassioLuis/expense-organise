@@ -5,11 +5,13 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { Toaster } from '@/components/ui/toaster'
 import { RouterProvider } from 'react-router'
 import { GlobalContextProvider } from '@/context'
+import FetchData from './fetch-data'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_ID_CLIENT}>
     <GlobalContextProvider>
-      <RouterProvider router={router}/>
+      <FetchData />
+      <RouterProvider router={router} />
       <Toaster />
     </GlobalContextProvider>
   </GoogleOAuthProvider>

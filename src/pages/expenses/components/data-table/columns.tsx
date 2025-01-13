@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Expense } from '@/application/entity/expense'
 import { DeleteExpense } from './actions/delete-expense'
 import { ChangeCreditCard } from './actions/change-credit-card'
+import { ChangeCategory } from './actions/change-category'
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -15,7 +16,7 @@ export const columns: ColumnDef<Expense>[] = [
   {
     accessorKey: 'category',
     header: () => <div className="text-center">Categoria</div>,
-    cell: ({ row }) => <div className='text-center'>{row.original.getCategoryId()}</div>
+    cell: ({ row }) => <ChangeCategory expense={row.original} />
   },
   {
     accessorKey: 'creditCard',

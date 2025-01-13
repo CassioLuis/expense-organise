@@ -12,18 +12,19 @@ export default class SearchCategories {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (setState: CategoryStoreAction['storeSetCategory']): Promise<void> {
+  async execute (setStore: CategoryStoreAction['storeSetCategory']): Promise<void> {
     try {
       const { data } = await this.expenseGateway.getAllByUser()
       const categoryList: Category[] = []
       data.forEach(item => {
+        if (item.name === 'Indefinido') return
         categoryList.push(new Category(
           item._id,
           item.name,
           item.subCategory
         ))
       })
-      setState(categoryList)
+      setStore(categoryList)
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

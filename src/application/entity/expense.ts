@@ -1,52 +1,27 @@
 import Utilities from '@/utils/Utilities'
 import { Category } from './category'
 
-export class RawExpense {
-  _id: string
-  expenseDate: string
-  description: string
-  category: Category | string
-  expenseValue: number
-  creditCard: boolean
+export type RawExpenseSend = Partial<Omit<Expense, 'category' | 'expenseValue' | 'quota'> & {
+  category: string | Category,
+  expenseValue: number,
   quota: number
-  totalQuota: number
-
-  constructor (
-    id: string,
-    expenseDate: string,
-    description: string,
-    category: Category | string,
-    expenseValue: number,
-    quota: number,
-    totalQuota: number,
-    creditCard: boolean
-  ) {
-    this._id = id
-    this.expenseDate = expenseDate
-    this.description = description
-    this.category = category
-    this.expenseValue = expenseValue
-    this.creditCard = creditCard
-    this.quota = quota
-    this.totalQuota = totalQuota
-  }
-}
+}>
 
 export class Expense {
-  private id: string
-  private expenseDate: string
-  private description: string
-  private category: Category | string
-  private expenseValue: string
-  private quota: string
-  private totalQuota: number
-  private creditCard: boolean
+  public readonly id: string
+  public readonly expenseDate: string
+  public readonly description: string
+  public readonly category: Category
+  public readonly expenseValue: string
+  public readonly quota: string
+  public readonly totalQuota: number
+  public readonly creditCard: boolean
 
   constructor (
     id: string,
     expenseDate: string,
     description: string,
-    category: Category | string,
+    category: Category,
     expenseValue: number,
     quota: number,
     totalQuota: number,
@@ -89,6 +64,13 @@ export class Expense {
     return this.category.id
   }
 
+  getCategoryName (): string {
+    if (typeof this.category === 'string') {
+      return this.category
+    }
+    return this.category.name
+  }
+
   getExpense () {
     return {
       id: this.id,
@@ -103,12 +85,10 @@ export class Expense {
   }
 }
 
-interface ExpenseAdditionalContract {
-  getId?: Expense['getId']
-  id: Expense['id']
-  creditCard?: Expense['creditCard']
-}
-
-export type ExpensePartial = Partial<Expense> & ExpenseAdditionalContract
-
-export type RawExpensePartial = Partial<RawExpense>
+export type ExpensePartial = Partial<Expense>
+// & {
+//   getId?: Expense['getId']
+//   id: Expense['id']
+//   creditCard?: Expense['creditCard'],
+//   category?: Expense['category']
+// }

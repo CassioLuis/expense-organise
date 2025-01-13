@@ -12,6 +12,7 @@ import SearchCategories from '@/application/usecase/search-category-usecase'
 import CategoryGateway from '@/infra/gateways/category-gateway'
 import DeleteCategory from '@/application/usecase/delete-category-usecase'
 import SaveCategory from '@/application/usecase/save-category-usecase'
+import UpdateCategory from '@/application/usecase/update-category'
 
 const axiosInterceptedInstance = new AxiosInterceptor().getInstance()
 const httpAdapter = new AxiosAdapter(axiosInterceptedInstance)
@@ -28,6 +29,7 @@ const updateExpenseUsecase = new UpdateExpense(expenseGateway, toast)
 const searchCategoriesUsecase = new SearchCategories(categoriesGateway, toast)
 const deleteCategoryUsecase = new DeleteCategory(categoriesGateway, toast)
 const saveCategoryUsecase = new SaveCategory(categoriesGateway, searchCategoriesUsecase, toast)
+const updateCategoryUsecase = new UpdateCategory(categoriesGateway, toast)
 
 const dependencies = {
   signinUsecase,
@@ -37,7 +39,8 @@ const dependencies = {
   updateExpenseUsecase,
   searchCategoriesUsecase,
   deleteCategoryUsecase,
-  saveCategoryUsecase
+  saveCategoryUsecase,
+  updateCategoryUsecase
 }
 
 export const GlobalContext = createContext<AppDependencies>(dependencies)

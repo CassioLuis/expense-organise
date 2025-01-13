@@ -17,7 +17,6 @@ import { ChangeTheme } from './components/change-theme'
 import { AppSidebar } from './components/app-sidebar'
 
 export default function MainLayout () {
-
   const location = useLocation()
 
   return (
@@ -51,7 +50,7 @@ export default function MainLayout () {
             <ChangeTheme />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 break-words overflow-y-auto max-h-[calc(98svh-4rem)]">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 break-words overflow-auto max-h-[calc(98svh-4rem)]">
           <Outlet />
         </div>
       </SidebarInset>

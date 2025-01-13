@@ -12,10 +12,10 @@ export default class DeleteExpense {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (expense: Expense, setState: ExpenseStoreAction['storeRemoveExpense']): Promise<void> {
+  async execute (expense: Expense, setStore: ExpenseStoreAction['storeRemoveExpense']): Promise<void> {
     try {
       await this.expenseGateway.delete(expense.getId())
-      setState(expense)
+      setStore(expense)
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

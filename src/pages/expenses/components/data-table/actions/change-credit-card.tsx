@@ -1,4 +1,4 @@
-import { Expense, ExpensePartial } from '@/application/entity/expense'
+import { Expense, RawExpenseSend } from '@/application/entity/expense'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
@@ -7,7 +7,7 @@ export function ChangeCreditCard ({ expense }: { expense: Expense }) {
   const { updateExpenseUsecase } = useAppDependencies()
   const { storeUpdateExpense } = expenseStore()
 
-  const updatePayload: ExpensePartial = {
+  const updatePayload: RawExpenseSend = {
     id: expense.getId(),
     creditCard: !expense.getCreditCard()
   }
