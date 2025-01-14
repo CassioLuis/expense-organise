@@ -1,10 +1,13 @@
 import Utilities from '@/utils/Utilities'
 import { Category } from './category'
 
-export type RawExpenseSend = Partial<Omit<Expense, 'category' | 'expenseValue' | 'quota'> & {
+type OmitProps = 'category' | 'expenseValue' | 'quota' | 'expenseDate'
+
+export type RawExpenseSend = Partial<Omit<Expense, OmitProps> & {
   category: string | Category,
   expenseValue: number,
-  quota: number
+  quota: number,
+  expenseDate: Date,
 }>
 
 export class Expense {
@@ -19,7 +22,7 @@ export class Expense {
 
   constructor (
     id: string,
-    expenseDate: string,
+    expenseDate: Date,
     description: string,
     category: Category,
     expenseValue: number,

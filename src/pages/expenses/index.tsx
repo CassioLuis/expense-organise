@@ -4,13 +4,15 @@ import { columns } from '@/pages/expenses/components/data-table/columns'
 import { Button } from '@/components/ui/button'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
+import { ExpenseForm } from './components/expense-form'
+import { DatePickerTeste } from './components/expense-form copy'
 
 export default function Expenses () {
   const { saveExpenseUsecase } = useAppDependencies()
   const { storeSetExpenses, expenses } = expenseStore()
 
   const expense: RawExpenseSend = {
-    expenseDate: '2024-01-24T12:00:00Z',
+    expenseDate: new Date(),
     description: 'Supermercado',
     category: '65b80f618adc2566b1a22ad8',
     expenseValue: Math.floor(Math.random() * 100) + 1,
@@ -26,6 +28,8 @@ export default function Expenses () {
     <div className='container mx-auto space-y-2'>
       <div className='space-x-2'>
         <Button onClick={addExpense}>POST</Button>
+        <ExpenseForm />
+        <DatePickerTeste />
       </div>
       <DataTable
         columns={columns}

@@ -11,8 +11,14 @@ export default function FetchData (): ReactNode {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!expenses.length) await searchExpensesUsecase.execute(storeSetExpenses)
-        if (!categories.length) await searchCategoriesUsecase.execute(storeSetCategory)
+        const promises = []
+        if (!expenses.length) {
+          promises.push(searchExpensesUsecase.execute(storeSetExpenses))
+        }
+        if (!categories.length) {
+          promises.push(searchCategoriesUsecase.execute(storeSetCategory))
+        }
+        await Promise.all(promises)
       } catch (error) {
         console.error('Error fetching data:', error)
       }

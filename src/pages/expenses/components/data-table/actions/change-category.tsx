@@ -32,6 +32,8 @@ export function ChangeCategory ({ expense }: { expense: Expense }) {
     }
   }
 
+  const haveCategory = categories.find((item) => item.name === expense.getCategoryName())?.name
+
   return (
     <div className='text-center'>
       <Popover
@@ -46,16 +48,16 @@ export function ChangeCategory ({ expense }: { expense: Expense }) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className={`w-[200px] justify-between ${haveCategory || 'justify-end'}`}
           >
-            {categories.find((item) => item.name === expense.getCategoryName())?.name || 'Selecione...'}
+            {haveCategory || ''}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
             <CommandInput
-              placeholder="Procure Categoria..."
+              placeholder="Procurar..."
               className="h-9"
             />
             <CommandList>
