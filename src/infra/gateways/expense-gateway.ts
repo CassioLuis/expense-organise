@@ -1,15 +1,15 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 import env from '../env'
-import { Expense, RawExpenseSend } from '@/application/entity/expense'
-// import querystring from 'querystring'
+import { Expense, RawExpenseReceived, RawExpenseSend } from '@/application/entity/expense'
 
 const basePath = '/expenses'
 
 export default class ExpenseGateway {
   constructor (private readonly httpAdapter: HttpAdapter) { }
 
-  async getAllByUser (): Promise<Output> {
-    return this.httpAdapter.get(`${env.BASE_URL}${basePath}`)
+  async getByDateInterval (params: GetExpensesParams): Promise<Output> {
+    const url = new URLSearchParams(Object.entries(params))
+    return this.httpAdapter.get(`${env.BASE_URL}${basePath}/analitic?${url.toString()}`)
   }
 
   async save (expense: RawExpenseSend): Promise<void> {
@@ -26,6 +26,15 @@ export default class ExpenseGateway {
 }
 
 export interface Output {
-  data: Expense[],
+  data: {
+    relevanceBalance: any
+    analitic: any
+    expenses: RawExpenseReceived[]
+  },
   status: number
+}
+
+export interface GetExpensesParams {
+  iniDate: string
+  finDate: string
 }

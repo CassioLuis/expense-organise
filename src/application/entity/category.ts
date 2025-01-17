@@ -6,4 +6,10 @@ export class Category {
   ) { }
 }
 
+export interface RawCategoryReceived {
+  _id: string
+  name: string,
+  subCategory: string
+}
+
 export type CategoryPartial = Partial<Category>

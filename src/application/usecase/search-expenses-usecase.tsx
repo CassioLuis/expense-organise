@@ -5,6 +5,7 @@ import Utilities from '@/utils/Utilities'
 import { ExpenseStoreAction } from '@/infra/store/expense-store'
 import { Expense } from '../entity/expense'
 import { Category } from '../entity/category'
+import { GetExpensesParams } from '@/infra/gateways/expense-gateway'
 
 export default class SearchExpenses {
 
@@ -13,16 +14,16 @@ export default class SearchExpenses {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (setStore: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
+  async execute (params: GetExpensesParams, setStore: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
     try {
-      const { data } = await this.expenseGateway.getAllByUser()
+      const { data } = await this.expenseGateway.getByDateInterval(params)
       const expenseList: Expense[] = []
-      data.forEach(item => expenseList.push(
+      data.expenses.forEach(item => expenseList.push(
         new Expense(
           item._id,
           item.expenseDate,
           item.description,
-          new Category (
+          new Category(
             item.category._id,
             item.category.name,
             item.category.subCategory

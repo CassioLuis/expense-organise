@@ -1,7 +1,18 @@
 import Utilities from '@/utils/Utilities'
-import { Category } from './category'
+import { Category, RawCategoryReceived } from './category'
 
 type OmitProps = 'category' | 'expenseValue' | 'quota' | 'expenseDate'
+
+export interface RawExpenseReceived {
+  _id: string
+  expenseDate: Date
+  description: string
+  category: RawCategoryReceived
+  expenseValue: number
+  quota: number
+  totalQuota: number
+  creditCard: boolean
+}
 
 export type RawExpenseSend = Partial<Omit<Expense, OmitProps> & {
   category: string | Category,
@@ -89,9 +100,3 @@ export class Expense {
 }
 
 export type ExpensePartial = Partial<Expense>
-// & {
-//   getId?: Expense['getId']
-//   id: Expense['id']
-//   creditCard?: Expense['creditCard'],
-//   category?: Expense['category']
-// }

@@ -32,7 +32,6 @@ export default class AxiosInterceptor {
   }
 
   private async handleResponseError (axiosError: AxiosError): Promise<void | AxiosError> {
-    console.log(axiosError)
     const { data, status, config } = axiosError.response! as AxiosResponse
     if (!this.statusCodeError.includes(status as number)) {
       throw new Error(data.message)

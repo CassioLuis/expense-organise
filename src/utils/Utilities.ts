@@ -1,5 +1,6 @@
 import moment from 'moment'
 import 'moment/dist/locale/pt-BR'
+import 'moment-timezone'
 
 export default class Utilities {
 
@@ -22,6 +23,15 @@ export default class Utilities {
     if (!date) return ''
     moment.locale('pt-BR')
     return moment(date).format(format)
+  }
+
+  static newUtcDate (date: Date) {
+    const newDate = moment.tz(date, 'America/Sao_Paulo')
+    return {
+      now: newDate.format('YYYY-MM-DDTHH:mm:ss.SSS'),
+      firtDay: newDate.startOf('month').format('YYYY-MM-DDTHH:mm:ss.SSS'),
+      lastDay: newDate.endOf('month').format('YYYY-MM-DDTHH:mm:ss.SSS')
+    }
   }
 
   static currencyFormat (value: number | bigint, locale: string, currency: string): string {

@@ -15,9 +15,13 @@ export default class SaveExpense {
   ) { }
 
   async execute (payload: RawExpenseSend, setStore: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
+    const params = {
+      iniDate: Utilities.newUtcDate(payload.expenseDate!).firtDay,
+      finDate: Utilities.newUtcDate(payload.expenseDate!).lastDay
+    }
     try {
       await this.expenseGateway.save(payload)
-      await this.searchExpensesUsecase.execute(setStore)
+      await this.searchExpensesUsecase.execute(params, setStore)
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',
