@@ -5,6 +5,7 @@ import Utilities from '@/utils/Utilities'
 import { RawExpenseSend } from '@/application/entity/expense'
 import { ExpenseStoreAction } from '@/infra/store/expense-store'
 import SearchExpenses from './search-expenses-usecase'
+import { AnaliticStoreAction } from '@/infra/store/analitic-store'
 
 export default class SaveExpense {
 
@@ -14,14 +15,19 @@ export default class SaveExpense {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (payload: RawExpenseSend, setStore: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
+  async execute (
+    payload: RawExpenseSend,
+    setStore: ExpenseStoreAction['storeSetExpenses'],
+    setAnaliticStore: AnaliticStoreAction['storeSetAnalitic'],
+    setRelevance: AnaliticStoreAction['storeSetRelevanceBalance']
+  ): Promise<void> {
     const params = {
       iniDate: Utilities.newUtcDate(payload.expenseDate!).firtDay,
       finDate: Utilities.newUtcDate(payload.expenseDate!).lastDay
     }
     try {
       await this.expenseGateway.save(payload)
-      await this.searchExpensesUsecase.execute(params, setStore)
+      await this.searchExpensesUsecase.execute(params, setStore, setAnaliticStore, setRelevance)
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

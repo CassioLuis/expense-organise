@@ -13,3 +13,6 @@ export interface RawCategoryReceived {
 }
 
 export type CategoryPartial = Partial<Category>
+
+export type SubCategory = 'Essencial' | 'Eventual' | 'Dispensável' | 'Outro'
+export type RelevanceBalance = Record<SubCategory, number>

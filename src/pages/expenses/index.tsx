@@ -5,14 +5,17 @@ import { RawExpenseSend } from '@/application/entity/expense'
 import { columns } from '@/pages/expenses/components/data-table/columns'
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
-import CustomInput from '@/components/custom-date-pucker-input'
+import CustomInput from '@/components/custom-date-picker-input'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
 import Utilities from '@/utils/Utilities'
+import { analiticStore } from '@/infra/store/analitic-store'
 
 export default function Expenses () {
   const { saveExpenseUsecase, searchExpensesUsecase } = useAppDependencies()
   const { storeSetExpenses, expenses } = expenseStore()
+  const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
+
 
   const expense: RawExpenseSend = {
     expenseDate: new Date(),
@@ -24,7 +27,7 @@ export default function Expenses () {
   }
 
   async function addExpense () {
-    await saveExpenseUsecase.execute(expense, storeSetExpenses)
+    await saveExpenseUsecase.execute(expense, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
   }
 
   const [startDate, setStartDate] = useState<Date | null>(new Date())
@@ -49,7 +52,7 @@ export default function Expenses () {
   }
 
   async function searchExpenses () {
-    await searchExpensesUsecase.execute(params, storeSetExpenses)
+    await searchExpensesUsecase.execute(params, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
   }
 
   return (

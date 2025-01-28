@@ -1,6 +1,8 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 import env from '../env'
 import { Expense, RawExpenseReceived, RawExpenseSend } from '@/application/entity/expense'
+import { Analitic } from '@/application/entity/analitic'
+import { RelevanceBalance } from '@/application/entity/category'
 
 const basePath = '/expenses'
 
@@ -27,8 +29,8 @@ export default class ExpenseGateway {
 
 export interface Output {
   data: {
-    relevanceBalance: any
-    analitic: any
+    relevanceBalance: RelevanceBalance
+    analitic: Analitic[]
     expenses: RawExpenseReceived[]
   },
   status: number

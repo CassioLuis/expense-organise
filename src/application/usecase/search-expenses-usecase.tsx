@@ -6,6 +6,7 @@ import { ExpenseStoreAction } from '@/infra/store/expense-store'
 import { Expense } from '../entity/expense'
 import { Category } from '../entity/category'
 import { GetExpensesParams } from '@/infra/gateways/expense-gateway'
+import { AnaliticStoreAction } from '@/infra/store/analitic-store'
 
 export default class SearchExpenses {
 
@@ -14,7 +15,12 @@ export default class SearchExpenses {
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (params: GetExpensesParams, setStore: ExpenseStoreAction['storeSetExpenses']): Promise<void> {
+  async execute (
+    params: GetExpensesParams,
+    setStore: ExpenseStoreAction['storeSetExpenses'],
+    setAnaliticStore: AnaliticStoreAction['storeSetAnalitic'],
+    setRelevance: AnaliticStoreAction['storeSetRelevanceBalance']
+  ): Promise<void> {
     try {
       const { data } = await this.expenseGateway.getByDateInterval(params)
       const expenseList: Expense[] = []
@@ -34,6 +40,8 @@ export default class SearchExpenses {
           item.creditCard
         )
       ))
+      setAnaliticStore(data.analitic)
+      setRelevance(data.relevanceBalance)
       setStore(expenseList)
     } catch (e: any) {
       this.toaster({

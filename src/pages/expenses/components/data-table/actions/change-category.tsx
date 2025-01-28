@@ -18,12 +18,10 @@ export function ChangeCategory ({ expense }: { expense: Expense }) {
 
   async function updateCategory (value: string): Promise<void> {
     const category = categories.find(item => item.name === value) as Category
-
     const updatePayload: RawExpenseSend = {
       id: expense.getId(),
       category: category.id
     }
-
     try {
       await updateExpenseUsecase.execute(updatePayload, storeUpdateExpense, categories)
       setOpen(false)

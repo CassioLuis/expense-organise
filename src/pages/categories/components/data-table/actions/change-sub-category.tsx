@@ -1,4 +1,4 @@
-import { Category, RawCategoryPartial } from '@/application/entity/category'
+import { Category, RawCategoryPartial, SubCategory } from '@/application/entity/category'
 import {
   Select,
   SelectContent,
@@ -13,7 +13,7 @@ import { categoryStore } from '@/infra/store/category-store'
 import { useState } from 'react'
 
 export function SubCategorySelector ({ category }: { category: Category }) {
-  const subCategory = ['Essencial', 'Eventual', 'Dispensável', 'Outro']
+  const subCategory: SubCategory[] = ['Essencial', 'Eventual', 'Dispensável', 'Outro']
 
   const [localState, setLocalState] = useState<RawCategoryPartial>({
     subCategory: category.subCategory
