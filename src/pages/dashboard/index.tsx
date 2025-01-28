@@ -26,13 +26,13 @@ export default function Dashboard () {
               <AccordionItem
                 key={idx}
                 value={`item-${idx}`}
-                className='border py-2 px-4 rounded-md'
+                className='border rounded-md'
               >
-                <AccordionTrigger className='p-0 flex items-center justify-between'>
+                <AccordionTrigger className='py-2 px-4 rounded-md flex items-center justify-between'>
                   <span>{item.category.name}</span>
                   <span>{Utilities.currencyFormat(item.value, 'pt-BR', 'BRL')}</span>
                 </AccordionTrigger>
-                <AccordionContent className='py-3 px-1 text-muted-foreground text-sm space-y-3'>
+                <AccordionContent className='py-3 px-5 text-muted-foreground text-sm space-y-3'>
                   {expenses
                     .filter((expense) => expense.category.name === item.category.name)
                     .map((expense) => (
