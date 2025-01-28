@@ -9,7 +9,7 @@ interface CustomInputProps {
 
 const CustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(({ value, onClick }, ref) => (
   <Button
-    className='border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-[240px] justify-start font-normal text-muted-foreground'
+    className='border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-[250px] justify-start font-normal text-muted-foreground'
     onClick={onClick}
     ref={ref}
   >

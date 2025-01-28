@@ -503,7 +503,8 @@ h2.react-datepicker__current-month {
 .react-datepicker__month-text--in-range,
 .react-datepicker__quarter-text--in-range,
 .react-datepicker__year-text--in-range) {
-  background-color: rgba(33, 107, 165, 0.5);
+  /* background-color: rgba(33, 107, 165, 0.5); */
+  @apply bg-primary 
 }
 .react-datepicker__month--selecting-range .react-datepicker__day--in-range:not(.react-datepicker__day--in-selecting-range,
 .react-datepicker__month-text--in-selecting-range,
@@ -682,23 +683,24 @@ h2.react-datepicker__current-month {
 }
 
 .react-datepicker__close-icon {
-  cursor: pointer;
-  background-color: transparent;
-  border: 0;
-  outline: 0;
-  padding: 0 6px 0 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  display: table-cell;
-  vertical-align: middle;
+  /* cursor: pointer; */
+  /* background-color: transparent; */
+  /* border: 0; */
+  /* outline: 0; */
+  /* padding: 0 6px 0 0; */
+  /* position: absolute; */
+  /* top: 0; */
+  /* right: 0; */
+  /* height: 100%; */
+  /* display: table-cell; */
+  /* vertical-align: middle; */
+  @apply border-0 outline-0 pr-1 absolute top-0 right-0 h-full table-cell text-sm font-medium transition-colors disabled:opacity-50 shadow-sm bg-transparent w-6
 }
 .react-datepicker__close-icon::after {
   cursor: pointer;
-  background-color: #216ba5;
+  /* background-color: #216ba5; */
   color: #fff;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   height: 16px;
   width: 16px;
   padding: 2px;
@@ -708,6 +710,8 @@ h2.react-datepicker__current-month {
   display: table-cell;
   vertical-align: middle;
   content: "×";
+  /* @apply bg-accent rounded-md hover:text-red-500 */
+  @apply rounded-md border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80
 }
 .react-datepicker__close-icon--disabled {
   cursor: default;

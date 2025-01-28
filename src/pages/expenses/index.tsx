@@ -59,17 +59,15 @@ export default function Expenses () {
         <Button onClick={searchExpenses}>GET</Button>
         <DatePicker
           customInput={<CustomInput />}
+          selectsRange={true}
+          startDate={startDate}
+          endDate={endDate}
+          onChange={onChange}
+          isClearable={true}
           locale={ptBR}
           dateFormat="dd/MM/yyyy"
           showPopperArrow={false}
-          // showMonthYearPicker
-          // selected={startDate}
-          onChange={onChange}
-          startDate={startDate}
-          endDate={endDate}
-          selectsRange
-          inline
-          // popperPlacement="bottom-start"
+          popperPlacement="bottom-start"
         />
       </div>
       <DataTable
