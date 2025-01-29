@@ -1,7 +1,6 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 import env from '../env'
 import { RawCategory, RawCategoryPartial } from '@/application/entity/category'
-// import querystring from 'querystring'
 
 const basePath = '/category'
 

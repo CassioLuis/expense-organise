@@ -40,7 +40,8 @@ export default class SearchExpenses {
           item.creditCard
         )
       ))
-      setAnaliticStore(data.analitic)
+      const analitic = data.analitic.map((item) => ({ ...item, bg: '' }))
+      setAnaliticStore(analitic)
       setRelevance(data.relevanceBalance)
       setStore(expenseList)
     } catch (e: any) {
