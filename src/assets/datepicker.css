@@ -568,18 +568,24 @@ h2.react-datepicker__current-month {
 .react-datepicker__input-container {
   position: relative;
   display: inline-block;
-  width: 100%;
+  /* width: 100%; */
+  /* @apply px-3 py-1 */
 }
+
+.react-datepicker__input-container input {
+  @apply flex h-9 w-[250px] rounded-md border border-input bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm m-0
+}
+
 .react-datepicker__input-container .react-datepicker__calendar-icon {
   position: absolute;
   padding: 0.5rem;
   box-sizing: content-box;
-  /* @apply mr-2 h-4 w-4 */
+  @apply top-[1.5px] left-1
 }
 
 .react-datepicker__view-calendar-icon input {
   /* padding: 6px 10px 5px 25px; */
-  @apply inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-[240px] justify-start text-left font-normal text-muted-foreground
+  @apply pl-10 flex items-center
 }
 
 .react-datepicker__year-read-view,

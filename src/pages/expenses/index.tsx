@@ -10,12 +10,12 @@ import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
 import Utilities from '@/utils/Utilities'
 import { analiticStore } from '@/infra/store/analitic-store'
+import AddExpense from './components/add-expense'
 
 export default function Expenses () {
   const { saveExpenseUsecase, searchExpensesUsecase } = useAppDependencies()
   const { storeSetExpenses, expenses } = expenseStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
-
 
   const expense: RawExpenseSend = {
     expenseDate: new Date(),
@@ -57,9 +57,16 @@ export default function Expenses () {
 
   return (
     <div className='container mx-auto space-y-2'>
-      <div className='space-x-2'>
-        <Button onClick={addExpense}>POST</Button>
-        <Button onClick={searchExpenses}>GET</Button>
+      <div className='space-x-2 flex items-center'>
+        <Button
+          variant='outline'
+          onClick={addExpense}
+        >POST</Button>
+        <Button
+          variant='outline'
+          onClick={searchExpenses}
+        >GET</Button>
+        <AddExpense />
         <DatePicker
           customInput={<CustomInput />}
           selectsRange={true}
