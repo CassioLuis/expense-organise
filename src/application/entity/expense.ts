@@ -47,7 +47,7 @@ export class Expense {
     this.category = category
     this.expenseValue = Utilities.currencyFormat(expenseValue, 'pt-BR', 'BRL')
     this.creditCard = creditCard
-    this.quota = totalQuota ? `${quota}/${totalQuota}` : '-'
+    this.quota = (totalQuota && totalQuota > 1) ? `${quota}/${totalQuota}` : '-'
     this.totalQuota = totalQuota
   }
 

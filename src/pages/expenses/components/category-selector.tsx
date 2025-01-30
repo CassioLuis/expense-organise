@@ -1,5 +1,4 @@
 import { Check, ChevronsUpDown } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,61 +14,105 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
-import { FormControl } from '@/components/ui/form'
+import { Category } from '@/application/entity/category'
+import { useState } from 'react'
 
-export function ComboboxDemo ({ field, setValue }: { field: any, setValue: (...event: any[]) => void }) {
+interface PropsTypes {
+  selected: string,
+  options: Category[],
+  setValue: (option: string) => void
+}
 
-  const languages = [
-    { label: 'English', value: 'en' },
-    { label: 'French', value: 'fr' },
-    { label: 'German', value: 'de' },
-    { label: 'Spanish', value: 'es' },
-    { label: 'Portuguese', value: 'pt' },
-    { label: 'Russian', value: 'ru' },
-    { label: 'Japanese', value: 'ja' },
-    { label: 'Korean', value: 'ko' },
-    { label: 'Chinese', value: 'zh' }
-  ] as const
+export function CategorySelector ({ selected, options, setValue }: PropsTypes) {
+  const [open, setOpen] = useState<boolean>(false)
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <FormControl>
-          <Button
-            variant="outline"
-            role="combobox"
-            className={cn('w-[223px] justify-between', !field.value && 'text-muted-foreground')}
-          >
-            {field.value ? languages.find((language) => language.value === field.value)?.label : 'Select language'}
-            <ChevronsUpDown className="opacity-50" />
-          </Button>
-        </FormControl>
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <PopoverTrigger
+        asChild
+        className={`${selected === 'Indefinido' ? 'text-muted-foreground border-destructive' : ''}`}
+      >
+        <Button
+          variant="outline"
+          role="combobox"
+          className={`w-[223px] justify-between ${(selected === 'Indefinido' || selected === '') ? 'text-muted-foreground justify-end' : ''}`}
+        >
+          {selected ? options.find((option: Category) => option.name === selected)?.name : ''}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[223px] p-0">
         <Command>
           <CommandInput
-            placeholder="Search framework..."
+            placeholder="Procurar..."
             className="h-9"
           />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {languages.map((language) => (
+              {options.map((option: Category) => (
                 <CommandItem
-                  value={language.label}
-                  key={language.value}
+                  key={option.id}
+                  value={option.name}
                   onSelect={() => {
-                    setValue(language.value)
+                    setValue(option.id)
+                    setOpen(false)
                   }}
                 >
-                  {language.label}
-                  <Check className={cn('ml-auto', language.value === field.value ? 'opacity-100' : 'opacity-0')} />
+                  {option.name}
+                  <Check className={cn('ml-auto', option.name === selected ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>
               ))}
             </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>
-    </Popover>
+    </Popover >
+    // <Popover
+    //   open={open}
+    //   onOpenChange={setOpen}
+    // >
+    //   <PopoverTrigger asChild>
+    //     <FormControl>
+    //       <Button
+    //         variant="outline"
+    //         role="combobox"
+    //         className={cn('w-[223px] justify-between', !field.value && 'text-muted-foreground')}
+    //       >
+    //         {field.value ? options.find((option: Category) => option.name === field.value)?.name : 'Categoria'}
+    //         <ChevronsUpDown className="opacity-50" />
+    //       </Button>
+    //     </FormControl>
+    //   </PopoverTrigger>
+    //   <PopoverContent className="w-[223px] p-0">
+    //     <Command>
+    //       <CommandInput
+    //         placeholder="Procurar..."
+    //         className="h-9"
+    //       />
+    //       <CommandList>
+    //         <CommandEmpty>No framework found.</CommandEmpty>
+    //         <CommandGroup>
+    //           {options.map((option: Category) => (
+    //             <CommandItem
+    //               key={option.id}
+    //               value={option.name}
+    //               onSelect={() => {
+    //                 setValue(option.name)
+    //                 setOpen(false)
+    //               }}
+    //             >
+    //               {option.name}
+    //               <Check className={cn('ml-auto', option.name === field.value ? 'opacity-100' : 'opacity-0')} />
+    //             </CommandItem>
+    //           ))}
+    //         </CommandGroup>
+    //       </CommandList>
+    //     </Command>
+    //   </PopoverContent>
+    // </Popover>
   )
 }

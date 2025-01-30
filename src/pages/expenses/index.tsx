@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { ptBR } from 'date-fns/locale/pt-BR'
-import { RawExpenseSend } from '@/application/entity/expense'
 import { columns } from '@/pages/expenses/components/data-table/columns'
 import { DataTable } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
@@ -11,6 +10,7 @@ import { expenseStore } from '@/infra/store/expense-store'
 import Utilities from '@/utils/Utilities'
 import { analiticStore } from '@/infra/store/analitic-store'
 import AddExpense from './components/add-expense'
+import { RawExpenseSend } from '@/application/entity/expense'
 
 export default function Expenses () {
   const { saveExpenseUsecase, searchExpensesUsecase } = useAppDependencies()
@@ -23,27 +23,31 @@ export default function Expenses () {
     category: '65b80f618adc2566b1a22ad8',
     expenseValue: Math.floor(Math.random() * 100) + 1,
     quota: 0,
-    totalQuota: 0
+    totalQuota: 2
   }
+
+  const [startDate, setStartDate] = useState<Date>(new Date())
+  const [endDate, setEndDate] = useState<Date>(new Date())
 
   async function addExpense () {
     await saveExpenseUsecase.execute(expense, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
   }
 
-  const [startDate, setStartDate] = useState<Date | null>(new Date())
-  const [endDate, setEndDate] = useState<Date | null>(new Date())
-
   let params = {
     iniDate: Utilities.newUtcDate(startDate!).firtDay,
-    finDate: Utilities.newUtcDate(startDate!).lastDay
+    finDate: Utilities.newUtcDate(endDate!).lastDay
   }
 
   useEffect(() => {
     params = {
-      iniDate: Utilities.newUtcDate(startDate!).firtDay,
-      finDate: Utilities.newUtcDate(startDate!).lastDay
+      iniDate: Utilities.newUtcDate(startDate || new Date()).firtDay,
+      finDate: Utilities.newUtcDate(endDate || new Date()).lastDay
     }
-  }, [startDate])
+    async function searchExpenses () {
+      await searchExpensesUsecase.execute(params, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
+    }
+    searchExpenses()
+  }, [endDate])
 
   const onChange = (dates: any) => {
     const [start, end] = dates
@@ -51,9 +55,6 @@ export default function Expenses () {
     setEndDate(end)
   }
 
-  async function searchExpenses () {
-    await searchExpensesUsecase.execute(params, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
-  }
 
   return (
     <div className='container mx-auto space-y-2'>
@@ -62,10 +63,10 @@ export default function Expenses () {
           variant='outline'
           onClick={addExpense}
         >POST</Button>
-        <Button
+        {/* <Button
           variant='outline'
           onClick={searchExpenses}
-        >GET</Button>
+        >GET</Button> */}
         <AddExpense />
         <DatePicker
           customInput={<CustomInput />}

@@ -34,6 +34,12 @@ export default class Utilities {
     }
   }
 
+  static creteNextQuotas (date: Date, incrementMount: number): Date {
+    const newDate = new Date(date)
+    newDate.setDate(1)
+    return new Date(newDate.setMonth(newDate.getMonth() + incrementMount))
+  }
+
   static currencyFormat (value: number | bigint, locale: string, currency: string): string {
     return this.removeWhiteSpaces(
       Intl.NumberFormat(locale, {
