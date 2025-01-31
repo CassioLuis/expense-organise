@@ -1,4 +1,4 @@
-import { Category, RawCategoryPartial, SubCategory } from '@/application/entity/category'
+import { Category, CategoryPartial, SubCategory } from '@/application/entity/category'
 import {
   Select,
   SelectContent,
@@ -15,7 +15,7 @@ import { useState } from 'react'
 export function SubCategorySelector ({ category }: { category: Category }) {
   const subCategory: SubCategory[] = ['Essencial', 'Eventual', 'Dispensável', 'Outro']
 
-  const [localState, setLocalState] = useState<RawCategoryPartial>({
+  const [localState, setLocalState] = useState<CategoryPartial>({
     subCategory: category.subCategory
   })
 
@@ -23,8 +23,8 @@ export function SubCategorySelector ({ category }: { category: Category }) {
   const { updateCategoryUsecase } = useAppDependencies()
 
   async function changeSubCategory (value: any): Promise<void> {
-    const categoryPayload: RawCategoryPartial = {
-      _id: category.id,
+    const categoryPayload: CategoryPartial = {
+      id: category.id,
       subCategory: value
     }
     try {

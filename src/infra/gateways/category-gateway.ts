@@ -1,6 +1,6 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 import env from '../env'
-import { RawCategory, RawCategoryPartial } from '@/application/entity/category'
+import { Category, CategoryPartial } from '@/application/entity/category'
 
 const basePath = '/category'
 
@@ -11,20 +11,20 @@ export default class CategoryGateway {
     return this.httpAdapter.get(`${env.BASE_URL}${basePath}`)
   }
 
-  async save (category: RawCategoryPartial): Promise<void> {
+  async save (category: Category): Promise<void> {
     return this.httpAdapter.post(`${env.BASE_URL}${basePath}`, category)
   }
 
-  async delete (categoryId: RawCategory['_id']): Promise<void> {
+  async delete (categoryId: Category['id']): Promise<void> {
     return this.httpAdapter.delete(`${env.BASE_URL}${basePath}/${categoryId}`)
   }
 
-  async update (categoryPayload: RawCategoryPartial): Promise<void> {
-    return this.httpAdapter.patch(`${env.BASE_URL}${basePath}/${categoryPayload._id}`, categoryPayload)
+  async update (categoryPayload: CategoryPartial): Promise<void> {
+    return this.httpAdapter.patch(`${env.BASE_URL}${basePath}/${categoryPayload.id}`, categoryPayload)
   }
 }
 
 export interface Output {
-  data: RawCategory[],
+  data: Category[],
   status: number
 }
