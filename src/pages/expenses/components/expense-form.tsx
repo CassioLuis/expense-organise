@@ -31,7 +31,7 @@ const expenseFormSchema = z.object({
   description: z.string().min(1, {
     message: 'O Campo descrição é obrigatório.'
   }),
-  totalQuota: z.number().positive().int().optional(),
+  totalQuota: z.number().min(0).int().optional(),
   expenseValue: z.number().positive().min(0.01, {
     message: 'O valor deve ser maior que zero'
   })
@@ -77,12 +77,16 @@ export function ExpenseForm () {
   async function onSubmit (data: RawExpenseSend): Promise<void> {
     await saveExpenseUsecase.execute(data, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
     toast({
-      title: 'You submitted the following values:',
+      variant: 'success',
+      title: 'Your expence created successfully. 😍',
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      )
+        <div className="flex items-center">
+          <pre className="mt-2 w-[340px] rounded-md text-slate-950 p-4">
+            <code className="text-slate-950">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        </div>
+      ),
+      duration: 500000
     })
     // form.reset()
   }

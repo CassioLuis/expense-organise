@@ -11,7 +11,7 @@ export function ChangeCategory ({ expense }: { expense: Expense }) {
   const { storeUpdateExpense } = expenseStore()
 
   async function updateCategory (value: string): Promise<void> {
-    const category = categories.find(item => item.name === value) as Category
+    const category = categories.find(item => item.id === value) as Category
     const updatePayload: RawExpenseSend = {
       id: expense.getId(),
       category: category.id
