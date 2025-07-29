@@ -5,6 +5,12 @@ import { jwtDecode } from 'jwt-decode'
 
 type ProtectedRouteProps = PropsWithChildren
 
+interface DecodedToken {
+  exp: number
+  iat: number
+  userId: string
+}
+
 export function ProtectedRoute ({ children }: ProtectedRouteProps) {
   const token = localStorage.getItem('access-token') ?? ''
   const navigate = useNavigate()
@@ -16,7 +22,7 @@ export function ProtectedRoute ({ children }: ProtectedRouteProps) {
     }
 
     try {
-      const decodedToken: { exp: number, iat: number, userId: string } = jwtDecode(token)
+      const decodedToken: DecodedToken = jwtDecode(token)
       if (!decodedToken.userId) {
         navigate('/signin', { replace: true })
       }

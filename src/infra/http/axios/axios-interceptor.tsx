@@ -12,7 +12,6 @@ export default class AxiosInterceptor {
     this.instance = axios.create({
       baseURL: env.BASE_URL || ''
     })
-
     this.instance.interceptors.request.use(
       this.requestInterceptor.bind(this)
     )
