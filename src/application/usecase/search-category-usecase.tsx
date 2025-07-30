@@ -8,21 +8,22 @@ import { Category } from '../entity/category'
 export default class SearchCategories {
 
   constructor (
-    private readonly expenseGateway: CategoryGateway,
+    private readonly categoryGateway: CategoryGateway,
     private readonly toaster: typeof toast
   ) { }
 
   async execute (setStore: CategoryStoreAction['storeSetCategory']): Promise<void> {
     try {
-      const { data } = await this.expenseGateway.getAllByUser()
+      const { data } = await this.categoryGateway.getAllByUser()
       const categoryList: Category[] = []
       data.forEach(item => {
         if (item.name === 'Indefinido') return
-        categoryList.push(new Category(
-          item._id,
-          item.name,
-          item.subCategory
-        ))
+        const { id, name, subCategory }: Category = {
+          id: item._id,
+          name: item.name,
+          subCategory: item.subCategory
+        }
+        categoryList.push(new Category(id, name, subCategory))
       })
       setStore(categoryList)
     } catch (e: any) {

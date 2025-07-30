@@ -4,7 +4,7 @@ import { categoryStore } from '@/infra/store/category-store'
 import { useState } from 'react'
 import { columns } from './components/data-table/columns'
 import { Input } from '@/components/ui/input'
-import { RawCategoryPartial } from '@/application/entity/category'
+import { CategoryPartial } from '@/application/entity/category'
 
 type HTMLInputElementPartial = Partial<React.KeyboardEvent<HTMLInputElement> & React.ChangeEvent<HTMLInputElement>>
 
@@ -12,7 +12,7 @@ export default function Categories () {
   const { saveCategoryUsecase } = useAppDependencies()
   const { storeSetCategory, categories } = categoryStore()
 
-  const [categoryPayload, setCategoryPayload] = useState<RawCategoryPartial>({})
+  const [categoryPayload, setCategoryPayload] = useState<CategoryPartial>({})
 
   async function addCategory (event: HTMLInputElementPartial): Promise<void> {
     if (event.key !== 'Enter') return

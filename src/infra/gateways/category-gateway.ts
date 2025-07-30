@@ -1,6 +1,6 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 import env from '../env'
-import { Category, CategoryPartial } from '@/application/entity/category'
+import { Category, CategoryPartial, RawCategoryReceived } from '@/application/entity/category'
 
 const basePath = '/category'
 
@@ -25,6 +25,6 @@ export default class CategoryGateway {
 }
 
 export interface Output {
-  data: Category[],
+  data: RawCategoryReceived[],
   status: number
 }

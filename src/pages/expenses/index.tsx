@@ -26,35 +26,32 @@ export default function Expenses () {
     totalQuota: 2
   }
 
-  const [startDate, setStartDate] = useState<Date>(new Date())
-  const [endDate, setEndDate] = useState<Date>(new Date())
-
   async function addExpense () {
     await saveExpenseUsecase.execute(expense, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
   }
 
-  let params = {
-    iniDate: Utilities.newUtcDate(startDate!).firtDay,
-    finDate: Utilities.newUtcDate(endDate!).lastDay
-  }
+  const currentFirstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+  const currentLastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+
+  const [iniDate, setStartDate] = useState<Date>(currentFirstDay)
+  const [finDate, setEndDate] = useState<Date>(currentLastDay)
 
   useEffect(() => {
-    params = {
-      iniDate: Utilities.newUtcDate(startDate || new Date()).firtDay,
-      finDate: Utilities.newUtcDate(endDate || new Date()).lastDay
+    const period = {
+      iniDate: Utilities.newUtcDate(iniDate || new Date()).now,
+      finDate: Utilities.newUtcDate(finDate || new Date()).now
     }
     async function searchExpenses () {
-      await searchExpensesUsecase.execute(params, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
+      await searchExpensesUsecase.execute(period, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
     }
     searchExpenses()
-  }, [endDate])
+  }, [finDate])
 
   const onChange = (dates: any) => {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
   }
-
 
   return (
     <div className='container mx-auto space-y-2'>
@@ -63,16 +60,12 @@ export default function Expenses () {
           variant='outline'
           onClick={addExpense}
         >POST</Button>
-        {/* <Button
-          variant='outline'
-          onClick={searchExpenses}
-        >GET</Button> */}
         <AddExpense />
         <DatePicker
           customInput={<CustomInput />}
           selectsRange={true}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={iniDate}
+          endDate={finDate}
           onChange={onChange}
           isClearable={true}
           locale={ptBR}

@@ -18,7 +18,6 @@ export default class UpdateExpense {
     setStore: ExpenseStoreAction['storeUpdateExpense'],
     categories?: Category[]
   ): Promise<void> {
-    console.log(updatePayload)
     try {
       await this.expenseGateway.update(updatePayload)
       if (updatePayload.category && typeof updatePayload.category === 'string') {

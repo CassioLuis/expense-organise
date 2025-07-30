@@ -45,6 +45,7 @@ export default class SearchExpenses {
       setRelevance(data.relevanceBalance)
       setStore(expenseList)
     } catch (e: any) {
+      setStore([] as Expense[])
       this.toaster({
         variant: 'destructive',
         title: e.message,

@@ -31,13 +31,24 @@ export default class AxiosInterceptor {
   }
 
   private async handleResponseError (axiosError: AxiosError): Promise<void | AxiosError> {
-    const { data, status, config } = axiosError.response! as AxiosResponse
-    if (!this.statusCodeError.includes(status as number)) {
-      throw new Error(data.message)
+    if (!axiosError.response) {
+      throw new Error('API Desconectada!')
     }
+
+    const { data, status, config } = axiosError.response as AxiosResponse
+
+    if (status === 404) {
+      throw new Error('Nenhuma despesa encontrada!')
+    }
+
     if (this.statusCodeError.includes(status as number) && config.url === `${this.instance.defaults.baseURL}/auth`) {
       throw new Error(data.message)
     }
+
+    if (!this.statusCodeError.includes(status as number)) {
+      throw new Error(data.message)
+    }
+
     toast({
       variant: 'destructive',
       title: data.message,
