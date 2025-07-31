@@ -86,7 +86,7 @@ export function ExpenseForm () {
           </pre>
         </div>
       ),
-      duration: 500000
+      duration: 2000
     })
     // form.reset()
   }
@@ -129,7 +129,7 @@ export function ExpenseForm () {
                 <FormItem className='flex flex-col'>
                   <FormLabel>Categoria</FormLabel>
                   <CategorySelector
-                    selected={field.value}
+                    selected={categories.find((option) => option.id === field.value)?.name || 'Indefinido'}
                     options={categories}
                     setValue={field.onChange}
                   />

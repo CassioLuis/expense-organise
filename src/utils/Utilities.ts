@@ -34,6 +34,22 @@ export default class Utilities {
     }
   }
 
+  static utcDateToString (date: Date) {
+    return moment.tz(date, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss.SSS')
+  }
+
+  static currentFirstDay (): Date {
+    return moment.tz('America/Sao_Paulo')
+      .startOf('month')
+      .toDate()
+  }
+
+  static currentLastDay (): Date {
+    return moment.tz('America/Sao_Paulo')
+      .endOf('month')
+      .toDate()
+  }
+
   static creteNextQuotas (date: Date, incrementMount: number): Date {
     const newDate = new Date(date)
     newDate.setDate(1)

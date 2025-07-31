@@ -11,17 +11,18 @@ export default function FetchData (): ReactNode {
   const { storeSetCategory, categories } = categoryStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
 
-  const params = {
-    iniDate: Utilities.newUtcDate(new Date()).firtDay,
-    finDate: Utilities.newUtcDate(new Date()).lastDay
-  }
 
   useEffect(() => {
-    const fetchData = async () => {
+    const period = {
+      iniDate: Utilities.newUtcDate(new Date()).firtDay,
+      finDate: Utilities.newUtcDate(new Date()).lastDay
+    }
+    // console.log('fetchData', period)
+    async function fetchData () {
       try {
         const promises = []
         if (!expenses.length) {
-          promises.push(searchExpensesUsecase.execute(params, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance))
+          promises.push(searchExpensesUsecase.execute(period, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance))
         }
         if (!categories.length) {
           promises.push(searchCategoriesUsecase.execute(storeSetCategory))
@@ -31,7 +32,6 @@ export default function FetchData (): ReactNode {
         console.error('Error fetching data:', error)
       }
     }
-
     fetchData()
   }, [])
 

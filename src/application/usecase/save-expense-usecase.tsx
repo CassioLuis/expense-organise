@@ -25,7 +25,6 @@ export default class SaveExpense {
       iniDate: Utilities.newUtcDate(payload.expenseDate!).firtDay,
       finDate: Utilities.newUtcDate(payload.expenseDate!).lastDay
     }
-    console.log(params)
     let hasError = false
     try {
       if (payload.totalQuota! > 1) {

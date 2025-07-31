@@ -30,27 +30,32 @@ export default function Expenses () {
     await saveExpenseUsecase.execute(expense, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
   }
 
-  const currentFirstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-  const currentLastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+  // const currentFirstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+  // const currentLastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
 
-  const [iniDate, setStartDate] = useState<Date>(currentFirstDay)
-  const [finDate, setEndDate] = useState<Date>(currentLastDay)
+  const [iniDate, setStartDate] = useState<Date>(Utilities.currentFirstDay())
+  const [finDate, setEndDate] = useState<Date>(Utilities.currentLastDay())
+  const [shouldFetch, setShouldFetch] = useState(false)
+
+  const period = {
+    iniDate: Utilities.utcDateToString(iniDate),
+    finDate: Utilities.utcDateToString(finDate)
+  }
 
   useEffect(() => {
-    const period = {
-      iniDate: Utilities.newUtcDate(iniDate || new Date()).now,
-      finDate: Utilities.newUtcDate(finDate || new Date()).now
-    }
+    console.log('index', period, finDate)
+    if (!shouldFetch) return
     async function searchExpenses () {
       await searchExpensesUsecase.execute(period, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
     }
     searchExpenses()
-  }, [finDate])
+  }, [iniDate, finDate])
 
-  const onChange = (dates: any) => {
+  function onChange (dates: any) {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
+    setShouldFetch(true)
   }
 
   return (

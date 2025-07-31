@@ -71,48 +71,5 @@ export function CategorySelector ({ selected, options, setValue }: PropsTypes) {
         </Command>
       </PopoverContent>
     </Popover >
-    // <Popover
-    //   open={open}
-    //   onOpenChange={setOpen}
-    // >
-    //   <PopoverTrigger asChild>
-    //     <FormControl>
-    //       <Button
-    //         variant="outline"
-    //         role="combobox"
-    //         className={cn('w-[223px] justify-between', !field.value && 'text-muted-foreground')}
-    //       >
-    //         {field.value ? options.find((option: Category) => option.name === field.value)?.name : 'Categoria'}
-    //         <ChevronsUpDown className="opacity-50" />
-    //       </Button>
-    //     </FormControl>
-    //   </PopoverTrigger>
-    //   <PopoverContent className="w-[223px] p-0">
-    //     <Command>
-    //       <CommandInput
-    //         placeholder="Procurar..."
-    //         className="h-9"
-    //       />
-    //       <CommandList>
-    //         <CommandEmpty>No framework found.</CommandEmpty>
-    //         <CommandGroup>
-    //           {options.map((option: Category) => (
-    //             <CommandItem
-    //               key={option.id}
-    //               value={option.name}
-    //               onSelect={() => {
-    //                 setValue(option.name)
-    //                 setOpen(false)
-    //               }}
-    //             >
-    //               {option.name}
-    //               <Check className={cn('ml-auto', option.name === field.value ? 'opacity-100' : 'opacity-0')} />
-    //             </CommandItem>
-    //           ))}
-    //         </CommandGroup>
-    //       </CommandList>
-    //     </Command>
-    //   </PopoverContent>
-    // </Popover>
   )
 }
