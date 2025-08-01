@@ -21,18 +21,18 @@ export default class SaveExpense {
     setAnaliticStore: AnaliticStoreAction['storeSetAnalitic'],
     setRelevance: AnaliticStoreAction['storeSetRelevanceBalance']
   ): Promise<void> {
-    const params = {
-      iniDate: Utilities.newUtcDate(payload.expenseDate!).firtDay,
-      finDate: Utilities.newUtcDate(payload.expenseDate!).lastDay
+    const period = {
+      iniDate: Utilities.utcDateToString(Utilities.currentFirstDay()),
+      finDate: Utilities.utcDateToString(Utilities.currentLastDay())
     }
     let hasError = false
     try {
       if (payload.totalQuota! > 1) {
         await this.hasQuotaExecute(payload)
-        return this.searchExpensesUsecase.execute(params, setStore, setAnaliticStore, setRelevance)
+        return this.searchExpensesUsecase.execute(period, setStore, setAnaliticStore, setRelevance)
       }
       await this.expenseGateway.save(payload)
-      await this.searchExpensesUsecase.execute(params, setStore, setAnaliticStore, setRelevance)
+      await this.searchExpensesUsecase.execute(period, setStore, setAnaliticStore, setRelevance)
     } catch (e: any) {
       hasError = true
       this.toaster({

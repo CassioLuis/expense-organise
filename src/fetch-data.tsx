@@ -14,10 +14,9 @@ export default function FetchData (): ReactNode {
 
   useEffect(() => {
     const period = {
-      iniDate: Utilities.newUtcDate(new Date()).firtDay,
-      finDate: Utilities.newUtcDate(new Date()).lastDay
+      iniDate: Utilities.utcDateToString(Utilities.currentFirstDay()),
+      finDate: Utilities.utcDateToString(Utilities.currentLastDay())
     }
-    // console.log('fetchData', period)
     async function fetchData () {
       try {
         const promises = []

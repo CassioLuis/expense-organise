@@ -25,15 +25,6 @@ export default class Utilities {
     return moment(date).format(format)
   }
 
-  static newUtcDate (date: Date) {
-    const newDate = moment.tz(date, 'America/Sao_Paulo')
-    return {
-      now: newDate.format('YYYY-MM-DDTHH:mm:ss.SSS'),
-      firtDay: newDate.startOf('month').format('YYYY-MM-DDTHH:mm:ss.SSS'),
-      lastDay: newDate.endOf('month').format('YYYY-MM-DDTHH:mm:ss.SSS')
-    }
-  }
-
   static utcDateToString (date: Date) {
     return moment.tz(date, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss.SSS')
   }
