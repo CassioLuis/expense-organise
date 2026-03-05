@@ -27,7 +27,7 @@ export default function Categories () {
   }
 
   return (
-    <div className='pt-1 container mx-auto space-y-2'>
+    <div className='container mx-auto space-y-2'>
       <Input
         type="text"
         placeholder="Acrescentar categoria..."

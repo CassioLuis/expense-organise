@@ -10,7 +10,7 @@ import { AnaliticStoreAction } from '@/infra/store/analitic-store'
 
 export default class SearchExpenses {
 
-  constructor (
+  constructor(
     private readonly expenseGateway: ExpenseGateway,
     private readonly toaster: typeof toast
   ) { }
@@ -46,6 +46,13 @@ export default class SearchExpenses {
       setStore(expenseList)
     } catch (e: any) {
       setStore([] as Expense[])
+      setAnaliticStore([])
+      setRelevance({
+        Essencial: 0,
+        Eventual: 0,
+        Dispensável: 0,
+        Outro: 0
+      })
       this.toaster({
         variant: 'destructive',
         title: e.message,

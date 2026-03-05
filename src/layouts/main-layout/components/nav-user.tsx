@@ -36,6 +36,13 @@ interface User {
 export function NavUser ({ user }: { user: User }) {
   const { isMobile } = useSidebar()
 
+  const initials = user.name
+    .split(' ')
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+
   function handleLogout () {
     localStorage.removeItem('access-token')
     window.location.assign('/signin')
@@ -50,12 +57,12 @@ export function NavUser ({ user }: { user: User }) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-xl border border-sidebar-border">
                 <AvatarImage
                   src={user.avatar}
                   alt={user.name}
                 />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-xl bg-sidebar-accent text-primary font-bold text-xs">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
@@ -72,12 +79,12 @@ export function NavUser ({ user }: { user: User }) {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="h-8 w-8 rounded-xl border border-primary/30">
                   <AvatarImage
                     src={user.avatar}
                     alt={user.name}
                   />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-xl bg-primary/15 text-primary font-bold text-xs">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -109,7 +116,7 @@ export function NavUser ({ user }: { user: User }) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
-              <LogOut/>
+              <LogOut />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
