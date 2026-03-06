@@ -2,11 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Expense } from '@/application/entity/expense'
 import Utilities from '@/utils/Utilities'
 
-interface SpendingTrendProps {
+interface ChartSpendingTrendProps {
   expenses: Expense[]
 }
 
-export default function SpendingTrend ({ expenses }: SpendingTrendProps) {
+export default function ChartSpendingTrend ({ expenses }: ChartSpendingTrendProps) {
   // Group expenses by day
   const dailyTotals: Record<string, number> = {}
 

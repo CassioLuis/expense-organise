@@ -4,7 +4,8 @@ import { DeleteExpense } from './actions/delete-expense'
 import { ChangeCreditCard } from './actions/change-credit-card'
 import { ChangeCategory } from './actions/change-category'
 import { Button } from '@/components/ui/button'
-import { ArrowUpDown } from 'lucide-react'
+import { ArrowUpDown, CheckCircle2 } from 'lucide-react'
+import { CircularProgress } from '@/components/circular-progress'
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -28,7 +29,30 @@ export const columns: ColumnDef<Expense>[] = [
   {
     accessorKey: 'quota',
     header: () => <div className="text-center">Parcela</div>,
-    cell: ({ row }) => <div className='text-center'>{row.original.getQuota()}</div>
+    cell: ({ row }) => {
+      const quotaStr = row.original.getQuota()
+      const isPending = quotaStr !== '-'
+
+      if (!isPending) {
+        return (
+          <div className="flex justify-center text-primary">
+            <CheckCircle2 className="w-4 h-4" />
+          </div>
+        )
+      }
+
+      const [current, total] = quotaStr.split('/').map(Number)
+      return (
+        <div className="flex justify-center">
+          <CircularProgress
+            value={current}
+            max={total}
+            text={quotaStr}
+            size={28}
+          />
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'expenseValue',

@@ -11,6 +11,8 @@ import Utilities from '@/utils/Utilities'
 import { analiticStore } from '@/infra/store/analitic-store'
 import AddExpense from './components/add-expense'
 import { RawExpenseSend } from '@/application/entity/expense'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Filter, List } from 'lucide-react'
 
 export default function Expenses () {
   const { saveExpenseUsecase, searchExpensesUsecase } = useAppDependencies()
@@ -62,30 +64,59 @@ export default function Expenses () {
   }
 
   return (
-    <div className='container mx-auto space-y-2'>
-      <div className='space-x-2 flex items-center'>
-        <Button
-          variant='outline'
-          onClick={addExpense}
-        >POST</Button>
-        <AddExpense />
-        <DatePicker
-          customInput={<CustomInput />}
-          selectsRange={true}
-          startDate={iniDate}
-          endDate={finDate}
-          onChange={onChange}
-          isClearable={true}
-          locale={ptBR}
-          dateFormat="dd/MM/yyyy"
-          showPopperArrow={false}
-          popperPlacement="bottom-start"
-        />
-      </div>
-      <DataTable
-        columns={columns}
-        data={expenses}
-      />
+    <div className='flex flex-col gap-5 py-4 px-1'>
+      <Card className="bg-card border-border/50 shadow-sm">
+        <CardHeader className="flex flex-row items-center gap-3 pb-3 pt-5 px-6">
+          <div className="p-2.5 rounded-xl bg-primary/15 text-primary">
+            <Filter className="w-4 h-4" />
+          </div>
+          <CardTitle className="text-base font-bold">Filtros e Ações</CardTitle>
+        </CardHeader>
+        <CardContent className="px-6 pb-6">
+          <div className='flex flex-wrap items-center gap-4'>
+            <div className="flex items-center gap-2">
+              <Button
+                variant='outline'
+                onClick={addExpense}
+                className="hover:bg-primary/10 hover:text-primary transition-colors border-border/50"
+              >
+                POST
+              </Button>
+              <AddExpense />
+            </div>
+
+            <div className='flex items-center gap-2 bg-muted/30 border border-border/50 px-3 py-1 pb-1.5 rounded-lg shadow-sm'>
+              <DatePicker
+                customInput={<CustomInput />}
+                selectsRange={true}
+                startDate={iniDate}
+                endDate={finDate}
+                onChange={onChange}
+                isClearable={true}
+                locale={ptBR}
+                dateFormat="dd/MM/yyyy"
+                showPopperArrow={false}
+                popperPlacement="bottom-start"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-card border-border/50 shadow-sm">
+        <CardHeader className="flex flex-row items-center gap-3 pb-3 pt-5 px-6">
+          <div className="p-2.5 rounded-xl bg-primary/15 text-primary">
+            <List className="w-4 h-4" />
+          </div>
+          <CardTitle className="text-base font-bold">Lista de Lançamentos</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 pb-4">
+          <DataTable
+            columns={columns}
+            data={expenses}
+          />
+        </CardContent>
+      </Card>
     </div>
   )
 }

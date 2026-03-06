@@ -5,11 +5,11 @@ import { analiticStore } from '@/infra/store/analitic-store'
 import Utilities from '@/utils/Utilities'
 import { useDateRange } from '@/contexts/DateRangeContext'
 
-import Overview from './components/overview'
-import SpendingTrend from './components/spending-trend'
-import ExpenseCategories from './components/expense-categories'
-import TransactionList from './components/transaction-list'
-import Analitic from './components/analitic'
+import TransactionList from './components/analitic/transaction-list'
+import Analitic from './components/analitic/resume-analitic'
+import Overview from './components/analitic/overview'
+import ChartSpendingTrend from './components/charts/chart-spending-trend'
+import ChartExpenseCategories from './components/charts/chart-expense-categories'
 
 export default function Dashboard () {
   const { searchExpensesUsecase } = useAppDependencies()
@@ -49,8 +49,8 @@ export default function Dashboard () {
       <div className="flex flex-col gap-5">
         {/* Top Row: Charts */}
         <div className="grid gap-5 lg:grid-cols-2">
-          <SpendingTrend expenses={expenses} />
-          <ExpenseCategories expenses={expenses} />
+          <ChartSpendingTrend expenses={expenses} />
+          <ChartExpenseCategories expenses={expenses} />
         </div>
 
         {/* Bottom Row: Transactions & Analytics */}

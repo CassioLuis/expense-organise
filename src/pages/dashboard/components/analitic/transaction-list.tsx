@@ -15,37 +15,7 @@ const categoryColors: Record<string, string> = {
   'Moradia': 'bg-cyan-500/15 text-cyan-500',
 }
 
-const CircularProgress = ({ value, max }: { value: number, max: number }) => {
-  const radius = 5
-  const circumference = 2 * Math.PI * radius
-  const percent = value / max
-  const offset = circumference - percent * circumference
-
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" className="transform -rotate-90 text-yellow-500">
-      <circle
-        cx="7"
-        cy="7"
-        r={radius}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        className="opacity-20"
-      />
-      <circle
-        cx="7"
-        cy="7"
-        r={radius}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeDasharray={circumference}
-        strokeDashoffset={offset}
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
+import { CircularProgress } from '@/components/circular-progress'
 
 function getCategoryColor (name: string): string {
   return categoryColors[name] ?? 'bg-primary/15 text-primary'
@@ -111,10 +81,25 @@ export default function TransactionList ({ expenses }: TransactionListProps) {
                       <div className={`flex items-center justify-end gap-1.5 mt-0.5 text-[10px] font-semibold ${isPending ? 'text-yellow-500' : 'text-primary'
                         }`}>
                         {isPending
-                          ? <CircularProgress value={currentQuota} max={totalQuota} />
-                          : <CheckCircle2 className="w-3 h-3" />
+                          ? (
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[9px] uppercase tracking-wider">Parcela</span>
+                              <CircularProgress
+                                value={currentQuota}
+                                max={totalQuota}
+                                text={expense.quota}
+                                size={22}
+                                strokeWidth={2.5}
+                              />
+                            </div>
+                          )
+                          : (
+                            <div className="flex items-center gap-1.5">
+                              <CheckCircle2 className="w-3" />
+                              <span>Concluído</span>
+                            </div>
+                          )
                         }
-                        {isPending ? `Parcela ${expense.quota}` : 'Concluído'}
                       </div>
                     </div>
                   </div>
