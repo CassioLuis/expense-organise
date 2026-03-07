@@ -7,7 +7,7 @@ import { RelevanceBalance } from '@/application/entity/category'
 const basePath = '/expenses'
 
 export default class ExpenseGateway {
-  constructor (private readonly httpAdapter: HttpAdapter) { }
+  constructor(private readonly httpAdapter: HttpAdapter) { }
 
   async getByDateInterval (params: GetExpensesParams): Promise<Output> {
     const url = new URLSearchParams(Object.entries(params))
@@ -25,6 +25,14 @@ export default class ExpenseGateway {
   async update (expense: RawExpenseSend): Promise<void> {
     return this.httpAdapter.patch(`${env.BASE_URL}${basePath}/${expense.id}`, expense)
   }
+
+  async importCsv (file: File, bankType: string = 'nubank'): Promise<ImportCsvResult> {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('bankType', bankType)
+    const response = await this.httpAdapter.postForm(`${env.BASE_URL}${basePath}/import`, formData)
+    return response.data
+  }
 }
 
 export interface Output {
@@ -39,4 +47,16 @@ export interface Output {
 export interface GetExpensesParams {
   iniDate: string
   finDate: string
+}
+
+export interface ImportCsvResult {
+  imported: number
+  skipped: {
+    count: number
+    items: { description: string; reason: string }[]
+  }
+  duplicates: {
+    count: number
+    items: { description: string; expenseDate: string; expenseValue: number; quota: number; totalQuota: number; reason: string }[]
+  }
 }

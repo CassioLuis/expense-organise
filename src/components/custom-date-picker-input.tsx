@@ -1,6 +1,4 @@
 import { forwardRef } from 'react'
-import { Button } from './ui/button'
-import { LucideCalendar } from 'lucide-react'
 
 interface CustomInputProps {
   value?: string
@@ -8,14 +6,14 @@ interface CustomInputProps {
 }
 
 const CustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(({ value, onClick }, ref) => (
-  <Button
-    className='border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 w-[250px] justify-start font-normal text-muted-foreground'
+  <button
+    className='text-xs font-medium text-foreground cursor-pointer hover:text-primary transition-colors bg-transparent border-none outline-none text-center min-w-[90px] capitalize'
     onClick={onClick}
     ref={ref}
+    type='button'
   >
-    <LucideCalendar className='mr-2 h-4 w-4' />
-    <span>{value}</span>
-  </Button>
+    {value}
+  </button>
 ))
 
 CustomInput.displayName = 'CustomInput'

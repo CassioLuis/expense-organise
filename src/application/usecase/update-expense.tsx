@@ -3,12 +3,14 @@ import { toast } from '@/hooks/use-toast'
 import { ExpenseGateway } from '@/infra/gateways'
 import Utilities from '@/utils/Utilities'
 import { ExpenseStoreAction } from '@/infra/store/expense-store'
-import { RawExpenseSend } from '@/application/entity/expense'
+import { Expense, RawExpenseSend } from '@/application/entity/expense'
 import { Category } from '@/application/entity/category'
+
+const DEFAULT_CATEGORY_NAME = 'Indefinido'
 
 export default class UpdateExpense {
 
-  constructor (
+  constructor(
     private readonly expenseGateway: ExpenseGateway,
     private readonly toaster: typeof toast
   ) { }
@@ -16,15 +18,44 @@ export default class UpdateExpense {
   async execute (
     updatePayload: RawExpenseSend,
     setStore: ExpenseStoreAction['storeUpdateExpense'],
-    categories?: Category[]
+    categories?: Category[],
+    allExpenses?: Expense[],
+    setAllExpenses?: ExpenseStoreAction['storeSetExpenses']
   ): Promise<void> {
     try {
       await this.expenseGateway.update(updatePayload)
+
+      let resolvedCategory: Category | undefined
+
       if (updatePayload.category && typeof updatePayload.category === 'string') {
-        const category = categories?.find(item => item.id === updatePayload.category) as Category
-        return setStore({ ...updatePayload, category })
+        resolvedCategory = categories?.find(item => item.id === updatePayload.category) as Category
+        setStore({ ...updatePayload, category: resolvedCategory })
+      } else {
+        setStore(updatePayload)
       }
-      setStore(updatePayload)
+
+      // Propagate category to all expenses with same description and default category
+      if (resolvedCategory && allExpenses && setAllExpenses && updatePayload.id) {
+        const updatedExpense = allExpenses.find(e => e.getId() === updatePayload.id)
+        if (updatedExpense) {
+          const description = updatedExpense.description
+          const updatedExpenses = allExpenses.map(exp => {
+            if (exp.getId() === updatePayload.id) {
+              // Already updated via setStore
+              return Object.assign(exp, { ...updatePayload, category: resolvedCategory })
+            }
+            // Propagate to same-description expenses with default category
+            if (
+              exp.description === description &&
+              exp.getCategoryName() === DEFAULT_CATEGORY_NAME
+            ) {
+              return Object.assign(exp, { category: resolvedCategory })
+            }
+            return exp
+          })
+          setAllExpenses(updatedExpenses)
+        }
+      }
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

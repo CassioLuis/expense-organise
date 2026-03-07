@@ -8,7 +8,7 @@ import { CategorySelector } from '../../category-selector'
 export function ChangeCategory ({ expense }: { expense: Expense }) {
   const { categories } = categoryStore()
   const { updateExpenseUsecase } = useAppDependencies()
-  const { storeUpdateExpense } = expenseStore()
+  const { storeUpdateExpense, expenses, storeSetExpenses } = expenseStore()
 
   async function updateCategory (value: string): Promise<void> {
     const category = categories.find(item => item.id === value) as Category
@@ -17,7 +17,7 @@ export function ChangeCategory ({ expense }: { expense: Expense }) {
       category: category.id
     }
     try {
-      await updateExpenseUsecase.execute(updatePayload, storeUpdateExpense, categories)
+      await updateExpenseUsecase.execute(updatePayload, storeUpdateExpense, categories, expenses, storeSetExpenses)
     } catch (e: any) {
       console.log(e)
     }

@@ -2,13 +2,13 @@ import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/hooks/use-toast'
 import env from '@/infra/env'
 import Utilities from '@/utils/Utilities'
-import axios, { AxiosError, AxiosHeaders, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export default class AxiosInterceptor {
   private instance!: AxiosInstance
   private statusCodeError: number[] = [401, 403]
 
-  constructor () {
+  constructor() {
     this.instance = axios.create({
       baseURL: env.BASE_URL || ''
     })
@@ -22,7 +22,14 @@ export default class AxiosInterceptor {
   }
 
   private requestInterceptor (request: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-    Object.assign(request.headers, this.setHeaders())
+    const token = localStorage.getItem('access-token')
+    if (token) {
+      request.headers.set('authorization', `Bearer ${token}`)
+    }
+    // Don't override Content-Type for FormData — let Axios set multipart/form-data with boundary
+    if (!(request.data instanceof FormData)) {
+      request.headers.set('Content-Type', 'application/json')
+    }
     return request
   }
 
@@ -59,15 +66,6 @@ export default class AxiosInterceptor {
     })
     await Utilities.sleep(1000)
     throw window.location.assign('/signin')
-  }
-
-  private setHeaders (): AxiosHeaders {
-    const token = localStorage.getItem('access-token')
-    if (!token) return new AxiosHeaders()
-    return new AxiosHeaders({
-      authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    })
   }
 
   public getInstance () {

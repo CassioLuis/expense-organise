@@ -2,7 +2,7 @@ import { Axios } from 'axios'
 import HttpAdapter from '../http-adapter'
 
 export default class AxiosAdapter implements HttpAdapter {
-  constructor (private readonly axiosInstance: Axios) { }
+  constructor(private readonly axiosInstance: Axios) { }
 
   async get (url: string, body: any): Promise<any> {
     try {
@@ -19,6 +19,18 @@ export default class AxiosAdapter implements HttpAdapter {
   async post (url: string, body: object): Promise<any> {
     try {
       const { data, status } = await this.axiosInstance.post(url, body)
+      return {
+        data,
+        status
+      }
+    } catch (error: any) {
+      throw new Error(error.message)
+    }
+  }
+
+  async postForm (url: string, formData: FormData): Promise<any> {
+    try {
+      const { data, status } = await this.axiosInstance.postForm(url, formData)
       return {
         data,
         status
