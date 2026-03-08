@@ -21,7 +21,8 @@ import Utilities from '@/utils/Utilities'
 const pageTitles: Record<string, string> = {
   '/': 'Dashboard',
   '/despesas': 'Lançamento',
-  '/categorias': 'Categorias'
+  '/categorias': 'Categorias',
+  '/metas': 'Metas por Categoria'
 }
 
 export default function MainLayout () {
@@ -74,12 +75,13 @@ export default function MainLayout () {
     }
   }
 
+
   return (
     <SidebarProvider>
       <AppSidebar className="rounded-r-xl" />
-      <SidebarInset className="md:rounded-tl-xl overflow-hidden bg-background">
+      <SidebarInset className="md:rounded-tl-xl overflow-y-auto bg-background relative flex flex-col h-screen">
         <header
-          className="flex justify-between h-14 shrink-0 items-center gap-2 px-4 border-b border-border/40 bg-background transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 select-none"
+          className="sticky top-0 z-50 flex justify-between h-14 shrink-0 items-center gap-2 px-4 border-b border-border/40 bg-background/70 backdrop-blur-md transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 select-none"
         >
           <div className="flex items-center gap-3">
             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground" />
@@ -149,7 +151,7 @@ export default function MainLayout () {
             <ChangeTheme />
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 break-words overflow-auto max-h-[calc(98svh-3.5rem)]">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 break-words">
           <Outlet />
         </div>
       </SidebarInset>

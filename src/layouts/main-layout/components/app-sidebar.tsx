@@ -7,7 +7,8 @@ import {
   BarChart3,
   Settings,
   TrendingUp,
-  Zap
+  Zap,
+  Target
 } from 'lucide-react'
 import {
   Sidebar,
@@ -27,6 +28,7 @@ const navItems = [
   { title: 'Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'Lançamento', url: '/despesas', icon: ArrowLeftRight },
   { title: 'Categorias', url: '/categorias', icon: PieChart },
+  { title: 'Metas', url: '/metas', icon: Target },
   { title: 'Contas', url: '#', icon: Wallet, disabled: true },
   { title: 'Relatórios', url: '#', icon: BarChart3, disabled: true },
   { title: 'Configurações', url: '#', icon: Settings, disabled: true }

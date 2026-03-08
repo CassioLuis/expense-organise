@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import DatePicker from 'react-datepicker'
 import { ptBR } from 'date-fns/locale/pt-BR'
 import { columns } from '@/pages/expenses/components/data-table/columns'
@@ -12,12 +12,14 @@ import { analiticStore } from '@/infra/store/analitic-store'
 import AddExpense from './components/add-expense'
 import { RawExpenseSend } from '@/application/entity/expense'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Filter, List } from 'lucide-react'
+import { Filter, List, Upload, Loader2 } from 'lucide-react'
 
 export default function Expenses () {
-  const { saveExpenseUsecase, searchExpensesUsecase } = useAppDependencies()
+  const { saveExpenseUsecase, searchExpensesUsecase, importCsvUsecase } = useAppDependencies()
   const { storeSetExpenses, expenses } = expenseStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isImporting, setIsImporting] = useState(false)
 
   const expense: RawExpenseSend = {
     expenseDate: new Date(),
@@ -39,6 +41,19 @@ export default function Expenses () {
   const period = {
     iniDate: Utilities.utcDateToString(iniDate),
     finDate: Utilities.utcDateToString(finDate)
+  }
+
+  async function handleFileChange (e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsImporting(true)
+    try {
+      await importCsvUsecase.execute(file, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance, period)
+    } finally {
+      setIsImporting(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
   }
 
   useEffect(() => {
@@ -98,6 +113,29 @@ export default function Expenses () {
                 showPopperArrow={false}
                 popperPlacement="bottom-start"
               />
+            </div>
+
+            <div className="flex items-center gap-2 ml-auto">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isImporting}
+                className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg border border-border/50 shadow-sm text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                title="Importar extrato CSV"
+              >
+                {isImporting ? (
+                  <Loader2 className='w-4 h-4 animate-spin' />
+                ) : (
+                  <Upload className='w-4 h-4' />
+                )}
+                {isImporting ? 'Importando...' : 'Importar CSV'}
+              </button>
             </div>
           </div>
         </CardContent>

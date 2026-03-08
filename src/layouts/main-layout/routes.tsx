@@ -1,4 +1,5 @@
 import { Dashboard, ErrorPage, Categories } from '@/pages'
+import GoalsPage from '@/pages/goals'
 import MainLayout from '.'
 import { ProtectedRoute } from '@/protected-route'
 import Expenses from '@/pages/expenses'
@@ -28,6 +29,11 @@ export default {
       path: '/categorias',
       title: 'Categorias',
       element: <Categories />
+    },
+    {
+      path: '/metas',
+      title: 'Metas',
+      element: <GoalsPage />
     }
   ]
 }

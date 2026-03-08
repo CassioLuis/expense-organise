@@ -35,7 +35,7 @@ export default function Dashboard () {
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
   const { iniDate, finDate } = useDateRange()
   const [previousMonthSpent, setPreviousMonthSpent] = useState(0)
-  const [monthlyTotals, setMonthlyTotals] = useState<MonthlyTotal[]>([])
+  const [_, setMonthlyTotals] = useState<MonthlyTotal[]>([])
   const [monthlyDailyData, setMonthlyDailyData] = useState<MonthlyDailyData[]>([])
   const [previousMonthAnalitic, setPreviousMonthAnalitic] = useState<AnaliticType[]>([])
 
@@ -116,30 +116,26 @@ export default function Dashboard () {
   }, 0)
 
   return (
-    <div className='flex flex-col gap-5 py-4 px-1'>
+    <div className='flex flex-col gap-4 py-4 px-1'>
 
       {/* Overview KPI row */}
       <Overview
         totalSpent={totalSpent}
         previousMonthSpent={previousMonthSpent}
-        currentDate={iniDate}
         userName="Cassio Luis"
       />
 
       {/* Main content area */}
-      <div className="flex flex-col gap-5">
-        {/* Top Row: Charts */}
-        <div className="grid gap-5 lg:grid-cols-2">
-          <ChartSpendingTrend monthlyDailyData={monthlyDailyData} />
+      <div className="grid gap-4 lg:grid-cols-3">
+        {/* Left Column (Spans 2/3) — Charts & Transactions */}
+        <div className="lg:col-span-2 flex flex-col gap-4">
           <ChartExpenseCategories expenses={expenses} />
+          <ChartSpendingTrend monthlyDailyData={monthlyDailyData} />
+          <TransactionList expenses={expenses} />
         </div>
 
-        {/* Bottom Row: Transactions & Analytics */}
-        <div className="grid gap-5 lg:grid-cols-3">
-          <div className="lg:col-span-2 h-full">
-            <TransactionList expenses={expenses} />
-          </div>
-          <div className="h-full">
+        <div className="flex flex-col h-full relative">
+          <div className="sticky top-5 flex-1">
             <Analitic previousMonthAnalitic={previousMonthAnalitic} />
           </div>
         </div>
