@@ -6,6 +6,7 @@ import SearchExpenses from '@/application/usecase/search-expenses-usecase'
 import { toast } from '@/hooks/use-toast'
 import Signin from '@/application/usecase/signin-usecase'
 import GoogleSignin from '@/application/usecase/google-signin-usecase'
+import Signout from '@/application/usecase/signout-usecase'
 import SaveExpense from '@/application/usecase/save-expense-usecase'
 import DeleteExpense from '@/application/usecase/delete-expense-usecase'
 import UpdateExpense from '@/application/usecase/update-expense'
@@ -26,6 +27,7 @@ const categoriesGateway = new CategoryGateway(httpAdapter)
 const searchExpensesUsecase = new SearchExpenses(expenseGateway, toast)
 const signinUsecase = new Signin(authGateway, toast)
 const googleSigninUsecase = new GoogleSignin(authGateway, toast)
+const signoutUsecase = new Signout(authGateway, toast)
 const saveExpenseUsecase = new SaveExpense(expenseGateway, searchExpensesUsecase, toast)
 const deleteExpenseUsecase = new DeleteExpense(expenseGateway, toast)
 const updateExpenseUsecase = new UpdateExpense(expenseGateway, toast)
@@ -38,6 +40,7 @@ const importCsvUsecase = new ImportCsv(expenseGateway, searchExpensesUsecase, to
 const dependencies = {
   signinUsecase,
   googleSigninUsecase,
+  signoutUsecase,
   searchExpensesUsecase,
   saveExpenseUsecase,
   deleteExpenseUsecase,

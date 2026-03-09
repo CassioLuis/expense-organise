@@ -10,11 +10,14 @@ export default class AuthGateway {
   async googleSignin (credential: string): Promise<Session> {
     return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}/auth/google`, { credential })
   }
+
+  async logout (): Promise<void> {
+    return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {})
+  }
 }
 
 export interface Session {
   data: {
-    token: string
     name?: string
     lastName?: string
     email?: string
