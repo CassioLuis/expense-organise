@@ -120,7 +120,7 @@ export default function GoalsPage () {
 
         {/* The Grid mapping the defined categories */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-6 pb-24 animate-in fade-in duration-500">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-6 pb-24">
             {Array.from({ length: 8 }).map((_, i) => (
               <Card key={i} className="bg-card w-full h-[220px] shadow-sm">
                 <CardContent className="h-full flex flex-col p-6 gap-6 justify-between">
@@ -140,7 +140,7 @@ export default function GoalsPage () {
             ))}
           </div>
         ) : (
-          <div className="animate-in fade-in duration-700">
+          <div>
             <GoalsGrid />
           </div>
         )}

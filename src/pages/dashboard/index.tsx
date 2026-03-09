@@ -143,7 +143,7 @@ export default function Dashboard () {
       </div>
 
       {isLoading ? (
-        <div className="animate-in fade-in duration-500">
+        <>
           {/* Skeleton for AnaliticCards */}
           <div className="grid gap-4 md:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
@@ -163,16 +163,16 @@ export default function Dashboard () {
               </div>
             </div>
           </div>
-        </div>
+        </>
       ) : (
-        <div className="animate-in fade-in duration-700">
+        <>
           {/* Main content area */}
           <AnaliticCards
             totalSpent={totalSpent}
             previousMonthSpent={previousMonthSpent}
           />
 
-          <div className="grid gap-4 lg:grid-cols-3 mt-4">
+          <div className="grid gap-4 lg:grid-cols-3">
             {/* Left Column (Spans 2/3) — Charts & Transactions */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <ChartExpenseCategories expenses={expenses} />
@@ -186,7 +186,7 @@ export default function Dashboard () {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div >
   )
