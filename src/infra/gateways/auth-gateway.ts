@@ -1,15 +1,14 @@
 import HttpAdapter from '@/infra/http/http-adapter'
-import env from '../env'
 
 export default class AuthGateway {
-  constructor (private readonly httpAdapter: HttpAdapter) { }
+  constructor(private readonly httpAdapter: HttpAdapter) { }
 
   async signin (credentials: object): Promise<Session> {
-    return this.httpAdapter.post(`${env.BASE_URL}/auth`, credentials)
+    return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}/auth`, credentials)
   }
 
   async googleSignin (credential: string): Promise<Session> {
-    return this.httpAdapter.post(`${env.BASE_URL}/auth/google`, { credential })
+    return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}/auth/google`, { credential })
   }
 }
 

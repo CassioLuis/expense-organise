@@ -1,5 +1,4 @@
 import HttpAdapter from '@/infra/http/http-adapter'
-import env from '../env'
 import { Expense, RawExpenseReceived, RawExpenseSend } from '@/application/entity/expense'
 import { Analitic } from '@/application/entity/analitic'
 import { RelevanceBalance } from '@/application/entity/category'
@@ -7,30 +6,30 @@ import { RelevanceBalance } from '@/application/entity/category'
 const basePath = '/expenses'
 
 export default class ExpenseGateway {
-  constructor (private readonly httpAdapter: HttpAdapter) { }
+  constructor(private readonly httpAdapter: HttpAdapter) { }
 
   async getByDateInterval (params: GetExpensesParams): Promise<Output> {
     const url = new URLSearchParams(Object.entries(params))
-    return this.httpAdapter.get(`${env.BASE_URL}${basePath}/analitic?${url.toString()}`)
+    return this.httpAdapter.get(`${import.meta.env.VITE_API_URL}${basePath}/analitic?${url.toString()}`)
   }
 
   async save (expense: RawExpenseSend): Promise<void> {
-    return this.httpAdapter.post(`${env.BASE_URL}${basePath}`, expense)
+    return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}${basePath}`, expense)
   }
 
   async delete (expenseId: Expense['id']): Promise<void> {
-    return this.httpAdapter.delete(`${env.BASE_URL}${basePath}/${expenseId}`)
+    return this.httpAdapter.delete(`${import.meta.env.VITE_API_URL}${basePath}/${expenseId}`)
   }
 
   async update (expense: RawExpenseSend): Promise<void> {
-    return this.httpAdapter.patch(`${env.BASE_URL}${basePath}/${expense.id}`, expense)
+    return this.httpAdapter.patch(`${import.meta.env.VITE_API_URL}${basePath}/${expense.id}`, expense)
   }
 
   async importCsv (file: File, bankType: string = 'nubank'): Promise<ImportCsvResult> {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('bankType', bankType)
-    const response = await this.httpAdapter.postForm(`${env.BASE_URL}${basePath}/import`, formData)
+    const response = await this.httpAdapter.postForm(`${import.meta.env.VITE_API_URL}${basePath}/import`, formData)
     return response.data
   }
 }

@@ -1,6 +1,5 @@
 import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/hooks/use-toast'
-import env from '@/infra/env'
 import Utilities from '@/utils/Utilities'
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
@@ -8,9 +7,9 @@ export default class AxiosInterceptor {
   private instance!: AxiosInstance
   private statusCodeError: number[] = [401, 403]
 
-  constructor () {
+  constructor() {
     this.instance = axios.create({
-      baseURL: env.BASE_URL || ''
+      baseURL: import.meta.env.VITE_API_URL || ''
     })
     this.instance.interceptors.request.use(
       this.requestInterceptor.bind(this)
