@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { Goal } from '@/application/entity/goal'
-import { goalGateway } from '../gateway/goal-gateway'
+import { goalGateway } from '../gateways/goal-gateway'
 
 interface GoalState {
   goals: Goal[]

@@ -4,7 +4,7 @@ import { Category, CategoryPartial, RawCategoryReceived } from '@/application/en
 const basePath = '/category'
 
 export default class CategoryGateway {
-  constructor(private readonly httpAdapter: HttpAdapter) { }
+  constructor (private readonly httpAdapter: HttpAdapter) { }
 
   async getAllByUser (): Promise<Output> {
     return this.httpAdapter.get(`${import.meta.env.VITE_API_URL}${basePath}`)

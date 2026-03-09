@@ -1,6 +1,7 @@
 import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/hooks/use-toast'
 import Utilities from '@/utils/Utilities'
+import { router } from '@/protected-route'
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export default class AxiosInterceptor {
@@ -22,10 +23,11 @@ export default class AxiosInterceptor {
 
   private requestInterceptor (request: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const token = localStorage.getItem('access-token')
-    if (token) {
-      request.headers.set('authorization', `Bearer ${token}`)
+    if (!token && !request.url!.includes('/auth')) {
+      router.navigate('/signin')
+      throw new axios.Cancel('Usuário não autenticado.')
     }
-    // Don't override Content-Type for FormData — let Axios set multipart/form-data with boundary
+    request.headers.set('authorization', `Bearer ${token}`)
     if (!(request.data instanceof FormData)) {
       request.headers.set('Content-Type', 'application/json')
     }
@@ -38,13 +40,13 @@ export default class AxiosInterceptor {
 
   private async handleResponseError (axiosError: AxiosError): Promise<void | AxiosError> {
     if (!axiosError.response) {
-      throw new Error('API Desconectada!')
+      throw new Error(axiosError.message)
     }
 
     const { data, status, config } = axiosError.response as AxiosResponse
 
     if (status === 404) {
-      throw new Error('Nenhuma despesa encontrada!')
+      throw new Error(axiosError.message)
     }
 
     if (this.statusCodeError.includes(status as number) && config.url === `${this.instance.defaults.baseURL}/auth`) {
@@ -64,7 +66,8 @@ export default class AxiosInterceptor {
       )
     })
     await Utilities.sleep(1000)
-    throw window.location.assign('/signin')
+    router.navigate('/signin')
+    throw axiosError
   }
 
   public getInstance () {

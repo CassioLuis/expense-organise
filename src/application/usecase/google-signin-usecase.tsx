@@ -2,6 +2,7 @@ import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/hooks/use-toast'
 import { AuthGateway } from '@/infra/gateways'
 import Utilities from '@/utils/Utilities'
+import { router } from '@/protected-route'
 
 export default class GoogleSignin {
 
@@ -14,7 +15,7 @@ export default class GoogleSignin {
     try {
       const { data } = await this.authGateway.googleSignin(credential)
       localStorage.setItem('access-token', data.token)
-      window.location.assign('/')
+      router.navigate('/')
     } catch (e: any) {
       this.toaster({
         variant: 'destructive',

@@ -1,7 +1,7 @@
 import HttpAdapter from '@/infra/http/http-adapter'
 
 export default class AuthGateway {
-  constructor(private readonly httpAdapter: HttpAdapter) { }
+  constructor (private readonly httpAdapter: HttpAdapter) { }
 
   async signin (credentials: object): Promise<Session> {
     return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}/auth`, credentials)

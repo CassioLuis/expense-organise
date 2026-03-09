@@ -26,6 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
+import { useNavigate } from 'react-router'
 
 interface User {
   name: string
@@ -35,6 +36,7 @@ interface User {
 
 export function NavUser ({ user }: { user: User }) {
   const { isMobile } = useSidebar()
+  const navigate = useNavigate()
 
   const initials = user.name
     .split(' ')
@@ -45,7 +47,7 @@ export function NavUser ({ user }: { user: User }) {
 
   function handleLogout () {
     localStorage.removeItem('access-token')
-    window.location.assign('/signin')
+    navigate('/signin')
   }
 
   return (
