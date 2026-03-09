@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/sidebar'
 import { NavUser } from './nav-user'
 import { useLocation, Link } from 'react-router'
+import { userStore } from '@/infra/store/user-store'
 
 const navItems = [
   { title: 'Dashboard', url: '/', icon: LayoutDashboard },
@@ -34,14 +35,15 @@ const navItems = [
   { title: 'Configurações', url: '#', icon: Settings, disabled: true }
 ]
 
-const user = {
-  name: 'Cassio Luis',
-  email: 'alex@finflow.com',
-  avatar: ''
-}
-
 export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation()
+  const { name, lastName, email } = userStore()
+
+  const user = {
+    name: name ? `${name} ${lastName}` : 'Usuário',
+    email: email ? email : '',
+    avatar: ''
+  }
 
   return (
     <Sidebar
@@ -88,9 +90,9 @@ export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) 
                     className={`
                       group relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
                       ${isActive
-                  ? 'bg-sidebar-accent text-primary border border-sidebar-border'
-                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border border-transparent'
-                }
+                        ? 'bg-sidebar-accent text-primary border border-sidebar-border'
+                        : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border border-transparent'
+                      }
                       ${item.disabled ? 'opacity-40 pointer-events-none' : ''}
                     `}
                   >

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
 import { analiticStore } from '@/infra/store/analitic-store'
+import { userStore } from '@/infra/store/user-store'
 import Utilities from '@/utils/Utilities'
 import { useDateRange } from '@/contexts/DateRangeContext'
 import dayjs from 'dayjs'
@@ -40,6 +41,7 @@ export default function Dashboard () {
   const { searchExpensesUsecase, expenseGateway } = useAppDependencies()
   const { expenses, storeSetExpenses } = expenseStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
+  const { name, lastName } = userStore()
   const { iniDate, finDate } = useDateRange()
   const [previousMonthSpent, setPreviousMonthSpent] = useState(0)
   const [_, setMonthlyTotals] = useState<MonthlyTotal[]>([])
@@ -125,7 +127,7 @@ export default function Dashboard () {
     return acc + (isNaN(value) ? 0 : value)
   }, 0)
 
-  const userName = 'Cassio Luis'
+  const userName = name ? `${name} ${lastName}` : 'Usuário'
   const isOptimal = (totalSpent - previousMonthSpent) <= 0
 
   return (

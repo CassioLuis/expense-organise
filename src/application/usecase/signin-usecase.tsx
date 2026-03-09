@@ -3,6 +3,7 @@ import { toast } from '@/hooks/use-toast'
 import { AuthGateway } from '@/infra/gateways'
 import Utilities from '@/utils/Utilities'
 import { router } from '@/protected-route'
+import { userStore } from '@/infra/store/user-store'
 
 export default class Signin {
 
@@ -15,6 +16,7 @@ export default class Signin {
     try {
       const { data } = await this.authGateway.signin(credentials)
       localStorage.setItem('access-token', data.token)
+      userStore.getState().setUser(data.token, data.name, data.lastName, data.email)
       router.navigate('/')
     } catch (e: any) {
       console.log(e)
