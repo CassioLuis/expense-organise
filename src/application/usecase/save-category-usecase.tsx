@@ -2,21 +2,21 @@ import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/hooks/use-toast'
 import Utilities from '@/utils/Utilities'
 import CategoryGateway from '@/infra/gateways/category-gateway'
-import { RawCategoryPartial } from '../entity/category'
+import { Category, CategoryPartial } from '../entity/category'
 import { CategoryStoreAction } from '@/infra/store/category-store'
 import SearchCategories from './search-category-usecase'
 
 export default class SaveCategory {
 
-  constructor (
+  constructor(
     private readonly categoryGateway: CategoryGateway,
     private readonly SearchCategoriesUsecase: SearchCategories,
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (payload: RawCategoryPartial, setStore: CategoryStoreAction['storeSetCategory']): Promise<void> {
+  async execute (payload: CategoryPartial, setStore: CategoryStoreAction['storeSetCategory']): Promise<void> {
     try {
-      await this.categoryGateway.save(payload)
+      await this.categoryGateway.save(payload as Category)
       await this.SearchCategoriesUsecase.execute(setStore)
     } catch (e: any) {
       this.toaster({
