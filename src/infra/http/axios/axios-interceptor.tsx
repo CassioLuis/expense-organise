@@ -10,7 +10,8 @@ export default class AxiosInterceptor {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: import.meta.env.VITE_API_URL || ''
+      baseURL: import.meta.env.VITE_API_URL || '',
+      withCredentials: true
     })
     this.instance.interceptors.request.use(
       this.requestInterceptor.bind(this)
@@ -22,12 +23,11 @@ export default class AxiosInterceptor {
   }
 
   private requestInterceptor (request: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-    const token = localStorage.getItem('access-token')
-    if (!token && !request.url!.includes('/auth')) {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true'
+    if (!isAuthenticated && !request.url!.includes('/auth')) {
       router.navigate('/signin')
       throw new axios.Cancel('Usuário não autenticado.')
     }
-    request.headers.set('authorization', `Bearer ${token}`)
     if (!(request.data instanceof FormData)) {
       request.headers.set('Content-Type', 'application/json')
     }
@@ -66,6 +66,7 @@ export default class AxiosInterceptor {
       )
     })
     await Utilities.sleep(1000)
+    localStorage.removeItem('isAuthenticated')
     router.navigate('/signin')
     throw axiosError
   }

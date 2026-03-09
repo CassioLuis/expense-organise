@@ -26,7 +26,8 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { useNavigate } from 'react-router'
+import { GlobalContext } from '@/context/global-context-provider'
+import { useContext } from 'react'
 
 interface User {
   name: string
@@ -36,7 +37,7 @@ interface User {
 
 export function NavUser ({ user }: { user: User }) {
   const { isMobile } = useSidebar()
-  const navigate = useNavigate()
+  const { signoutUsecase } = useContext(GlobalContext)
 
   const initials = user.name
     .split(' ')
@@ -45,9 +46,8 @@ export function NavUser ({ user }: { user: User }) {
     .join('')
     .toUpperCase()
 
-  function handleLogout () {
-    localStorage.removeItem('access-token')
-    navigate('/signin')
+  async function handleLogout () {
+    await signoutUsecase.execute()
   }
 
   return (
