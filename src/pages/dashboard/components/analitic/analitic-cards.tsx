@@ -2,13 +2,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import Utilities from '@/utils/Utilities'
 import { TrendingUp, TrendingDown, Info, Wallet, Percent } from 'lucide-react'
 
-interface OverviewProps {
+interface AnaliticCardsProps {
   totalSpent: number
   previousMonthSpent: number
-  userName?: string
 }
 
-export default function Overview ({ totalSpent, previousMonthSpent, userName = 'Cassio Luis' }: OverviewProps) {
+export default function AnaliticCards ({ totalSpent, previousMonthSpent }: AnaliticCardsProps) {
   const diff = totalSpent - previousMonthSpent
   const percentChange = previousMonthSpent !== 0 ? (diff / previousMonthSpent) * 100 : 0
   const isOptimal = diff <= 0
@@ -26,17 +25,6 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
 
   return (
     <div className="space-y-4">
-      {/* Welcome header */}
-      <div className="pt-2 mb-2">
-        <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
-        <p className="text-muted-foreground text-sm mt-0.5">
-          Bem-vindo de volta, <span className="text-primary font-semibold">{userName}</span>!
-          {isOptimal
-            ? ' Sua saúde financeira está melhorando.'
-            : ' Aqui está o que está acontecendo hoje.'}
-        </p>
-      </div>
-
       {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-3">
         {/* Card 1 — Resultado Parcial (Inspired by design print) */}
@@ -58,7 +46,7 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
                 <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-semibold ${isOptimal
                   ? 'bg-emerald-500/10 text-emerald-500'
                   : 'bg-rose-500/10 text-rose-500'
-                }`}
+                  }`}
                 >
                   {isOptimal ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
                   {percentChange > 0 ? '+' : ''}{percentChange.toFixed(1)}%
@@ -115,7 +103,7 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
                 </div>
               </div>
               <p className={`text-3xl font-normal tracking-tight mb-4 ${totalSpent > hardcodedIncome ? 'text-rose-500' : 'text-foreground'
-              }`}
+                }`}
               >
                 {totalSpent > hardcodedIncome
                   ? `-${((totalSpent - hardcodedIncome) / hardcodedIncome * 100).toFixed(1)}%`
@@ -133,7 +121,7 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
                     : incomeSpentRatio > 80
                       ? 'bg-amber-500'
                       : 'bg-emerald-500'
-                  }`}
+                    }`}
                   style={{ width: `${Math.min(incomeSpentRatio, 100)}%` }}
                 />
               </div>

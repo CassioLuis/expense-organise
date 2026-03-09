@@ -8,8 +8,10 @@ import Utilities from '@/utils/Utilities'
 import { PiggyBank, Target, Wallet } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+import { Skeleton } from '@/components/ui/skeleton'
+
 export default function GoalsPage () {
-  const { fetchGoals, goals, error } = useGoalStore()
+  const { fetchGoals, goals, error, isLoading } = useGoalStore()
   const categories = categoryStore((state) => state.categories)
   const { toast } = useToast()
 
@@ -117,9 +119,31 @@ export default function GoalsPage () {
         </div>
 
         {/* The Grid mapping the defined categories */}
-        <div>
-          <GoalsGrid />
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-6 pb-24">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Card key={i} className="bg-card w-full h-[220px] shadow-sm">
+                <CardContent className="h-full flex flex-col p-6 gap-6 justify-between">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-10 w-10 rounded-xl" />
+                    <Skeleton className="h-6 w-24" />
+                  </div>
+                  <div className="space-y-4">
+                    <Skeleton className="h-10 w-full" />
+                    <div className="flex justify-between items-center">
+                      <Skeleton className="h-4 w-12" />
+                      <Skeleton className="h-4 w-12" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <GoalsGrid />
+          </div>
+        )}
       </div>
     </div>
   )

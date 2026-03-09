@@ -13,6 +13,7 @@ import AddExpense from './components/add-expense'
 import { RawExpenseSend } from '@/application/entity/expense'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Filter, List, Upload, Loader2 } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Expenses () {
   const { saveExpenseUsecase, searchExpensesUsecase, importCsvUsecase } = useAppDependencies()
@@ -37,6 +38,7 @@ export default function Expenses () {
   const [iniDate, setStartDate] = useState<Date>(new Date())
   const [finDate, setEndDate] = useState<Date>(new Date())
   const [shouldFetch, setShouldFetch] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const period = {
     iniDate: Utilities.utcDateToString(iniDate),
@@ -59,7 +61,12 @@ export default function Expenses () {
   useEffect(() => {
     if (!shouldFetch) return
     async function searchExpenses () {
-      await searchExpensesUsecase.execute(period, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
+      setIsLoading(true)
+      try {
+        await searchExpensesUsecase.execute(period, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
+      } finally {
+        setIsLoading(false)
+      }
     }
     searchExpenses()
   }, [iniDate, finDate])
@@ -149,10 +156,33 @@ export default function Expenses () {
           <CardTitle className="text-base font-bold">Lista de Lançamentos</CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4">
-          <DataTable
-            columns={columns}
-            data={expenses}
-          />
+          {isLoading ? (
+            <div className="space-y-4">
+              {/* Fake header */}
+              <div className="flex items-center justify-between gap-4 py-4 border-b border-border/10">
+                <Skeleton className="h-6 w-24" />
+                <Skeleton className="h-6 w-48" />
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-6 w-24" />
+                <Skeleton className="h-6 w-12" />
+              </div>
+              {/* Fake rows */}
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex items-center justify-between gap-4 py-3">
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-5 w-48" />
+                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-8 w-8 rounded-md" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <DataTable
+              columns={columns}
+              data={expenses}
+            />
+          )}
         </CardContent>
       </Card>
     </div>

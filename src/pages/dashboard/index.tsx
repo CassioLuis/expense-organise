@@ -15,9 +15,10 @@ import { Analitic as AnaliticType } from '@/application/entity/analitic'
 
 import TransactionList from './components/analitic/transaction-list'
 import Analitic from './components/analitic/resume-analitic'
-import Overview from './components/analitic/overview'
+import AnaliticCards from './components/analitic/analitic-cards'
 import ChartSpendingTrend from './components/charts/chart-spending-trend'
 import ChartExpenseCategories from './components/charts/chart-expense-categories'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export interface MonthlyTotal {
   month: string
@@ -44,10 +45,12 @@ export default function Dashboard () {
   const [_, setMonthlyTotals] = useState<MonthlyTotal[]>([])
   const [monthlyDailyData, setMonthlyDailyData] = useState<MonthlyDailyData[]>([])
   const [previousMonthAnalitic, setPreviousMonthAnalitic] = useState<AnaliticType[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData () {
       if (!iniDate || !finDate) return
+      setIsLoading(true)
 
       // Fetch current month expenses
       const period = {
@@ -112,6 +115,7 @@ export default function Dashboard () {
       const prevMonth = results[results.length - 2]
       setPreviousMonthSpent(prevMonth?.monthly.total ?? 0)
       setPreviousMonthAnalitic(prevMonth?.analitic ?? [])
+      setIsLoading(false)
     }
     fetchData()
   }, [iniDate, finDate])
@@ -121,31 +125,69 @@ export default function Dashboard () {
     return acc + (isNaN(value) ? 0 : value)
   }, 0)
 
+  const userName = 'Cassio Luis'
+  const isOptimal = (totalSpent - previousMonthSpent) <= 0
+
   return (
     <div className='flex flex-col gap-4 py-4 px-1'>
 
-      {/* Overview KPI row */}
-      <Overview
-        totalSpent={totalSpent}
-        previousMonthSpent={previousMonthSpent}
-        userName="Cassio Luis"
-      />
-
-      {/* Main content area */}
-      <div className="grid gap-4 lg:grid-cols-3">
-        {/* Left Column (Spans 2/3) — Charts & Transactions */}
-        <div className="lg:col-span-2 flex flex-col gap-4">
-          <ChartExpenseCategories expenses={expenses} />
-          <ChartSpendingTrend monthlyDailyData={monthlyDailyData} />
-          <TransactionList expenses={expenses} />
-        </div>
-
-        <div className="flex flex-col h-full relative">
-          <div className="sticky top-5 flex-1">
-            <Analitic previousMonthAnalitic={previousMonthAnalitic} />
-          </div>
-        </div>
+      {/* Welcome header - ALWAYS VISIBLE */}
+      <div className="pt-2 mb-2">
+        <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
+        <p className="text-muted-foreground text-sm mt-0.5">
+          Bem-vindo de volta, <span className="text-primary font-semibold">{userName}</span>!
+          {isOptimal
+            ? ' Sua saúde financeira está melhorando.'
+            : ' Aqui está o que está acontecendo hoje.'}
+        </p>
       </div>
-    </div>
+
+      {isLoading ? (
+        <>
+          {/* Skeleton for AnaliticCards */}
+          <div className="grid gap-4 md:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-40 w-full rounded-xl bg-card border border-border/50 shadow-sm" />
+            ))}
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              <Skeleton className="h-[300px] w-full rounded-xl bg-card border border-border/50 shadow-sm" />
+              <Skeleton className="h-[300px] w-full rounded-xl bg-card border border-border/50 shadow-sm" />
+              <Skeleton className="h-[400px] w-full rounded-xl bg-card border border-border/50 shadow-sm" />
+            </div>
+            <div className="flex flex-col h-full relative">
+              <div className="sticky top-5 flex-1">
+                <Skeleton className="h-[600px] w-full rounded-xl bg-card border border-border/50 shadow-sm" />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Main content area */}
+          <AnaliticCards
+            totalSpent={totalSpent}
+            previousMonthSpent={previousMonthSpent}
+          />
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            {/* Left Column (Spans 2/3) — Charts & Transactions */}
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              <ChartExpenseCategories expenses={expenses} />
+              <ChartSpendingTrend monthlyDailyData={monthlyDailyData} />
+              <TransactionList expenses={expenses} />
+            </div>
+
+            <div className="flex flex-col h-full relative">
+              <div className="sticky top-5 flex-1">
+                <Analitic previousMonthAnalitic={previousMonthAnalitic} />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div >
   )
 }
