@@ -157,7 +157,7 @@ export default function Expenses () {
         </CardHeader>
         <CardContent className="px-4 pb-4">
           {isLoading ? (
-            <div className="space-y-4">
+            <div className="space-y-4 animate-in fade-in duration-500">
               {/* Fake header */}
               <div className="flex items-center justify-between gap-4 py-4 border-b border-border/10">
                 <Skeleton className="h-6 w-24" />
@@ -178,10 +178,12 @@ export default function Expenses () {
               ))}
             </div>
           ) : (
-            <DataTable
-              columns={columns}
-              data={expenses}
-            />
+            <div className="animate-in fade-in duration-700">
+              <DataTable
+                columns={columns}
+                data={expenses}
+              />
+            </div>
           )}
         </CardContent>
       </Card>
