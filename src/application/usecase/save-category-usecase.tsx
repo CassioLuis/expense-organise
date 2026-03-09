@@ -8,7 +8,7 @@ import SearchCategories from './search-category-usecase'
 
 export default class SaveCategory {
 
-  constructor(
+  constructor (
     private readonly categoryGateway: CategoryGateway,
     private readonly SearchCategoriesUsecase: SearchCategories,
     private readonly toaster: typeof toast

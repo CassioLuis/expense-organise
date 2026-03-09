@@ -4,7 +4,13 @@ import { expenseStore } from '@/infra/store/expense-store'
 import { analiticStore } from '@/infra/store/analitic-store'
 import Utilities from '@/utils/Utilities'
 import { useDateRange } from '@/contexts/DateRangeContext'
-import moment from 'moment-timezone'
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 import { Analitic as AnaliticType } from '@/application/entity/analitic'
 
 import TransactionList from './components/analitic/transaction-list'
@@ -51,12 +57,12 @@ export default function Dashboard () {
       await searchExpensesUsecase.execute(period, storeSetExpenses, storeSetAnalitic, storeSetRelevanceBalance)
 
       // Fetch last 12 months in parallel
-      moment.locale('pt-BR')
+      dayjs.locale('pt-br')
       const monthPromises: Promise<{ monthly: MonthlyTotal; daily: MonthlyDailyData; analitic: AnaliticType[] }>[] = []
 
       for (let i = 11; i >= 0; i--) {
-        const mStart = moment.tz(iniDate, 'America/Sao_Paulo').subtract(i, 'months').startOf('month')
-        const mEnd = moment.tz(iniDate, 'America/Sao_Paulo').subtract(i, 'months').endOf('month')
+        const mStart = dayjs(iniDate).tz('America/Sao_Paulo').subtract(i, 'months').startOf('month')
+        const mEnd = dayjs(iniDate).tz('America/Sao_Paulo').subtract(i, 'months').endOf('month')
         const monthLabel = mStart.format('MMM')
         const monthShort = mStart.format('MMM/YY')
         const fullLabel = mStart.format('MMMM YYYY')
@@ -75,7 +81,7 @@ export default function Dashboard () {
             const value = typeof exp.expenseValue === 'number' ? exp.expenseValue : parseFloat(String(exp.expenseValue))
             if (!isNaN(value)) {
               total += value
-              const day = moment(exp.expenseDate).date()
+              const day = dayjs(exp.expenseDate).date()
               if (day >= 1 && day <= daysInMonth) {
                 dailyTotals[day - 1] += value
               }

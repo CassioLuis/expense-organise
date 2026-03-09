@@ -1,6 +1,10 @@
-import moment from 'moment'
-import 'moment/dist/locale/pt-BR'
-import 'moment-timezone'
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default class Utilities {
 
@@ -21,22 +25,22 @@ export default class Utilities {
 
   static dateFormat (date: Date | string, format: string): string {
     if (!date) return ''
-    moment.locale('pt-BR')
-    return moment(date).format(format)
+    dayjs.locale('pt-br')
+    return dayjs(date).format(format)
   }
 
   static utcDateToString (date: Date) {
-    return moment.tz(date, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss.SSS')
+    return dayjs(date).tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss.SSS')
   }
 
   static currentFirstDay (): Date {
-    return moment.tz('America/Sao_Paulo')
+    return dayjs().tz('America/Sao_Paulo')
       .startOf('month')
       .toDate()
   }
 
   static currentLastDay (): Date {
-    return moment.tz('America/Sao_Paulo')
+    return dayjs().tz('America/Sao_Paulo')
       .endOf('month')
       .toDate()
   }
