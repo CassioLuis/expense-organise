@@ -10,7 +10,7 @@ import { AnaliticStoreAction } from '@/infra/store/analitic-store'
 
 export default class SearchExpenses {
 
-  constructor(
+  constructor (
     private readonly expenseGateway: ExpenseGateway,
     private readonly toaster: typeof toast
   ) { }

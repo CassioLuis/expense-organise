@@ -7,7 +7,7 @@ import { RelevanceBalance } from '@/application/entity/category'
 const basePath = '/expenses'
 
 export default class ExpenseGateway {
-  constructor(private readonly httpAdapter: HttpAdapter) { }
+  constructor (private readonly httpAdapter: HttpAdapter) { }
 
   async getByDateInterval (params: GetExpensesParams): Promise<Output> {
     const url = new URLSearchParams(Object.entries(params))

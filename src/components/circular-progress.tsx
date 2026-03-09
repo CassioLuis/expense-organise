@@ -21,8 +21,16 @@ export const CircularProgress = ({
   const offset = circumference - percent * circumference
 
   return (
-    <div className="relative inline-flex items-center justify-center font-bold" style={{ width: size, height: size }}>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className={`transform -rotate-90 ${className}`}>
+    <div
+      className="relative inline-flex items-center justify-center font-bold"
+      style={{ width: size, height: size }}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        className={`transform -rotate-90 ${className}`}
+      >
         {/* Background circle */}
         <circle
           cx={size / 2}

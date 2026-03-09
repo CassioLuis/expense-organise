@@ -12,7 +12,7 @@ const categoryColors: Record<string, string> = {
   'Lazer': 'bg-purple-500/15 text-purple-500',
   'Saúde': 'bg-rose-500/15 text-rose-500',
   'Educação': 'bg-yellow-500/15 text-yellow-500',
-  'Moradia': 'bg-cyan-500/15 text-cyan-500',
+  'Moradia': 'bg-cyan-500/15 text-cyan-500'
 }
 
 import { CircularProgress } from '@/components/circular-progress'
@@ -79,7 +79,8 @@ export default function TransactionList ({ expenses }: TransactionListProps) {
                         {expense.expenseValue}
                       </p>
                       <div className={`flex items-center justify-end gap-1.5 mt-0.5 text-[10px] font-semibold ${isPending ? 'text-yellow-500' : 'text-primary'
-                        }`}>
+                      }`}
+                      >
                         {isPending
                           ? (
                             <div className="flex items-center gap-1.5">

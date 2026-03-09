@@ -5,6 +5,7 @@ import AxiosInterceptor from '@/infra/http/axios/axios-interceptor'
 import SearchExpenses from '@/application/usecase/search-expenses-usecase'
 import { toast } from '@/hooks/use-toast'
 import Signin from '@/application/usecase/signin-usecase'
+import GoogleSignin from '@/application/usecase/google-signin-usecase'
 import SaveExpense from '@/application/usecase/save-expense-usecase'
 import DeleteExpense from '@/application/usecase/delete-expense-usecase'
 import UpdateExpense from '@/application/usecase/update-expense'
@@ -24,6 +25,7 @@ const categoriesGateway = new CategoryGateway(httpAdapter)
 // USECASES
 const searchExpensesUsecase = new SearchExpenses(expenseGateway, toast)
 const signinUsecase = new Signin(authGateway, toast)
+const googleSigninUsecase = new GoogleSignin(authGateway, toast)
 const saveExpenseUsecase = new SaveExpense(expenseGateway, searchExpensesUsecase, toast)
 const deleteExpenseUsecase = new DeleteExpense(expenseGateway, toast)
 const updateExpenseUsecase = new UpdateExpense(expenseGateway, toast)
@@ -35,6 +37,7 @@ const importCsvUsecase = new ImportCsv(expenseGateway, searchExpensesUsecase, to
 
 const dependencies = {
   signinUsecase,
+  googleSigninUsecase,
   searchExpensesUsecase,
   saveExpenseUsecase,
   deleteExpenseUsecase,

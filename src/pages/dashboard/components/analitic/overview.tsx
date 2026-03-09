@@ -58,7 +58,8 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
                 <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-semibold ${isOptimal
                   ? 'bg-emerald-500/10 text-emerald-500'
                   : 'bg-rose-500/10 text-rose-500'
-                  }`}>
+                }`}
+                >
                   {isOptimal ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
                   {percentChange > 0 ? '+' : ''}{percentChange.toFixed(1)}%
                 </div>
@@ -114,7 +115,8 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
                 </div>
               </div>
               <p className={`text-3xl font-normal tracking-tight mb-4 ${totalSpent > hardcodedIncome ? 'text-rose-500' : 'text-foreground'
-                }`}>
+              }`}
+              >
                 {totalSpent > hardcodedIncome
                   ? `-${((totalSpent - hardcodedIncome) / hardcodedIncome * 100).toFixed(1)}%`
                   : `${incomeSpentRatio.toFixed(1)}%`
@@ -131,7 +133,7 @@ export default function Overview ({ totalSpent, previousMonthSpent, userName = '
                     : incomeSpentRatio > 80
                       ? 'bg-amber-500'
                       : 'bg-emerald-500'
-                    }`}
+                  }`}
                   style={{ width: `${Math.min(incomeSpentRatio, 100)}%` }}
                 />
               </div>

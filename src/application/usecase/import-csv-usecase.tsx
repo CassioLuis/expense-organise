@@ -8,7 +8,7 @@ import { AnaliticStoreAction } from '@/infra/store/analitic-store'
 
 export default class ImportCsv {
 
-  constructor(
+  constructor (
     private readonly expenseGateway: ExpenseGateway,
     private readonly searchExpensesUsecase: SearchExpenses,
     private readonly toaster: typeof toast

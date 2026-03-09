@@ -10,7 +10,7 @@ const DEFAULT_CATEGORY_NAME = 'Indefinido'
 
 export default class UpdateExpense {
 
-  constructor(
+  constructor (
     private readonly expenseGateway: ExpenseGateway,
     private readonly toaster: typeof toast
   ) { }

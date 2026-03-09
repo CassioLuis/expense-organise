@@ -128,7 +128,10 @@ export default function Analitic ({ previousMonthAnalitic }: AnaliticProps) {
                                   <div className="w-[2px] h-3 bg-muted-foreground/100 rounded" />
                                 </div>
                               </TooltipTrigger>
-                              <TooltipContent side="top" className="bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2">
+                              <TooltipContent
+                                side="top"
+                                className="bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2"
+                              >
                                 <p className="text-xs font-semibold mb-0.5 text-gray-400">Mês anterior</p>
                                 <p className="text-sm font-bold text-gray-100">{Utilities.currencyFormat(previousValue, 'pt-BR', 'BRL')}</p>
                               </TooltipContent>
@@ -146,7 +149,10 @@ export default function Analitic ({ previousMonthAnalitic }: AnaliticProps) {
                                   <div className="w-[3px] h-3.5 bg-white shadow-[0_0_4px_rgba(0,0,0,0.5)] rounded group-hover:scale-125 group-hover:bg-primary transition-all duration-200" />
                                 </div>
                               </TooltipTrigger>
-                              <TooltipContent side="top" className="bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2">
+                              <TooltipContent
+                                side="top"
+                                className="bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2"
+                              >
                                 <p className="text-xs font-semibold mb-0.5 text-gray-400">Meta</p>
                                 <p className="text-sm font-bold text-emerald-400">{Utilities.currencyFormat(goalAmount, 'pt-BR', 'BRL')}</p>
                               </TooltipContent>

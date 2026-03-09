@@ -7,6 +7,10 @@ export default class AuthGateway {
   async signin (credentials: object): Promise<Session> {
     return this.httpAdapter.post(`${env.BASE_URL}/auth`, credentials)
   }
+
+  async googleSignin (credential: string): Promise<Session> {
+    return this.httpAdapter.post(`${env.BASE_URL}/auth/google`, { credential })
+  }
 }
 
 export interface Session {

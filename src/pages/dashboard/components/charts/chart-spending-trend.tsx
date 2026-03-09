@@ -9,7 +9,7 @@ interface ChartSpendingTrendProps {
 
 // Color palette for months (oldest → newest)
 const MONTH_COLORS = [
-  'hsl(220 15% 55%)',  // very muted
+  'hsl(220 15% 55%)', // very muted
   'hsl(220 15% 55%)',
   'hsl(220 18% 55%)',
   'hsl(220 18% 55%)',
@@ -19,8 +19,8 @@ const MONTH_COLORS = [
   'hsl(200 30% 55%)',
   'hsl(180 35% 50%)',
   'hsl(160 40% 50%)',
-  'hsl(145 60% 45%)',  // previous month - more visible
-  'hsl(145 85% 45%)',  // current month - most prominent
+  'hsl(145 60% 45%)', // previous month - more visible
+  'hsl(145 85% 45%)' // current month - most prominent
 ]
 
 export default function ChartSpendingTrend ({ monthlyDailyData }: ChartSpendingTrendProps) {
@@ -252,15 +252,32 @@ export default function ChartSpendingTrend ({ monthlyDailyData }: ChartSpendingT
 
             {/* Gradient definition for current month */}
             <defs>
-              <linearGradient id="currentMonthGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(145 85% 45%)" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="hsl(145 85% 45%)" stopOpacity="0.02" />
+              <linearGradient
+                id="currentMonthGrad"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stopColor="hsl(145 85% 45%)"
+                  stopOpacity="0.2"
+                />
+                <stop
+                  offset="100%"
+                  stopColor="hsl(145 85% 45%)"
+                  stopOpacity="0.02"
+                />
               </linearGradient>
             </defs>
 
             {/* Current month area fill (behind all lines) */}
             {currentAreaPath && (
-              <path d={currentAreaPath} fill="url(#currentMonthGrad)" />
+              <path
+                d={currentAreaPath}
+                fill="url(#currentMonthGrad)"
+              />
             )}
 
             {/* All month lines (oldest first = drawn behind) */}
@@ -330,7 +347,7 @@ export default function ChartSpendingTrend ({ monthlyDailyData }: ChartSpendingT
                       key={i}
                       cx={x}
                       cy={y}
-                      r={d.isCurrent ? "5" : "3.5"}
+                      r={d.isCurrent ? '5' : '3.5'}
                       fill={d.color}
                       stroke="hsl(var(--card))"
                       strokeWidth="2"
@@ -372,9 +389,15 @@ export default function ChartSpendingTrend ({ monthlyDailyData }: ChartSpendingT
               <div className="font-bold border-b border-border pb-2 mb-2 text-[13px]">Dia {hoveredDay}</div>
               <div className="flex flex-col gap-2 overflow-hidden pr-1">
                 {displayTooltipData.map((d, i) => (
-                  <div key={i} className="flex flex-col">
+                  <div
+                    key={i}
+                    className="flex flex-col"
+                  >
                     <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: d.color }} />
+                      <div
+                        className="w-2.5 h-2.5 rounded-full"
+                        style={{ backgroundColor: d.color }}
+                      />
                       <span className={`text-xs ${d.isCurrent ? 'font-bold' : 'text-muted-foreground'} capitalize`}>{d.label}</span>
                     </div>
                     <div className="pl-4 flex flex-col mt-0.5">
@@ -397,7 +420,10 @@ export default function ChartSpendingTrend ({ monthlyDailyData }: ChartSpendingT
         {/* Legend showing months with data */}
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-3 px-2 justify-end">
           {activeLines.filter(m => m.total > 0).slice(-4).map((month, i) => (
-            <div key={i} className="flex items-center gap-1.5">
+            <div
+              key={i}
+              className="flex items-center gap-1.5"
+            >
               <div
                 className="w-3 h-0.5 rounded-full"
                 style={{ backgroundColor: month.color, opacity: month.opacity }}

@@ -88,9 +88,9 @@ export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) 
                     className={`
                       group relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
                       ${isActive
-                        ? 'bg-sidebar-accent text-primary border border-sidebar-border'
-                        : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border border-transparent'
-                      }
+                  ? 'bg-sidebar-accent text-primary border border-sidebar-border'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border border-transparent'
+                }
                       ${item.disabled ? 'opacity-40 pointer-events-none' : ''}
                     `}
                   >

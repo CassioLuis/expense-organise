@@ -14,7 +14,7 @@ import { Link } from 'react-router'
 
 export default function LoginForm () {
 
-  const { signinUsecase } = useAppDependencies()
+  const { signinUsecase, googleSigninUsecase } = useAppDependencies()
 
   const credentials = {
     email: 'cassiocaruzo@gmail.com',
@@ -68,8 +68,10 @@ export default function LoginForm () {
             Entrar
           </Button>
           <GoogleLogin
-            onSuccess={credentialResponse => {
-              console.log(credentialResponse)
+            onSuccess={async credentialResponse => {
+              if (credentialResponse.credential) {
+                await googleSigninUsecase.execute(credentialResponse.credential)
+              }
             }}
             onError={() => {
               console.log('Login Failed')

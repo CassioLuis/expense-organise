@@ -51,7 +51,10 @@ export function GoalCard ({ color, title, currentAmount, maxAllocable, onChange,
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
+          <div
+            className="w-2.5 h-2.5 rounded-full"
+            style={{ backgroundColor: color }}
+          />
           <span className="font-bold text-foreground text-[15px]">{title}</span>
         </div>
         <div className="bg-muted/30 px-2 py-1 rounded-md border border-border flex flex-row items-center justify-between">

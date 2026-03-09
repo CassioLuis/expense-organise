@@ -73,37 +73,42 @@ export default function GoalsPage () {
           </Card>
 
           <Card className={cn(
-            "transition-colors shadow-sm border",
+            'transition-colors shadow-sm border',
             potentialSavings >= 0
-              ? "bg-emerald-500/5 border-emerald-500/30 hover:bg-emerald-500/10"
-              : "bg-rose-500/5 border-rose-500/30 hover:bg-rose-500/10"
-          )}>
+              ? 'bg-emerald-500/5 border-emerald-500/30 hover:bg-emerald-500/10'
+              : 'bg-rose-500/5 border-rose-500/30 hover:bg-rose-500/10'
+          )}
+          >
             <CardContent className="p-4 flex items-center gap-4">
               <div className={cn(
-                "h-10 w-10 rounded-xl flex items-center justify-center",
-                potentialSavings >= 0 ? "bg-emerald-500/10 text-emerald-500" : "bg-rose-500/10 text-rose-500"
-              )}>
+                'h-10 w-10 rounded-xl flex items-center justify-center',
+                potentialSavings >= 0 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'
+              )}
+              >
                 <PiggyBank size={20} />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                   <span className={cn(
-                    "text-[10px] uppercase font-bold tracking-wider",
-                    potentialSavings >= 0 ? "text-emerald-500" : "text-rose-500"
-                  )}>
-                    {potentialSavings >= 0 ? "Economia Prevista" : "Déficit Previsto"}
+                    'text-[10px] uppercase font-bold tracking-wider',
+                    potentialSavings >= 0 ? 'text-emerald-500' : 'text-rose-500'
+                  )}
+                  >
+                    {potentialSavings >= 0 ? 'Economia Prevista' : 'Déficit Previsto'}
                   </span>
                   <span className={cn(
-                    "text-[9px] font-bold px-1.5 py-0.5 rounded-md",
-                    potentialSavings >= 0 ? "bg-emerald-500/20 text-emerald-500" : "bg-rose-500/20 text-rose-500"
-                  )}>
+                    'text-[9px] font-bold px-1.5 py-0.5 rounded-md',
+                    potentialSavings >= 0 ? 'bg-emerald-500/20 text-emerald-500' : 'bg-rose-500/20 text-rose-500'
+                  )}
+                  >
                     {savingsPercent}%
                   </span>
                 </div>
                 <span className={cn(
-                  "text-base font-black",
-                  potentialSavings >= 0 ? "text-emerald-500" : "text-rose-500"
-                )}>
+                  'text-base font-black',
+                  potentialSavings >= 0 ? 'text-emerald-500' : 'text-rose-500'
+                )}
+                >
                   {Utilities.currencyFormat(potentialSavings, 'pt-BR', 'BRL')}
                 </span>
               </div>

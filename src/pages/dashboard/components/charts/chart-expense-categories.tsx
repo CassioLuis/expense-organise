@@ -35,8 +35,16 @@ const DonutChart = ({ data, total, title }: { data: any[], total: number, title:
         </div>
       ) : (
         <div className="flex flex-col xl:flex-row items-start gap-6">
-          <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90 overflow-visible">
+          <div
+            className="relative flex-shrink-0"
+            style={{ width: size, height: size }}
+          >
+            <svg
+              width={size}
+              height={size}
+              viewBox={`0 0 ${size} ${size}`}
+              className="transform -rotate-90 overflow-visible"
+            >
               <circle
                 cx={cx}
                 cy={cy}
@@ -168,14 +176,22 @@ export default function ChartExpenseCategories ({ expenses }: ChartExpenseCatego
       </CardHeader>
       <CardContent className="px-6 pb-6 pt-4 flex-1 flex flex-col justify-center min-h-[250px]">
         <div className="flex flex-col sm:flex-row flex-wrap gap-8 justify-between">
-          <DonutChart data={categories.chartData} total={categories.total} title="" />
+          <DonutChart
+            data={categories.chartData}
+            total={categories.total}
+            title=""
+          />
 
           {/* Divider on desktop */}
           <div className="hidden sm:block w-px bg-border/50 self-stretch" />
           {/* Divider on mobile */}
           <div className="sm:hidden h-px w-full bg-border/50" />
 
-          <DonutChart data={subcategories.chartData} total={subcategories.total} title="" />
+          <DonutChart
+            data={subcategories.chartData}
+            total={subcategories.total}
+            title=""
+          />
         </div>
       </CardContent>
     </Card>

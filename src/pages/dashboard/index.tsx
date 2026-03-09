@@ -21,8 +21,8 @@ export interface MonthlyTotal {
 }
 
 export interface MonthlyDailyData {
-  monthLabel: string   // e.g. "mar/26"
-  fullLabel: string    // e.g. "Março 2026"
+  monthLabel: string // e.g. "mar/26"
+  fullLabel: string // e.g. "Março 2026"
   isCurrent: boolean
   dailyTotals: number[] // index 0 = day 1, index 30 = day 31
   total: number
