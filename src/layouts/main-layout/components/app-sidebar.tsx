@@ -62,7 +62,6 @@ export function AppSidebar ({ ...props }: React.ComponentProps<typeof Sidebar>) 
             <span className='text-[10px] text-primary font-semibold uppercase tracking-widest'>Finance</span>
           </div>
         </div>
-
         {/* Premium plan badge */}
         <div className='mx-2 mb-3 px-3 py-2 rounded-xl bg-sidebar-accent border border-sidebar-border flex items-center gap-2'>
           <Zap className='w-3.5 h-3.5 text-primary flex-shrink-0' />

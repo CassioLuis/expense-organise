@@ -15,6 +15,7 @@ export default class Signin {
   async execute (credentials: { email: string, password: string }): Promise<void> {
     try {
       const { data } = await this.authGateway.signin(credentials)
+      sessionStorage.clear()
       localStorage.setItem('isAuthenticated', 'true')
       userStore.getState().setUser(data.name, data.lastName, data.email)
       router.navigate('/')
