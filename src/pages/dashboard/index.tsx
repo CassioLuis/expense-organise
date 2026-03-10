@@ -149,7 +149,10 @@ export default function Dashboard () {
           {/* Skeleton for AnaliticCards */}
           <div className="grid gap-4 md:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="h-40 w-full rounded-xl bg-card border border-border/50 shadow-sm" />
+              <Skeleton
+                key={i}
+                className="h-40 w-full rounded-xl bg-card border border-border/50 shadow-sm"
+              />
             ))}
           </div>
 

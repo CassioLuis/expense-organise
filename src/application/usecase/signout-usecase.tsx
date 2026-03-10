@@ -6,7 +6,7 @@ import { router } from '@/protected-route'
 
 export default class Signout {
 
-  constructor(
+  constructor (
     private readonly authGateway: AuthGateway,
     private readonly toaster: typeof toast
   ) { }

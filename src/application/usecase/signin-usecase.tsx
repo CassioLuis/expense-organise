@@ -7,7 +7,7 @@ import { userStore } from '@/infra/store/user-store'
 
 export default class Signin {
 
-  constructor(
+  constructor (
     private readonly authGateway: AuthGateway,
     private readonly toaster: typeof toast
   ) { }

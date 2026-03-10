@@ -14,7 +14,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_ID_CLIENT}>
     <GlobalContextProvider>
       <DateRangeProvider>
-        <ThemeProvider defaultTheme="dark" storageKey="theme">
+        <ThemeProvider
+          defaultTheme="dark"
+          storageKey="theme"
+        >
           <RouterProvider router={router} />
           <Toaster />
         </ThemeProvider>

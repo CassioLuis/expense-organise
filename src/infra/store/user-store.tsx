@@ -21,7 +21,7 @@ export const userStore = create<State & UserStoreAction>()(
     }),
     {
       name: 'user-storage',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => sessionStorage)
     }
   )
 )

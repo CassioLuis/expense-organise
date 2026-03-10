@@ -168,7 +168,10 @@ export default function Expenses () {
               </div>
               {/* Fake rows */}
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="flex items-center justify-between gap-4 py-3">
+                <div
+                  key={i}
+                  className="flex items-center justify-between gap-4 py-3"
+                >
                   <Skeleton className="h-5 w-24" />
                   <Skeleton className="h-5 w-48" />
                   <Skeleton className="h-5 w-32" />

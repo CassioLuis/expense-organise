@@ -8,7 +8,7 @@ export default class AxiosInterceptor {
   private instance!: AxiosInstance
   private statusCodeError: number[] = [401, 403]
 
-  constructor() {
+  constructor () {
     this.instance = axios.create({
       baseURL: import.meta.env.VITE_API_URL || '',
       withCredentials: true
