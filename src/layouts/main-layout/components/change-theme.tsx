@@ -1,4 +1,4 @@
-import { useTheme } from '@/hooks/use-theme'
+import { useTheme } from '@/components/theme-provider'
 
 export function MoonIcon () {
   return (

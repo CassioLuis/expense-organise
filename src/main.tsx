@@ -8,13 +8,16 @@ import { Toaster } from '@/components/ui/toaster'
 import { RouterProvider } from 'react-router'
 import { GlobalContextProvider } from '@/context'
 import { DateRangeProvider } from '@/contexts/DateRangeContext'
+import { ThemeProvider } from '@/components/theme-provider'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_ID_CLIENT}>
     <GlobalContextProvider>
       <DateRangeProvider>
-        <RouterProvider router={router} />
-        <Toaster />
+        <ThemeProvider defaultTheme="dark" storageKey="theme">
+          <RouterProvider router={router} />
+          <Toaster />
+        </ThemeProvider>
       </DateRangeProvider>
     </GlobalContextProvider>
   </GoogleOAuthProvider>

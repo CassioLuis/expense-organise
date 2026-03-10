@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { useGoogleLogin } from '@react-oauth/google'
+import { Loader2 } from 'lucide-react'
 import { Link } from 'react-router'
 import { useState } from 'react'
 
@@ -51,6 +52,7 @@ export default function LoginForm () {
     email: '',
     password: ''
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   function handleChange (e: React.ChangeEvent<HTMLInputElement>) {
     setCredentials(prev => ({
@@ -59,8 +61,14 @@ export default function LoginForm () {
     }))
   }
 
-  async function signin () {
-    await signinUsecase.execute(credentials)
+  async function signin (e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    try {
+      setIsLoading(true)
+      await signinUsecase.execute(credentials)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const loginWithGoogle = useGoogleLogin({
@@ -81,7 +89,7 @@ export default function LoginForm () {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <form onSubmit={signin} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -91,6 +99,7 @@ export default function LoginForm () {
               required
               value={credentials.email}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
           <div className="grid gap-2">
@@ -109,14 +118,15 @@ export default function LoginForm () {
               required
               value={credentials.password}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
           <Button
-            onClick={signin}
             type="submit"
             className="w-full"
+            disabled={!credentials.email || !credentials.password || isLoading}
           >
-            Entrar
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Entrar'}
           </Button>
 
           <div className="relative mt-4">
@@ -132,15 +142,17 @@ export default function LoginForm () {
 
           <div className="mt-4 grid gap-2">
             <Button
+              type="button"
               variant="outline"
               className="w-full"
               onClick={() => loginWithGoogle()}
+              disabled={isLoading}
             >
               <GoogleIcon className="mr-2 h-4 w-4" />
               Google
             </Button>
           </div>
-        </div>
+        </form>
         <div className="mt-4 text-center text-sm">
           Não possui uma conta?{' '}
           <Link
