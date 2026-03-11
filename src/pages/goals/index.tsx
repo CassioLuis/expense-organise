@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { GoalsGrid } from './components/goals-grid'
 import { useGoalStore } from '@/infra/store/goal-store'
+import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { useToast } from '@/hooks/use-toast'
-import { categoryStore } from '@/infra/store/category-store'
 import { Card, CardContent } from '@/components/ui/card'
 import Utilities from '@/utils/Utilities'
 import { PiggyBank, Target, Wallet } from 'lucide-react'
@@ -11,22 +11,18 @@ import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export default function GoalsPage () {
-  const { fetchGoals, goals, error, isLoading } = useGoalStore()
-  const categories = categoryStore((state) => state.categories)
+  const { totalGoals, error, isLoading, storeSetGoals } = useGoalStore()
+  const { searchGoalUsecase } = useAppDependencies()
   const { toast } = useToast()
 
   const salary = 4000
-  const totalGoals = categories.reduce((acc, cat) => {
-    const goal = goals.find(g => g.categoryName === cat.name)
-    return acc + (goal?.amount || 0)
-  }, 0)
   const potentialSavings = salary - totalGoals
   const savingsPercent = Math.max(0, Math.round((potentialSavings / salary) * 100))
 
   // Fetch goals on mount
   useEffect(() => {
-    fetchGoals().catch(console.error)
-  }, [fetchGoals])
+    searchGoalUsecase.execute(storeSetGoals)
+  }, [searchGoalUsecase, storeSetGoals])
 
   // Show errors if loading failed
   useEffect(() => {

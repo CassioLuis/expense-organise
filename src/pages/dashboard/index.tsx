@@ -3,6 +3,7 @@ import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
 import { analiticStore } from '@/infra/store/analitic-store'
 import { userStore } from '@/infra/store/user-store'
+import { useGoalStore } from '@/infra/store/goal-store'
 import Utilities from '@/utils/Utilities'
 import { useDateRange } from '@/contexts/DateRangeContext'
 import dayjs from 'dayjs'
@@ -18,6 +19,7 @@ import TransactionList from './components/analitic/transaction-list'
 import Analitic from './components/analitic/resume-analitic'
 import AnaliticCards from './components/analitic/analitic-cards'
 import ChartSpendingTrend from './components/charts/chart-spending-trend'
+import ChartMonthlyBars from './components/charts/chart-monthly-bars'
 import ChartExpenseCategories from './components/charts/chart-expense-categories'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -38,10 +40,11 @@ export interface MonthlyDailyData {
 }
 
 export default function Dashboard () {
-  const { searchExpensesUsecase, expenseGateway } = useAppDependencies()
+  const { searchExpensesUsecase, expenseGateway, searchGoalUsecase } = useAppDependencies()
   const { expenses, storeSetExpenses } = expenseStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
   const { name, lastName } = userStore()
+  const { totalGoals, storeSetGoals } = useGoalStore()
   const { iniDate, finDate } = useDateRange()
   const [previousMonthSpent, setPreviousMonthSpent] = useState(0)
   const [_, setMonthlyTotals] = useState<MonthlyTotal[]>([])
@@ -53,6 +56,7 @@ export default function Dashboard () {
     async function fetchData () {
       if (!iniDate || !finDate) return
       setIsLoading(true)
+      searchGoalUsecase.execute(storeSetGoals)
 
       // Fetch current month expenses
       const period = {
@@ -181,6 +185,7 @@ export default function Dashboard () {
             {/* Left Column (Spans 2/3) — Charts & Transactions */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <ChartExpenseCategories expenses={expenses} />
+              <ChartMonthlyBars monthlyDailyData={monthlyDailyData} spendingGoal={totalGoals} />
               <ChartSpendingTrend monthlyDailyData={monthlyDailyData} />
               <TransactionList expenses={expenses} />
             </div>

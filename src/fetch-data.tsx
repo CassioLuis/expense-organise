@@ -7,11 +7,11 @@ import { analiticStore } from './infra/store/analitic-store'
 import { useGoalStore } from './infra/store/goal-store'
 
 export default function FetchData (): ReactNode {
-  const { searchExpensesUsecase, searchCategoriesUsecase } = useAppDependencies()
+  const { searchExpensesUsecase, searchCategoriesUsecase, searchGoalUsecase } = useAppDependencies()
   const { storeSetExpenses, expenses } = expenseStore()
   const { storeSetCategory, categories } = categoryStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
-  const { fetchGoals, goals: storedGoals } = useGoalStore()
+  const { goals: storedGoals, storeSetGoals } = useGoalStore()
 
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function FetchData (): ReactNode {
           promises.push(searchCategoriesUsecase.execute(storeSetCategory))
         }
         if (!storedGoals.length) {
-          promises.push(fetchGoals())
+          promises.push(searchGoalUsecase.execute(storeSetGoals))
         }
         await Promise.all(promises)
       } catch (error) {

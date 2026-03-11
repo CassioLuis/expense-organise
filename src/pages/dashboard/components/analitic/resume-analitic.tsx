@@ -97,8 +97,8 @@ export default function Analitic ({ previousMonthAnalitic }: AnaliticProps) {
             >
               {[...analitic]
                 .sort((a, b) => {
-                  const goalA = goals.find(g => g.categoryName === a.category.name)?.amount || 5000
-                  const goalB = goals.find(g => g.categoryName === b.category.name)?.amount || 5000
+                  const goalA = goals.find(g => g.categoryName === a.category.name)?.amount || 0
+                  const goalB = goals.find(g => g.categoryName === b.category.name)?.amount || 0
                   const ratioA = a.value / goalA
                   const ratioB = b.value / goalB
                   return ratioB - ratioA
@@ -108,7 +108,7 @@ export default function Analitic ({ previousMonthAnalitic }: AnaliticProps) {
                   const currentValue = item.value
                   const previousValue = prevCategoryMap[categoryName] || 0
                   const existingGoal = goals.find(g => g.categoryName === categoryName)
-                  const goalAmount = existingGoal?.amount || 5000
+                  const goalAmount = existingGoal?.amount || 0
                   const maxScale = Math.max(currentValue, goalAmount, previousValue)
                   const isOverGoal = existingGoal && currentValue > goalAmount
                   const barColor = isOverGoal ? 'bg-rose-500' : 'bg-emerald-500'

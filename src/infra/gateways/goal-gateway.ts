@@ -1,23 +1,21 @@
+import HttpAdapter from '@/infra/http/http-adapter'
 import { Goal } from '@/application/entity/goal'
-import AxiosInterceptor from '@/infra/http/axios/axios-interceptor'
 
-const api = new AxiosInterceptor().getInstance()
+const basePath = '/metrics/goals'
 
-export interface IGoalGateway {
-  getAllGoals (): Promise<Goal[]>
-  upsertGoals (goals: { categoryName: string, amount: number }[]): Promise<Goal[]>
-}
+export default class GoalGateway {
+  constructor(private readonly httpAdapter: HttpAdapter) { }
 
-export class GoalGateway implements IGoalGateway {
-  async getAllGoals (): Promise<Goal[]> {
-    const { data } = await api.get('/metrics/goals')
-    return data
+  async getAllGoals (): Promise<Output> {
+    return this.httpAdapter.get(`${import.meta.env.VITE_API_URL}${basePath}`)
   }
 
-  async upsertGoals (goals: { categoryName: string, amount: number }[]): Promise<Goal[]> {
-    const { data } = await api.post('/metrics/goals', { goals })
-    return data
+  async upsertGoals (goals: { categoryName: string, amount: number }[]): Promise<Output> {
+    return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}${basePath}`, { goals })
   }
 }
 
-export const goalGateway = new GoalGateway()
+export interface Output {
+  data: Goal[],
+  status: number
+}
