@@ -12,7 +12,7 @@ import DatePicker from 'react-datepicker'
 import { ptBR } from 'date-fns/locale/pt-BR'
 import CustomInput from '@/components/custom-date-picker-input'
 import { CalendarDays, Upload, Loader2, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useDateRange } from '@/contexts/DateRangeContext'
+import { useDateRange } from '@/contexts'
 import { useAppDependencies } from '@/hooks/use-app-dependencies'
 import { expenseStore } from '@/infra/store/expense-store'
 import { analiticStore } from '@/infra/store/analitic-store'
@@ -136,7 +136,7 @@ export default function MainLayout () {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isImporting}
-                  className="flex items-center gap-2 bg-primary text-primary-foreground px-3 py-1 rounded-lg border border-border/50 shadow-sm text-xs font-medium hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed h-[34px]"
+                  className="flex items-center gap-2 bg-primary text-primary-foreground px-2 md:px-3 py-1 rounded-lg border border-border/50 shadow-sm text-xs font-medium hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed h-[34px]"
                   title="Importar extrato CSV"
                 >
                   {isImporting ? (
@@ -144,7 +144,9 @@ export default function MainLayout () {
                   ) : (
                     <Upload className='w-3.5 h-3.5' />
                   )}
-                  {isImporting ? 'Importando...' : 'Importar CSV'}
+                  <span className="hidden md:inline">
+                    {isImporting ? 'Importando...' : 'Importar CSV'}
+                  </span>
                 </button>
               </>
             )}

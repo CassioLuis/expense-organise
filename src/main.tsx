@@ -6,7 +6,7 @@ import { router } from '@/protected-route'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { Toaster } from '@/components/ui/toaster'
 import { RouterProvider } from 'react-router'
-import { GlobalContextProvider } from '@/context'
+import { GlobalContextProvider } from '@/contexts'
 import { DateRangeProvider } from '@/contexts/DateRangeContext'
 import { ThemeProvider } from '@/components/theme-provider'
 

@@ -26,7 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { GlobalContext } from '@/context/global-context-provider'
+import { GlobalContext } from '@/contexts'
 import { useContext } from 'react'
 
 interface User {

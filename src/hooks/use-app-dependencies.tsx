@@ -1,4 +1,4 @@
-import { GlobalContext } from '@/context'
+import { GlobalContext } from '@/contexts'
 import { useContext } from 'react'
 
 export const useAppDependencies = () => {

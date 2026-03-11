@@ -133,7 +133,7 @@ export default function Expenses () {
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isImporting}
-                className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg border border-border/50 shadow-sm text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 bg-primary text-primary-foreground px-3 md:px-4 py-2 rounded-lg border border-border/50 shadow-sm text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 title="Importar extrato CSV"
               >
                 {isImporting ? (
@@ -141,7 +141,9 @@ export default function Expenses () {
                 ) : (
                   <Upload className='w-4 h-4' />
                 )}
-                {isImporting ? 'Importando...' : 'Importar CSV'}
+                <span className="hidden md:inline">
+                  {isImporting ? 'Importando...' : 'Importar CSV'}
+                </span>
               </button>
             </div>
           </div>

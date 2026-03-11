@@ -133,12 +133,13 @@ export default function LoginForm () {
           </Button>
 
           <div className="relative mt-4">
-            <div className="absolute inset-0 flex items-center">
+            <div className="absolute inset-0 flex items-center gap-10">
+              <span className="w-full border-t" />
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Ou continue com
+              <span className="px-10 text-muted-foreground">
+                Ou
               </span>
             </div>
           </div>
@@ -147,12 +148,12 @@ export default function LoginForm () {
             <Button
               type="button"
               variant="outline"
-              className="w-full"
+              className="w-full bg-secondary/80"
               onClick={() => loginWithGoogle()}
               disabled={isLoading}
             >
               <GoogleIcon className="mr-2 h-4 w-4" />
-              Google
+              Cotinuar com Google
             </Button>
           </div>
         </form>
