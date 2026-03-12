@@ -112,6 +112,7 @@ export default function Analitic ({ previousMonthAnalitic }: AnaliticProps) {
                   const maxScale = Math.max(currentValue, goalAmount, previousValue)
                   const isOverGoal = existingGoal && currentValue > goalAmount
                   const barColor = isOverGoal ? 'bg-rose-500' : 'bg-emerald-500'
+
                   const currentPercent = maxScale === 0 ? 0 : Math.min((currentValue / maxScale) * 100, 100)
                   const prevPercent = maxScale === 0 ? 0 : Math.min((previousValue / maxScale) * 100, 100)
                   const goalUsagePercent = Math.round((currentValue / goalAmount) * 100)
@@ -130,78 +131,90 @@ export default function Analitic ({ previousMonthAnalitic }: AnaliticProps) {
                     <AccordionItem
                       key={idx}
                       value={`item-${idx}`}
-                      className={`bg-muted-foreground/5 border border-border/50 rounded-xl overflow-hidden hover:bg-accent/50 cursor-pointer ${openItem === `item-${idx}` ? 'bg-accent/40' : ''} ${item.bg}`}
-                      onClick={() => setOpenItem(openItem === `item-${idx}` ? undefined : `item-${idx}`)}
+                      className={`bg-muted-foreground/5 border border-border/50 rounded-xl overflow-hidden cursor-pointer transition-colors ${openItem === `item-${idx}` ? 'bg-muted/60' : 'hover:bg-accent/50'} ${item.bg}`}
                     >
-                      <div className="px-3 pt-3 pb-2 flex flex-col gap-1.5 relative">
-                        <AccordionTrigger className='p-0 flex items-center justify-between hover:no-underline transition-colors mt-0 border-none text-muted-foreground dark:text-gray-200'>
-                          <span className="font-bold text-sm">{categoryName}</span>
-                          <span className={`text-sm font-bold ${barColor.replace('bg-', 'text-')}`}>
-                            {Utilities.currencyFormat(currentValue, 'pt-BR', 'BRL')}
-                          </span>
-                        </AccordionTrigger>
-                        <div className="relative h-2 w-full bg-muted/30 rounded-full mt-1">
-                          {previousValue > 0 && (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div
-                                  className="absolute top-1/2 -translate-y-1/2 w-3 h-5 bg-transparent z-30 cursor-help flex justify-center items-center hover:scale-125 transition-transform"
-                                  style={{ left: `calc(${prevPercent}% - 6px)` }}
-                                >
-                                  <div className="w-[2px] h-3 bg-muted-foreground/100 rounded" />
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent side="top" className="z-[100001] bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2">
-                                <p className="text-xs font-semibold mb-0.5 text-gray-400">Mês anterior</p>
-                                <p className="text-sm font-bold text-gray-100">{Utilities.currencyFormat(previousValue, 'pt-BR', 'BRL')}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          )}
-                          {existingGoal && (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div
-                                  className="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-transparent z-30 cursor-help flex justify-center items-center group"
-                                  style={{ left: `calc(${Math.min((goalAmount / maxScale) * 100, 100)}% - 8px)` }}
-                                >
-                                  <div className="w-[3px] h-3.5 bg-white shadow-[0_0_4px_rgba(0,0,0,0.5)] rounded group-hover:scale-125 group-hover:bg-primary transition-all duration-200" />
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent side="top" className="z-[100001] bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2">
-                                <p className="text-xs font-semibold mb-0.5 text-gray-400">Meta</p>
-                                <p className="text-sm font-bold text-emerald-400">{Utilities.currencyFormat(goalAmount, 'pt-BR', 'BRL')}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          )}
-                          <div
-                            className={`absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out ${barColor} shadow-[0_0_8px_rgba(16,185,129,0.3)]`}
-                            style={{ width: `${currentPercent}%` }}
-                          />
-                        </div>
-                        <div className="flex items-center justify-between z-10 mt-1">
-                          <div className="flex flex-col items-start gap-0.5">
-                            <span className="text-xs tracking-wider text-muted-foreground/70 font-semibold leading-none">vs Meta</span>
-                            <div className="flex items-center gap-1.5">
-                              <span className={`text-xs font-bold ${isOverGoal ? 'text-rose-500' : 'text-emerald-500'}`}>{percentLabel}</span>
-                              <span className={`text-[10px] font-medium ${isOverGoal ? 'text-rose-500/80' : 'text-emerald-500/80'}`}>{diffVsGoalLabel}</span>
-                            </div>
+                      <AccordionTrigger className='p-0 hover:no-underline transition-colors mt-0 border-none text-muted-foreground dark:text-gray-200'>
+                        <div className="w-full px-3 pt-3 pb-2 flex flex-col gap-1.5 relative">
+                          <div className='flex items-center justify-between'>
+                            <span className="font-bold text-sm">{categoryName}</span>
+                            <span className={`text-sm font-bold ${barColor.replace('bg-', 'text-')}`}>
+                              {Utilities.currencyFormat(currentValue, 'pt-BR', 'BRL')}
+                            </span>
                           </div>
-                          {prevLabel && (
-                            <div className="flex flex-col items-end gap-0.5">
-                              <span className="text-xs tracking-wider text-muted-foreground/70 font-semibold leading-none">vs Mês Ant.</span>
+                          <div className="relative h-2 w-full bg-muted/30 rounded-full mt-1">
+                            {previousValue > 0 && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <div
+                                    className="absolute top-1/2 -translate-y-1/2 w-3 h-5 bg-transparent z-30 cursor-help flex justify-center items-center hover:scale-125 transition-transform"
+                                    style={{ left: `calc(${prevPercent}% - 6px)` }}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <div className="w-[2px] h-3 bg-muted-foreground/100 rounded" />
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                  side="top"
+                                  className="z-[100001] bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2"
+                                >
+                                  <p className="text-xs font-semibold mb-0.5 text-gray-400">Mês anterior</p>
+                                  <p className="text-sm font-bold text-gray-100">{Utilities.currencyFormat(previousValue, 'pt-BR', 'BRL')}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
+                            {existingGoal && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <div
+                                    className="absolute top-1/2 -translate-y-1/2 w-4 h-6 bg-transparent z-30 cursor-help flex justify-center items-center group"
+                                    style={{ left: `calc(${Math.min((goalAmount / maxScale) * 100, 100)}% - 8px)` }}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <div className="w-[3px] h-3.5 bg-white shadow-[0_0_4px_rgba(0,0,0,0.5)] rounded group-hover:scale-125 group-hover:bg-primary transition-all duration-200" />
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                  side="top"
+                                  className="z-[100001] bg-[#1f2937] text-white border border-gray-700 shadow-xl px-3 py-2"
+                                >
+                                  <p className="text-xs font-semibold mb-0.5 text-gray-400">Meta</p>
+                                  <p className="text-sm font-bold text-emerald-400">{Utilities.currencyFormat(goalAmount, 'pt-BR', 'BRL')}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
+                            <div
+                              className={`absolute top-0 left-0 h-full rounded-full transition-all duration-700 ease-out ${barColor} shadow-[0_0_8px_rgba(16,185,129,0.3)]`}
+                              style={{ width: `${currentPercent}%` }}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between z-10 mt-1">
+                            <div className="flex flex-col items-start gap-0.5">
+                              <span className="text-xs tracking-wider text-muted-foreground/70 font-semibold leading-none">vs Meta</span>
                               <div className="flex items-center gap-1.5">
-                                <span className={`text-xs font-bold ${prevDiff && prevDiff > 0 ? 'text-rose-500' : 'text-emerald-500'}`}>{prevLabel}</span>
-                                <span className={`text-[10px] font-medium ${prevDiff && prevDiff > 0 ? 'text-rose-500/80' : 'text-emerald-500/80'}`}>{diffVsPrevLabel}</span>
+                                <span className={`text-xs font-bold ${isOverGoal ? 'text-rose-500' : 'text-emerald-500'}`}>{percentLabel}</span>
+                                <span className={`text-[10px] font-medium ${isOverGoal ? 'text-rose-500/80' : 'text-emerald-500/80'}`}>{diffVsGoalLabel}</span>
                               </div>
                             </div>
-                          )}
+                            {prevLabel && (
+                              <div className="flex flex-col items-end gap-0.5">
+                                <span className="text-xs tracking-wider text-muted-foreground/70 font-semibold leading-none">vs Mês Ant.</span>
+                                <div className="flex items-center gap-1.5">
+                                  <span className={`text-xs font-bold ${prevDiff && prevDiff > 0 ? 'text-rose-500' : 'text-emerald-500'}`}>{prevLabel}</span>
+                                  <span className={`text-[10px] font-medium ${prevDiff && prevDiff > 0 ? 'text-rose-500/80' : 'text-emerald-500/80'}`}>{diffVsPrevLabel}</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      </AccordionTrigger>
                       <AccordionContent className='border-t-[.1rem] border-muted-foreground/15 py-2 px-4 text-muted-foreground text-xs space-y-2 max-h-60 overflow-y-auto bg-accent/20'>
                         {expenses
                           .filter((expense) => expense.getCategoryName() === item.category.name)
                           .map((expense) => (
-                            <div key={expense.id} className='flex justify-between items-center py-1 border-b border-border/20 last:border-0'>
+                            <div
+                              key={expense.id}
+                              className='flex justify-between items-center py-1 border-b border-border/20 last:border-0'
+                            >
                               <span className="truncate max-w-[140px]">{expense.description}</span>
                               <span className="font-semibold ml-2 flex-shrink-0">{expense.expenseValue}</span>
                             </div>

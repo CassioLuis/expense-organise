@@ -143,7 +143,7 @@ export default function ChartMonthlyBars ({ monthlyDailyData, spendingGoal }: Ch
                     width={barWidth}
                     height={baseHeight}
                     fill={d.color}
-                    rx={overflowHeight > 0 ? "0" : "4"}
+                    rx={overflowHeight > 0 ? '0' : '4'}
                     fillOpacity={hoveredIndex === i ? 1 : 0.8}
                     onMouseEnter={() => setHoveredIndex(i)}
                     onMouseLeave={() => setHoveredIndex(null)}

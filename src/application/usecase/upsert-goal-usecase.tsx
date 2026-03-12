@@ -6,7 +6,7 @@ import { GoalStoreAction } from '@/infra/store/goal-store'
 import { Goal } from '@/application/entity/goal'
 
 export default class UpsertGoal {
-  constructor(
+  constructor (
     private readonly goalGateway: GoalGateway,
     private readonly toaster: typeof toast
   ) { }

@@ -185,7 +185,10 @@ export default function Dashboard () {
             {/* Left Column (Spans 2/3) — Charts & Transactions */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <ChartExpenseCategories expenses={expenses} />
-              <ChartMonthlyBars monthlyDailyData={monthlyDailyData} spendingGoal={totalGoals} />
+              <ChartMonthlyBars
+                monthlyDailyData={monthlyDailyData}
+                spendingGoal={totalGoals}
+              />
               <ChartSpendingTrend monthlyDailyData={monthlyDailyData} />
               <TransactionList expenses={expenses} />
             </div>

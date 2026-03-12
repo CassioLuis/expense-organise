@@ -1,26 +1,25 @@
-import { createBrowserRouter, useNavigate } from 'react-router'
+import { createHashRouter, useNavigate } from 'react-router'
 import { AuthLayoutRoutes, MainLayoutRoutes } from '@/layouts'
 import { PropsWithChildren, useEffect } from 'react'
+import { userStore } from '@/infra/store/user-store'
 
 type ProtectedRouteProps = PropsWithChildren
 
-
-
 export function ProtectedRoute ({ children }: ProtectedRouteProps) {
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true'
+  const { name } = userStore()
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true' || !!name
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/signin', { replace: true })
-      return
     }
-  })
+  }, [isAuthenticated, navigate])
 
   return children
 }
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   AuthLayoutRoutes,
   MainLayoutRoutes
 ])

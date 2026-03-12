@@ -14,10 +14,19 @@ import { RawExpenseSend } from '@/application/entity/expense'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Filter, List, Upload, Loader2 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { categoryStore } from '@/infra/store/category-store'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 export default function Expenses () {
-  const { saveExpenseUsecase, searchExpensesUsecase, importCsvUsecase } = useAppDependencies()
+  const { saveExpenseUsecase, searchExpensesUsecase, importCsvUsecase, searchCategoriesUsecase } = useAppDependencies()
   const { storeSetExpenses, expenses } = expenseStore()
+  const { categories, storeSetCategory } = categoryStore()
   const { storeSetAnalitic, storeSetRelevanceBalance } = analiticStore()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isImporting, setIsImporting] = useState(false)
@@ -39,11 +48,24 @@ export default function Expenses () {
   const [finDate, setEndDate] = useState<Date>(new Date())
   const [shouldFetch, setShouldFetch] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all')
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      searchCategoriesUsecase.execute(storeSetCategory)
+    }
+  }, [])
 
   const period = {
     iniDate: Utilities.utcDateToString(iniDate),
     finDate: Utilities.utcDateToString(finDate)
   }
+
+  const filteredExpenses = expenses.filter((item) => {
+    if (selectedCategoryId === 'all') return true
+    if (selectedCategoryId === 'null') return item.getCategoryId() === '' || !item.category.name || item.category.name === 'Indefinido'
+    return item.getCategoryId() === selectedCategoryId
+  })
 
   async function handleFileChange (e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -122,6 +144,29 @@ export default function Expenses () {
               />
             </div>
 
+            <div className="flex items-center gap-2">
+              <Select
+                onValueChange={(value) => {
+                  setSelectedCategoryId(value)
+                  setShouldFetch(true)
+                }}
+                value={selectedCategoryId}
+              >
+                <SelectTrigger className="w-[200px] bg-muted/30 border-border/50">
+                  <SelectValue placeholder="Filtrar por Categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas as Categorias</SelectItem>
+                  <SelectItem value="null">Sem Categoria</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <div className="flex items-center gap-2 ml-auto">
               <input
                 ref={fileInputRef}
@@ -185,7 +230,7 @@ export default function Expenses () {
           ) : (
             <DataTable
               columns={columns}
-              data={expenses}
+              data={filteredExpenses}
             />
           )}
         </CardContent>

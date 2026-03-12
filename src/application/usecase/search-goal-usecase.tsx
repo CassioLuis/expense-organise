@@ -5,7 +5,7 @@ import GoalGateway from '@/infra/gateways/goal-gateway'
 import { GoalStoreAction } from '@/infra/store/goal-store'
 
 export default class SearchGoal {
-  constructor(
+  constructor (
     private readonly goalGateway: GoalGateway,
     private readonly toaster: typeof toast
   ) { }
