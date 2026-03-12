@@ -6,15 +6,14 @@ import { GoalStoreAction } from '@/infra/store/goal-store'
 import { Goal } from '@/application/entity/goal'
 
 export default class UpsertGoal {
-  constructor (
+  constructor(
     private readonly goalGateway: GoalGateway,
     private readonly toaster: typeof toast
   ) { }
 
-  async execute (goals: Goal[], setStore: GoalStoreAction['storeSetGoals']): Promise<void> {
+  async execute (editedGoal: Goal, setStore: GoalStoreAction['storeUpdateGoal']): Promise<void> {
     try {
-      const mapped = goals.map(g => ({ categoryName: g.categoryName, amount: g.amount }))
-      const { data } = await this.goalGateway.upsertGoals(mapped)
+      const { data } = await this.goalGateway.upsertGoals(editedGoal)
       setStore(data)
     } catch (e: any) {
       this.toaster({

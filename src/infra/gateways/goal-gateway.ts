@@ -4,18 +4,18 @@ import { Goal } from '@/application/entity/goal'
 const basePath = '/metrics/goals'
 
 export default class GoalGateway {
-  constructor (private readonly httpAdapter: HttpAdapter) { }
+  constructor(private readonly httpAdapter: HttpAdapter) { }
 
   async getAllGoals (): Promise<Output> {
     return this.httpAdapter.get(`${import.meta.env.VITE_API_URL}${basePath}`)
   }
 
-  async upsertGoals (goals: { categoryName: string, amount: number }[]): Promise<Output> {
+  async upsertGoals (goals: Goal): Promise<Output> {
     return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}${basePath}`, { goals })
   }
 }
 
 export interface Output {
-  data: Goal[],
+  data: Goal,
   status: number
 }

@@ -1,41 +1,37 @@
 import { useMemo, useState, useEffect } from 'react'
 import Utilities from '@/utils/Utilities'
+import { Goal } from '@/application/entity/goal'
 
 interface GoalCardProps {
-  color: string
-  title: string
-  currentAmount: number
-  maxAllocable: number
-  onChange: (value: number) => void
-  onSave: () => void
+  // color: string
+  // title: string
+  // currentAmount: number
+  goal: Goal,
+  // onChange: (goal: Goal) => void
+  onSave: (editedGoal: Goal) => void
 }
 
-export function GoalCard ({ color, title, currentAmount, maxAllocable, onChange, onSave }: GoalCardProps) {
-  const [inputValue, setInputValue] = useState(String(currentAmount))
+export function GoalCard ({ goal, onSave }: GoalCardProps) {
+  const maxAllocable: number = 5000
+  const currentAmount = goal.amount
+  const title = goal.categoryName
+  const color = Utilities.stringToColor(goal.categoryName)
+  const [editedGoal, setEditedGoal] = useState({ ...goal })
 
-  // Sync internal input when currentAmount changes from the outside or via slider
   useEffect(() => {
-    setInputValue(String(currentAmount))
-  }, [currentAmount])
-
-  // Debounce effect for manual typing
-  useEffect(() => {
-    const num = Number(inputValue)
+    const num = Number(editedGoal.amount)
     if (isNaN(num) || num === currentAmount) return
-
     const timer = setTimeout(() => {
-      onChange(num)
-      onSave()
-    }, 800)
+      onSave(editedGoal)
+    }, 500)
 
     return () => clearTimeout(timer)
-  }, [inputValue, currentAmount, onChange, onSave])
+  }, [editedGoal])
 
-  // Normalize safely in case currentAmount exceeds maxAllocable visually
   const percentage = useMemo(() => {
     if (maxAllocable === 0) return 0
-    return Math.min(100, Math.max(0, (currentAmount / maxAllocable) * 100))
-  }, [currentAmount, maxAllocable])
+    return Math.min(100, Math.max(0, (editedGoal.amount / maxAllocable) * 100))
+  }, [editedGoal.amount, maxAllocable])
 
   return (
     <div className="bg-card border border-border/50 rounded-xl p-5 flex flex-col gap-4 shadow-sm w-full transition-colors">
@@ -61,15 +57,25 @@ export function GoalCard ({ color, title, currentAmount, maxAllocable, onChange,
           <span className="text-muted-foreground font-semibold text-sm mr-1">R$</span>
           <input
             type="number"
-            value={inputValue}
+            value={editedGoal.amount}
             onChange={(e) => {
               const val = Number(e.target.value)
               if (val > maxAllocable) {
-                setInputValue(String(maxAllocable))
+                setEditedGoal({ ...goal, amount: maxAllocable })
               } else {
-                setInputValue(e.target.value)
+                setEditedGoal({ ...goal, amount: Number(e.target.value) })
               }
             }}
+            // onKeyDown={(e) => {
+            //   if (e.key === 'Enter') {
+            //     const val = Number(inputValue)
+            //     if (!isNaN(val)) {
+            //       onChange(val)
+            //       onSave(val)
+            //       e.currentTarget.blur()
+            //     }
+            //   }
+            // }}
             className="w-16 bg-transparent outline-none text-right font-semibold text-foreground text-sm focus:text-primary transition-colors hover:bg-muted/50 active:bg-muted/50 rounded-sm p-0 m-0"
             style={{ MozAppearance: 'textfield' }}
           />
@@ -83,9 +89,9 @@ export function GoalCard ({ color, title, currentAmount, maxAllocable, onChange,
           max={maxAllocable}
           step={50}
           value={currentAmount}
-          onChange={(e) => onChange(Number(e.target.value))}
-          onMouseUp={onSave}
-          onTouchEnd={onSave}
+          onChange={(e) => setEditedGoal({ ...goal, amount: Number(e.target.value) })}
+          // onMouseUp={onSave}
+          // onTouchEnd={onSave}
           className="w-full absolute z-10 opacity-0 cursor-ew-resize h-4 -top-0.5"
         />
 

@@ -1,6 +1,6 @@
 export interface Goal {
-  id?: string
+  _id?: string
   categoryName: string
   amount: number
-  user: string
+  user?: string
 }

@@ -12,7 +12,8 @@ export interface GoalStoreAction {
   storeSetGoals: (goals: Goal[]) => void
   storeSetLoading: (loading: boolean) => void
   storeSetError: (error: string | null) => void
-  storeUpdateGoal: (categoryName: string, amount: number) => void
+  storeUpdateGoal: (goal: Goal) => void
+  refreshTotalGoals: () => void
 }
 
 export const useGoalStore = create<GoalState & GoalStoreAction>((set, get) => ({
@@ -22,24 +23,24 @@ export const useGoalStore = create<GoalState & GoalStoreAction>((set, get) => ({
   error: null,
 
   storeSetGoals: (goals) => {
-    const totalGoals = goals.reduce((acc, g) => acc + (g.amount || 0), 0)
-    set({ goals, totalGoals })
+    set({ goals })
+    get().refreshTotalGoals()
   },
   storeSetLoading: (isLoading) => set({ isLoading }),
   storeSetError: (error) => set({ error }),
-  storeUpdateGoal: (categoryName, amount) => {
+  storeUpdateGoal: (goal: Goal) => {
+    const goals = get().goals.map(g => {
+      if (g._id === goal._id && g.amount !== goal.amount) {
+        return goal
+      }
+      return g
+    })
+    set({ goals })
+    get().refreshTotalGoals()
+  },
+  refreshTotalGoals: () => {
     const goals = get().goals
-    const index = goals.findIndex(g => g.categoryName === categoryName)
-
-    let newGoals: Goal[] = []
-    if (index >= 0) {
-      newGoals = [...goals]
-      newGoals[index] = { ...newGoals[index], amount }
-    } else {
-      newGoals = [...goals, { categoryName, amount, user: '' }]
-    }
-
-    const totalGoals = newGoals.reduce((acc, g) => acc + (g.amount || 0), 0)
-    set({ goals: newGoals, totalGoals })
+    const totalGoals = goals.reduce((acc, g) => acc + (g.amount || 0), 0)
+    set({ totalGoals })
   }
 }))
