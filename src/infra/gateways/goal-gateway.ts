@@ -6,16 +6,16 @@ const basePath = '/metrics/goals'
 export default class GoalGateway {
   constructor(private readonly httpAdapter: HttpAdapter) { }
 
-  async getAllGoals (): Promise<Output> {
+  async getAllGoals (): Promise<Output<Goal[]>> {
     return this.httpAdapter.get(`${import.meta.env.VITE_API_URL}${basePath}`)
   }
 
-  async upsertGoals (goals: Goal): Promise<Output> {
+  async upsertGoals (goals: Goal): Promise<Output<Goal>> {
     return this.httpAdapter.post(`${import.meta.env.VITE_API_URL}${basePath}`, { goals })
   }
 }
 
-export interface Output {
-  data: Goal,
+export interface Output<T = Goal> {
+  data: T,
   status: number
 }

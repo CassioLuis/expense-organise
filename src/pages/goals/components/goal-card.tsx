@@ -19,7 +19,7 @@ export function GoalCard ({ goal, onSave }: GoalCardProps) {
     if (isNaN(num) || num === currentAmount) return
     const timer = setTimeout(() => {
       onSave(editedGoal)
-    }, 500)
+    }, 100)
 
     return () => clearTimeout(timer)
   }, [editedGoal])
@@ -62,16 +62,6 @@ export function GoalCard ({ goal, onSave }: GoalCardProps) {
                 setEditedGoal({ ...goal, amount: Number(e.target.value) })
               }
             }}
-            // onKeyDown={(e) => {
-            //   if (e.key === 'Enter') {
-            //     const val = Number(inputValue)
-            //     if (!isNaN(val)) {
-            //       onChange(val)
-            //       onSave(val)
-            //       e.currentTarget.blur()
-            //     }
-            //   }
-            // }}
             className="w-16 bg-transparent outline-none text-right font-semibold text-foreground text-sm focus:text-primary transition-colors hover:bg-muted/50 active:bg-muted/50 rounded-sm p-0 m-0"
             style={{ MozAppearance: 'textfield' }}
           />
@@ -86,8 +76,6 @@ export function GoalCard ({ goal, onSave }: GoalCardProps) {
           step={50}
           value={currentAmount}
           onChange={(e) => setEditedGoal({ ...goal, amount: Number(e.target.value) })}
-          // onMouseUp={onSave}
-          // onTouchEnd={onSave}
           className="w-full absolute z-10 opacity-0 cursor-ew-resize h-4 -top-0.5"
         />
 
@@ -114,7 +102,7 @@ export function GoalCard ({ goal, onSave }: GoalCardProps) {
       </div>
 
       <div className="flex items-center justify-between mt-1">
-        <span className="text-[11px] font-medium text-muted-foreground">R$ 0</span>
+        <span className="text-[11px] font-medium text-muted-foreground">{Utilities.currencyFormat(currentAmount, 'pt-BR', 'BRL')}</span>
         <span className="text-[11px] font-medium text-muted-foreground">
           {Utilities.currencyFormat(maxAllocable, 'pt-BR', 'BRL')}
         </span>
