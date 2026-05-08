@@ -3,11 +3,7 @@ import Utilities from '@/utils/Utilities'
 import { Goal } from '@/application/entity/goal'
 
 interface GoalCardProps {
-  // color: string
-  // title: string
-  // currentAmount: number
   goal: Goal,
-  // onChange: (goal: Goal) => void
   onSave: (editedGoal: Goal) => void
 }
 
